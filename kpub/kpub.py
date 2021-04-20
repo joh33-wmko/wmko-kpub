@@ -12,6 +12,7 @@ import argparse
 import collections
 import sqlite3 as sql
 import numpy as np
+import yaml
 
 try:
     import ads
@@ -24,7 +25,13 @@ from six.moves import input  # needed to support Python 2
 from astropy import log
 from astropy.utils.console import ProgressBar
 
-from . import plot, PACKAGEDIR, MISSIONS, SCIENCES
+#todo: temp hack until we figure out packaging stuff
+##from . import plot, PACKAGEDIR, MISSIONS, SCIENCES
+#import plot
+PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
+MISSIONS = ['kepler', 'k2']
+SCIENCES = ['exoplanets', 'astrophysics']
+
 
 # Where is the default location of the SQLite database?
 DEFAULT_DB = os.path.expanduser("~/.kpub.db")
@@ -41,16 +48,16 @@ FIELDS = ['date', 'pub', 'id', 'volume', 'links_data', 'citation', 'doi',
           'first_author', 'reader', 'read_count', 'indexstamp', 'issue', 'keyword_facet',
           'aff', 'facility', 'simbid']
 
-
-class Highlight:
-    """Defines colors for highlighting words in the terminal."""
-    RED = "\033[4;31m"
-    GREEN = "\033[4;32m"
-    YELLOW = "\033[4;33m"
-    BLUE = "\033[4;34m"
-    PURPLE = "\033[4;35m"
-    CYAN = "\033[4;36m"
-    END = '\033[0m'
+#Defines colors for highlighting words in the terminal.
+HIGHLIGHTS = {
+    "RED"    : "\033[4;31m",
+    "GREEN"  : "\033[4;32m",
+    "YELLOW" : "\033[4;33m",
+    "BLUE"   : "\033[4;34m",
+    "PURPLE" : "\033[4;35m",
+    "CYAN"   : "\033[4;36m",
+    "END"    : '\033[0m',
+}
 
 
 class PublicationDB(object):
@@ -61,8 +68,9 @@ class PublicationDB(object):
     filename : str
         Path to the SQLite database file.
     """
-    def __init__(self, filename=DEFAULT_DB):
+    def __init__(self, filename=DEFAULT_DB, config=None):
         self.filename = filename
+        self.config = config
         self.con = sql.connect(filename)
         pubs_table_exists = self.con.execute(
                                 """
@@ -70,7 +78,7 @@ class PublicationDB(object):
                                    WHERE type='table' AND name='pubs';
                                 """).fetchone()[0]
         if not pubs_table_exists:
-            self.create_table()
+            self.create_table()    
 
     def create_table(self):
         self.con.execute("""CREATE TABLE pubs(
@@ -124,9 +132,10 @@ class PublicationDB(object):
         # Print paper information to stdout
         print(chr(27) + "[2J")  # Clear screen
         print(statusmsg)
-        display_abstract(article._raw)
+        display_abstract(article._raw, self.config['colors'])
 
         # Prompt the user to classify the paper by mission and science
+#todo: only do this if defined in config
         print("=> Kepler [1], K2 [2], unrelated [3], or skip [any key]? ",
               end="")
         prompt = input()
@@ -141,6 +150,7 @@ class PublicationDB(object):
         print(mission)
 
         # Now classify by science
+#todo: only do this if defined in config
         science = ""
         if mission != "unrelated":
             print('=> Exoplanets [1] or Astrophysics [2]? ', end='')
@@ -492,31 +502,22 @@ class PublicationDB(object):
             result['both'][year] = sum(result[mission][year] for mission in MISSIONS)
         return result
 
-    def update(self, month=None,
-               exclude=['keplerian', 'johannes', 'k<sub>2</sub>',
-                        "kepler equation", "kepler's equation", "xmm-newton",
-                        "kepler's law", "kepler's third law", "kepler problem",
-                        "kepler crater", "kepler's supernova", "kepler's snr"]
-               ):
+    def update(self, month=None, query_terms_group1=[], query_terms_group2=[]):
         """Query ADS for new publications.
 
         Parameters
         ----------
         month : str
             Of the form "YYYY-MM".
-
-        exclude : list of str
-            Ignore articles if they contain any of the strings given
-            in this list. (Case-insensitive.)
         """
         if ads is None:
             log.error("This action requires the ADS key to be setup.")
             return
 
-        print(Highlight.YELLOW +
+        print(HIGHLIGHTS['YELLOW'] +
               "Reminder: did you `git pull` kpub before running "
               "this command? [y/n] " +
-              Highlight.END,
+              HIGHLIGHTS['END'],
               end='')
         if input() == 'n':
             return
@@ -524,92 +525,62 @@ class PublicationDB(object):
         if month is None:
             month = datetime.datetime.now().strftime("%Y-%m")
 
-        # First show all the papers with the Kepler funding message in the ack
-        log.info("Querying ADS for acknowledgements (month={}).".format(month))
-        database = "astronomy"
-        qry = ads.SearchQuery(q="""(ack:"Kepler mission"
-                                    OR ack:"K2 mission"
-                                    OR ack:"Kepler team"
-                                    OR ack:"K2 team")
-                                   -ack:"partial support from"
-                                   pubdate:"{}"
-                                   database:"{}"
-                                """.format(month, database),
+        # First query all papers by acknowledgement.  These should be obvous approvals.
+        log.info(f"Querying ADS for acknowledgements (month={month}).")
+        terms_str = ' '.join(self.config['ads_query_terms_group_1'])
+        qstr = f'{terms_str} pubdate:"{month}"'
+        qry = ads.SearchQuery(q=qstr,
                               fl=FIELDS,
                               rows=9999999999)
+
+        #loop and add
         articles = list(qry)
         for idx, article in enumerate(articles):
-            statusmsg = ("Showing article {} out of {} that mentions Kepler "
-                         "in the acknowledgements.\n\n".format(
-                            idx+1, len(articles)))
+            statusmsg = (f"GROUP 1: Showing article {idx+1} out of {len(articles)} that matches in acknowledgements.\n\n")
             self.add_interactively(article, statusmsg=statusmsg)
 
-        # Then search for keywords in the title and abstracts
-        log.info("Querying ADS for titles and abstracts "
-                 "(month={}).".format(month))
-        qry = ads.SearchQuery(q="""(
-                                    abs:"Kepler"
-                                    OR abs:"K2"
-                                    OR abs:"KIC"
-                                    OR abs:"EPIC"
-                                    OR abs:"KOI"
-                                    OR abs:"8462852"
-                                    OR abs:"1145+017"
-                                    OR abs:"NGC 6791"
-                                    OR abs:"NGC 6819"
-                                    OR title:"Kepler"
-                                    OR title:"K2"
-                                    OR title:"8462852"
-                                    OR title:"1145+017"
-                                    OR full:"K2-ESPRINT"
-                                    OR full:"Kepler photometry"
-                                    OR full:"K2 photometry"
-                                    OR full:"Kepler lightcurve"
-                                    OR full:"K2 lightcurve"
-                                    )
-                                   pubdate:"{}"
-                                   database:"{}"
-                                """.format(month, database),
+
+        # Then search for keywords in the title and abstracts.  These need more scrutiny.
+        log.info(f"Querying ADS for titles and abstracts (month={month}).")
+        terms_str = ' '.join(self.config['ads_query_terms_group_2'])
+        qstr = f'{terms_str} pubdate:"{month}"'
+        qry = ads.SearchQuery(q=qstr,
                               fl=FIELDS,
                               rows=9999999999)
         articles = list(qry)
 
+        #loop and add
         for idx, article in enumerate(articles):
             # Ignore articles without abstract
             if not hasattr(article, 'abstract') or article.abstract is None:
                 continue
             abstract_lower = article.abstract.lower()
 
-            ignore = False
-
-            # Ignore articles containing any of the excluded terms
-#TODO: This is only excluding by abstract.  What about full body?  This should probably go in query.
-            for term in exclude:
-                if term.lower() in abstract_lower:
-                    ignore = True
-
             # Ignore articles already in the database
-#TODO: Should we be comparing ADS IDs here?            
+#TODO: Should we be comparing ADS IDs here?  
+#TODO: And why is this check not in above loop?          
             if article in self:
-                ignore = True
+                continue
 
             # Ignore all the unrefereed non-arxiv stuff
 #TODO: This can be in the query
+#TODO: And why is this check not in above loop?          
             try:
                 if "NOT REFEREED" in article.property and article.pub.lower() != "arxiv e-prints":
-                    ignore = True
+                    continue
             except (AttributeError, TypeError, ads.exceptions.APIResponseError):
                 pass  # no .pub attribute or .property not iterable
 
             # Ignore proposals and cospar abstracts
 #TODO: This can be in the query
+#TODO: And why is this check not in above loop?          
             if ".prop." in article.bibcode or "cosp.." in article.bibcode:
-                ignore = True
+                continue
 
-            if not ignore:  # Propose to the user
-                statusmsg = '(Reviewing article {} out of {}.)\n\n'.format(
-                                idx+1, len(articles))
-                self.add_interactively(article, statusmsg=statusmsg)
+            # Propose to the user
+            statusmsg = f"GROUP 2: Showing article {idx+1} out of {len(articles)}.)\n\n"
+            self.add_interactively(article, statusmsg=statusmsg)
+
         log.info('Finished reviewing all articles for {}.'.format(month))
 
 
@@ -617,34 +588,26 @@ class PublicationDB(object):
 # Helper functions
 ##################
 
-def display_abstract(article_dict):
+def display_abstract(article_dict, colors):
     """Prints the title and abstract of an article to the terminal,
     given a dictionary of the article metadata.
 
     Parameters
     ----------
     article : `dict` containing standard ADS metadata keys
+    colors  : `dict` mapping keywords to colors
     """
-    # Highlight keywords in the title and abstract
-    colors = {'KEPLER': Highlight.BLUE,
-              'KIC': Highlight.BLUE,
-              'KOI': Highlight.BLUE,
-              '8462852': Highlight.BLUE,  # KIC ID of Tabby's star
-              'K2': Highlight.RED,
-              'EPIC': Highlight.RED,
-              '1145+017': Highlight.RED,  # Disintegrating WD in K2
-              'PLANET': Highlight.YELLOW}
-
     title = article_dict['title'][0]
     try:
         abstract = article_dict['abstract']
     except KeyError:
         abstract = ""
 
-    for word in colors:
+    print(colors)
+    for word, color in colors.items():
         pattern = re.compile(word, re.IGNORECASE)
-        title = pattern.sub(colors[word] + word + Highlight.END, title)
-        abstract = pattern.sub(colors[word]+word+Highlight.END, str(abstract))
+        title    = pattern.sub(HIGHLIGHTS[color] + word + HIGHLIGHTS['END'], title)
+        abstract = pattern.sub(HIGHLIGHTS[color] + word + HIGHLIGHTS['END'], str(abstract))
 
     print(title)
     print('-'*len(title))
@@ -776,7 +739,9 @@ def kpub_update(args=None):
                         help='Month to query, e.g. 2015-06.')
     args = parser.parse_args(args)
 
-    PublicationDB(args.f).update(month=args.month)
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+
+    PublicationDB(args.f, config).update(month=args.month)
 
 
 def kpub_add(args=None):
@@ -928,4 +893,8 @@ def kpub_spreadsheet(args=None):
 
 
 if __name__ == '__main__':
-    pass
+
+    #todo: This is a hack until we figure out packaging
+    cmd = sys.argv[1]
+    if cmd == 'update': kpub_update(sys.argv[2:])
+

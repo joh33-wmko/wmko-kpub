@@ -1,0 +1,48 @@
+{
+
+  #ADS API Key
+  #todo: only need this if we switch to querying ADS directly (otherwise shoudl be in ~/.ads/dev_key per ads module instructions)
+  "ADS_API_KEY": "",
+
+  #ADS query terms list.  All will be joined with a space.
+  #NOTE: Do not include pubdate or year here since this is an input to run kpub
+  "ads_query_terms_group_1" : [
+    #'-bibcode:keck'
+    'ack:"keck"',
+    'property:"refereed"',
+    '-full:BICEP',
+    '-full:NUANCE',
+    '-full:"keck foundation"',
+    '-full:"keck array"',
+    #'database:astronomy'
+  ],
+
+  #ADS query terms list.  All will be joined with a space.
+  #NOTE: Do not include pubdate or year here since this is an input to run kpub
+  "ads_query_terms_group_2" : [
+    #'-bibcode:keck'
+    'full:keck',
+    'property:"refereed"',
+    '-full:BICEP',
+    '-full:NUANCE',
+    '-full:"keck foundation"',
+    '-full:"keck array"',
+    #'database:astronomy'
+  ],
+
+  # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, BLUE, PURPLE, CYAN)
+  "colors": {
+    'KECK': "GREEN",
+    'DEIMOS': "BLUE",
+    #'ESI': "BLUE",
+    'HIRES': "BLUE",
+    'KCWI': "BLUE",
+    'LRIS': "BLUE",
+    'MOSFIRE': "BLUE",
+    'NIRC2': "BLUE",
+    'NIRES': "BLUE",
+    'NIRSPEC': "BLUE",
+    'OSIRIS': "BLUE",
+  }
+
+}
