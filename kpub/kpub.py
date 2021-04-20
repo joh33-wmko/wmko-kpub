@@ -627,10 +627,10 @@ def display_abstract(article_dict, colors):
 def kpub(args=None):
     """Lists the publications in the database in Markdown format."""
     parser = argparse.ArgumentParser(
-        description="View the Kepler/K2 publication list in markdown format.")
+        description="View the publication list in markdown format.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
+                        help="Location of the publication list db. "
                              "Defaults to ~/.kpub.db.")
     parser.add_argument('-e', '--exoplanets', action='store_true',
                         help='Only show exoplanet publications.')
@@ -720,8 +720,7 @@ def kpub_plot(args=None):
         description="Creates beautiful plots of the database.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
     PublicationDB(args.f).plot()
@@ -733,8 +732,7 @@ def kpub_update(args=None):
         description="Interactively query ADS for new publications.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('month', nargs='?', default=None,
                         help='Month to query, e.g. 2015-06.')
     args = parser.parse_args(args)
@@ -747,11 +745,10 @@ def kpub_update(args=None):
 def kpub_add(args=None):
     """Add a publication with a known ADS bibcode."""
     parser = argparse.ArgumentParser(
-        description="Add a paper to the Kepler/K2 publication list.")
+        description="Add a paper to the publication list.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('bibcode', nargs='+',
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
@@ -764,11 +761,10 @@ def kpub_add(args=None):
 def kpub_delete(args=None):
     """Deletes a publication using its ADS bibcode."""
     parser = argparse.ArgumentParser(
-        description="Deletes a paper from the Kepler/K2 publication list.")
+        description="Deletes a paper from the publication list.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the Kepler/K2 publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('bibcode', nargs='+',
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
@@ -786,14 +782,13 @@ def kpub_import(args=None):
     hence this routine may take 10-20 minutes to complete.
     """
     parser = argparse.ArgumentParser(
-        description="Batch-import papers into the Kepler/K2 publication list "
+        description="Batch-import papers into the publication list "
                     "from a CSV file. The CSV file must have three columns "
                     "(bibcode,mission,science) separated by commas. "
                     "For example: '2004ApJ...610.1199G,kepler,astrophysics'.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('csvfile',
                         help="Filename of the csv file to ingest.")
     args = parser.parse_args(args)
@@ -814,11 +809,10 @@ def kpub_import(args=None):
 def kpub_export(args=None):
     """Export the bibcodes and classifications in CSV format."""
     parser = argparse.ArgumentParser(
-        description="Export the Kepler/K2 publication list in CSV format.")
+        description="Export the publication list in CSV format.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
     db = PublicationDB(args.f)
@@ -836,11 +830,10 @@ def kpub_spreadsheet(args=None):
         print('ERROR: pandas needs to be installed for this feature.')
 
     parser = argparse.ArgumentParser(
-        description="Export the Kepler/K2 publication list in XLS format.")
+        description="Export the publication list in XLS format.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
     db = PublicationDB(args.f)
@@ -887,7 +880,7 @@ def kpub_spreadsheet(args=None):
                     ('affiliations', metrics['aff'])])
         spreadsheet.append(myrow)
 
-    output_fn = 'kepler-publications.xls'
+    output_fn = 'kpub-publications.xls'
     print('Writing {}'.format(output_fn))
     pd.DataFrame(spreadsheet).to_excel(output_fn, index=False)
 
