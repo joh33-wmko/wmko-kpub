@@ -8,7 +8,7 @@
   "ADS_API_KEY": "kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU",
 
   #Missions and sciences groupings
-  "missions": [],
+  "missions": ['keck'],
   "sciences": [],
 
   #ADS query terms list.  All will be joined with a space.

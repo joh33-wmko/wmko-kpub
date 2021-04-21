@@ -134,23 +134,22 @@ class PublicationDB(object):
         print(statusmsg)
         display_abstract(article._raw, self.config['colors'])
 
-        #prompt to add or skip
-        print("=> [a] Add to database or [] skip? ", end="")
-        prompt = input()
-        if prompt.lower() != 'a':
+        # Prompt the user to classify the paper by mission
+        #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
+        missions = self.config.get('missions')
+        mission = self.prompt_grouping(missions, 'Mission', add_unrelated=True)
+        if not mission:
             return
 
-        # Prompt the user to classify the paper by mission
-        missions = self.config.get('missions')
-        mission = self.prompt_grouping(missions, 'Mission')
-
-        # Prompt the user to classify the paper by mission
-        sciences = self.config.get('sciences')
-        science = self.prompt_grouping(sciences, 'Science')
+        # Prompt the user to classify the paper by science
+        science = ''
+        if mission != 'unrelated':
+            sciences = self.config.get('sciences')
+            science = self.prompt_grouping(sciences, 'Science')
 
         self.add(article, mission=mission, science=science)
 
-    def prompt_grouping(self, values, type):
+    def prompt_grouping(self, values, type, add_unrelated=False):
 
         #if no configuration for this, then return blank as value
         if not values:
@@ -158,12 +157,17 @@ class PublicationDB(object):
 
         #build menu string
         valmap = {}
-        prompt = f"=> Select {type}: "
+        if add_unrelated:
+            valmap['0'] = 'unrelated'
         for idx, val in enumerate(values):
-            prompt += f" [{idx+1}] {val.capitalize()} "
             k = str(idx+1)
             valmap[k] = val
-        prompt += " [] unrelated? "
+
+        prompt = f"=> Select {type}: "
+        for key, val in valmap.items():
+            prompt += f" [{key}] {val.capitalize()} "
+        prompt += " or [] skip? "
+
         print(prompt, end="")
         val = input()
         return valmap.get(val, '')
@@ -206,9 +210,9 @@ class PublicationDB(object):
         Parameters
         ----------
         mission : str
-            'kepler' or 'k2'
+            Examples: 'kepler' or 'k2'
         science : str
-            'exoplanets' or 'astrophysics'
+            Examples: 'exoplanets' or 'astrophysics'
         year : int or list of int
             Examples: 2009, 2010, [2009, 2010], ...
 
@@ -219,7 +223,7 @@ class PublicationDB(object):
         """
         # Build the query
         if mission is None:
-            where = "(mission = 'kepler' OR mission = 'k2') "
+            where = "(mission != 'unrelated') "
         else:
             where = "(mission = '{}') ".format(mission)
 
@@ -847,8 +851,7 @@ def kpub_spreadsheet(args=None):
     db = PublicationDB(args.f)
     spreadsheet = []
     cur = db.con.execute("SELECT bibcode, year, month, date, mission, science, metrics "
-                         " FROM pubs WHERE (mission != 'unrelated' and mission != '') "
-                         " ORDER BY bibcode;")
+                         "FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
     for row in cur.fetchall():
         metrics = json.loads(row[6])
         try:
