@@ -5,12 +5,11 @@
 
   #ADS API Key
   #todo: only need this if we switch to querying ADS directly (otherwise shoudl be in ~/.ads/dev_key per ads module instructions)
-  "ADS_API_KEY": "",
+  "ADS_API_KEY": "kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU",
 
   #Missions and sciences groupings
   "missions": [],
   "sciences": [],
-
 
   #ADS query terms list.  All will be joined with a space.
   #NOTE: Do not include pubdate or year here since this is an input to run kpub

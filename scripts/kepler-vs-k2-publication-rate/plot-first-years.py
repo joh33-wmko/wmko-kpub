@@ -47,10 +47,6 @@ mpl.rcParams["grid.linestyle"] = "-"
 mpl.rcParams["grid.linewidth"] = 1
 
 
-MISSIONS = ['kepler', 'k2']
-SCIENCES = ['exoplanets', 'astrophysics']
-
-
 def pubcount(db, mission="k2", start="2015-01", stop="2015-04"):
     cur = db.con.execute("""SELECT COUNT(*) FROM pubs 
                             WHERE mission = ? 

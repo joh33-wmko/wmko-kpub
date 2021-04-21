@@ -1,5 +1,7 @@
-"""Build and maintain a database of Kepler/K2 publications.
 """
+Build and maintain a database of publications.
+"""
+
 from __future__ import print_function, division, unicode_literals
 
 # Standard library
@@ -29,8 +31,6 @@ from astropy.utils.console import ProgressBar
 ##from . import plot, PACKAGEDIR, MISSIONS, SCIENCES
 #import plot
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
-MISSIONS = ['kepler', 'k2']
-SCIENCES = ['exoplanets', 'astrophysics']
 
 
 # Where is the default location of the SQLite database?
@@ -91,7 +91,7 @@ class PublicationDB(object):
                                 science,
                                 metrics)""")
 
-    def add(self, article, mission="kepler", science="exoplanets"):
+    def add(self, article, mission="", science=""):
         """Adds a single article object to the database.
 
         Parameters
@@ -134,34 +134,39 @@ class PublicationDB(object):
         print(statusmsg)
         display_abstract(article._raw, self.config['colors'])
 
-        # Prompt the user to classify the paper by mission and science
-#todo: only do this if defined in config
-        print("=> Kepler [1], K2 [2], unrelated [3], or skip [any key]? ",
-              end="")
+        #prompt to add or skip
+        print("=> [a] Add to database or [] skip? ", end="")
         prompt = input()
-        if prompt == "1":
-            mission = "kepler"
-        elif prompt == "2":
-            mission = "k2"
-        elif prompt == "3":
-            mission = "unrelated"
-        else:
+        if prompt.lower() != 'a':
             return
-        print(mission)
 
-        # Now classify by science
-#todo: only do this if defined in config
-        science = ""
-        if mission != "unrelated":
-            print('=> Exoplanets [1] or Astrophysics [2]? ', end='')
-            prompt = input()
-            if prompt == "1":
-                science = "exoplanets"
-            elif prompt == "2":
-                science = "astrophysics"
-            print(science)
+        # Prompt the user to classify the paper by mission
+        missions = self.config.get('missions')
+        mission = self.prompt_grouping(missions, 'Mission')
+
+        # Prompt the user to classify the paper by mission
+        sciences = self.config.get('sciences')
+        science = self.prompt_grouping(sciences, 'Science')
 
         self.add(article, mission=mission, science=science)
+
+    def prompt_grouping(self, values, type):
+
+        #if no configuration for this, then return blank as value
+        if not values:
+            return ''
+
+        #build menu string
+        valmap = {}
+        prompt = f"=> Select {type}: "
+        for idx, val in enumerate(values):
+            prompt += f" [{idx+1}] {val.capitalize()} "
+            k = str(idx+1)
+            valmap[k] = val
+        prompt += " [] unrelated? "
+        print(prompt, end="")
+        val = input()
+        return valmap.get(val, '')
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
         if ads is None:
@@ -456,7 +461,8 @@ class PublicationDB(object):
         """
         # Initialize a dictionary to contain the data to plot
         result = {}
-        for mission in MISSIONS:
+        missions = self.config.get('missions', [])
+        for mission in missions:
             result[mission] = {}
             for year in range(year_begin, year_end + 1):
                 result[mission][year] = 0
@@ -472,7 +478,7 @@ class PublicationDB(object):
         # Also combine counts
         result['both'] = {}
         for year in range(year_begin, year_end + 1):
-            result['both'][year] = sum(result[mission][year] for mission in MISSIONS)
+            result['both'][year] = sum(result[mission][year] for mission in missions)
         return result
 
     def get_annual_publication_count_cumulative(self, year_begin=2009, year_end=datetime.datetime.now().year):
@@ -488,7 +494,8 @@ class PublicationDB(object):
         """
         # Initialize a dictionary to contain the data to plot
         result = {}
-        for mission in MISSIONS:
+        missions = self.config.get('missions', [])
+        for mission in missions:
             result[mission] = {}
             for year in range(year_begin, year_end + 1):
                 cur = self.con.execute("SELECT COUNT(*) FROM pubs "
@@ -499,7 +506,7 @@ class PublicationDB(object):
         # Also combine counts
         result['both'] = {}
         for year in range(year_begin, year_end + 1):
-            result['both'][year] = sum(result[mission][year] for mission in MISSIONS)
+            result['both'][year] = sum(result[mission][year] for mission in missions)
         return result
 
     def update(self, month=None, query_terms_group1=[], query_terms_group2=[]):
@@ -603,7 +610,6 @@ def display_abstract(article_dict, colors):
     except KeyError:
         abstract = ""
 
-    print(colors)
     for word, color in colors.items():
         pattern = re.compile(word, re.IGNORECASE)
         title    = pattern.sub(HIGHLIGHTS[color] + word + HIGHLIGHTS['END'], title)
@@ -660,13 +666,15 @@ def kpub(args=None):
             db.save_markdown(output_fn,
                              group_by_month=bymonth,
                              title="Kepler/K2 publications{}".format(title_suffix))
-            for science in SCIENCES:
+            sciences = self.config.get('missions')
+            for science in sciences:
                 output_fn = 'kpub-{}{}.md'.format(science, suffix)
                 db.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  science=science,
                                  title="Kepler/K2 {} publications{}".format(science, title_suffix))
-            for mission in ['kepler', 'k2']:
+            missions = self.config.get('missions')
+            for mission in missions:
                 output_fn = 'kpub-{}{}.md'.format(mission, suffix)
                 db.save_markdown(output_fn,
                                  group_by_month=bymonth,
@@ -839,7 +847,8 @@ def kpub_spreadsheet(args=None):
     db = PublicationDB(args.f)
     spreadsheet = []
     cur = db.con.execute("SELECT bibcode, year, month, date, mission, science, metrics "
-                         "FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
+                         " FROM pubs WHERE (mission != 'unrelated' and mission != '') "
+                         " ORDER BY bibcode;")
     for row in cur.fetchall():
         metrics = json.loads(row[6])
         try:
