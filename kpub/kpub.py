@@ -29,7 +29,7 @@ from astropy.utils.console import ProgressBar
 
 #todo: temp hack until we figure out packaging stuff
 ##from . import plot, PACKAGEDIR, MISSIONS, SCIENCES
-#import plot
+import plot
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -136,7 +136,7 @@ class PublicationDB(object):
 
         # Prompt the user to classify the paper by mission
         #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
-        missions = self.config.get('missions')
+        missions = self.config.get('missions', [])
         mission = self.prompt_grouping(missions, 'Mission', add_unrelated=True)
         if not mission:
             return
@@ -144,7 +144,7 @@ class PublicationDB(object):
         # Prompt the user to classify the paper by science
         science = ''
         if mission != 'unrelated':
-            sciences = self.config.get('sciences')
+            sciences = self.config.get('sciences', [])
             science = self.prompt_grouping(sciences, 'Science')
 
         self.add(article, mission=mission, science=science)
@@ -297,23 +297,16 @@ class PublicationDB(object):
 
     def plot(self):
         """Saves beautiful plot of the database."""
-        for extension in ['pdf', 'png']:
-            plot.plot_by_year(self,
-                              "kpub-publication-rate.{}".format(extension))
-            plot.plot_by_year(self,
-                              "kpub-publication-rate-kepler.{}".format(extension),
-                              mission='kepler')
-            plot.plot_by_year(self,
-                              "kpub-publication-rate-k2.{}".format(extension),
-                              first_year=2014,
-                              mission='k2')
-            plot.plot_by_year(self,
-                              "kpub-publication-rate-without-extrapolation.{}".format(extension),
-                              extrapolate=False)
-            plot.plot_science_piechart(self,
-                                       "kpub-piechart.{}".format(extension))
-            plot.plot_author_count(self,
-                                   "kpub-author-count.{}".format(extension))
+        missions = self.config.get('missions', [])
+        sciences = self.config.get('sciences', [])
+        for ext in ['pdf', 'png']:
+            plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
+            plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
+            for mission in missions:
+                plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
+            plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
+            plot.plot_author_count(self, f"kpub-author-count.{ext}")
+
 
     def get_metrics(self, year=None):
         """Returns a dictionary of overall publication statistics.
@@ -323,67 +316,87 @@ class PublicationDB(object):
         * # of unique author surnames.
         * # of citations.
         * # of peer-reviewed pubs.
-        * # of Kepler/K2/exoplanet/astrophysics.
+        * # of per mission and science
         """
-        metrics = {
-                   "publication_count": 0,
-                   "kepler_count": 0,
-                   "k2_count": 0,
-                   "exoplanets_count": 0,
-                   "astrophysics_count": 0,
-                   "refereed_count": 0,
-                   "kepler_refereed_count": 0,
-                   "k2_refereed_count": 0,
-                   "citation_count": 0,
-                   "kepler_citation_count": 0,
-                   "k2_citation_count": 0,
-                   "phd_count": 0,
-                   "kepler_phd_count": 0,
-                   "k2_phd_count": 0
-                   }
-        authors, first_authors = [], []
-        k2_authors, kepler_authors = [], []
-        k2_first_authors, kepler_first_authors = [], []
+
+        missions = self.config.get('missions', [])
+        sciences = self.config.get('sciences', [])
+
+        #init stats
+        metrics = {}
+        metrics['publication_count'] = 0
+        metrics['refereed_count'] = 0
+        metrics['citation_count'] = 0
+        metrics['phd_count'] = 0
+        for mission in missions:
+            metrics[f'{mission}_count'] = 0
+            metrics[f'{mission}_refereed_count'] = 0
+            metrics[f'{mission}_citation_count'] = 0
+            metrics[f'{mission}_phd_count'] = 0
+        for science in sciences:
+            metrics[f'{science}_count'] = 0
+
+
+        authors, first_authors = {}, {}
+        authors['all'] = []
+        first_authors['all'] = []
+        for mission in missions:
+            authors[mission] = []
+            first_authors[mission] = []
+
         for article in self.query(year=year):
             api_response = article[2]
             js = json.loads(api_response)
+
+            #general count
             metrics["publication_count"] += 1
-            metrics["{}_count".format(js["mission"])] += 1
-            if "PhDT" in js["bibcode"]:
+            metrics[f"{js['mission']}_count"] += 1
+
+            #phd counts
+            if "PhDT" in js['bibcode']:
                 metrics["phd_count"] += 1
-                metrics["{}_phd_count".format(js["mission"])] += 1
+                metrics[f"{js['mission']}_phd_count"] += 1
+
+            #science counts
             try:
-                metrics["{}_count".format(js["science"])] += 1
+                metrics[f"{js['science']}_count"] += 1
             except KeyError:
-                log.warning("{}: no science category".format(js["bibcode"]))
-            authors.extend(js["author_norm"])
-            first_authors.append(js["first_author_norm"])
-            if js["mission"] == 'k2':
-                k2_authors.extend(js["author_norm"])
-                k2_first_authors.append(js["first_author_norm"])
-            else:
-                kepler_authors.extend(js["author_norm"])
-                kepler_first_authors.append(js["first_author_norm"])
+                log.warning(f"{js['bibcode']}: no science category")
+
+            #author counts
+            authors['all'].extend(js['author_norm'])
+            first_authors['all'].append(js['first_author_norm'])
+            authors[js['mission']].extend(js['author_norm'])
+            first_authors[js['mission']].append(js['first_author_norm'])
+
+            #refereed counts
             try:
-                if "REFEREED" in js["property"]:
+                if "REFEREED" in js['property']:
                     metrics["refereed_count"] += 1
-                    metrics["{}_refereed_count".format(js["mission"])] += 1
+                    metrics[f"{js['mission']}_refereed_count"] += 1
             except TypeError:  # proprety is None
                 pass
+
+            #citation counts
             try:
-                metrics["citation_count"] += js["citation_count"]
-                metrics["{}_citation_count".format(js["mission"])] += js["citation_count"]
+                metrics["citation_count"] += js['citation_count']
+                metrics[f"{js['mission']}_citation_count"] += js['citation_count']
             except (KeyError, TypeError):
                 log.warning("{}: no citation_count".format(js["bibcode"]))
-        metrics["author_count"] = np.unique(authors).size
-        metrics["first_author_count"] = np.unique(first_authors).size
-        metrics["kepler_author_count"] = np.unique(kepler_authors).size
-        metrics["kepler_first_author_count"] = np.unique(kepler_first_authors).size
-        metrics["k2_author_count"] = np.unique(k2_authors).size
-        metrics["k2_first_author_count"] = np.unique(k2_first_authors).size
+
+        metrics["author_count"] = np.unique(authors['all']).size
+        metrics["first_author_count"] = np.unique(first_authors['all']).size
+        for mission in missions:
+            metrics[f"{mission}_author_count"] = np.unique(authors[mission]).size
+            metrics[f"{mission}_first_author_count"] = np.unique(first_authors[mission]).size
+
         # Also compute fractions
-        for frac in ["kepler", "k2", "exoplanets", "astrophysics"]:
-            metrics[frac+"_fraction"] = metrics[frac+"_count"] / metrics["publication_count"]
+        pubcount = metrics["publication_count"]
+        for mission in missions:
+            metrics[mission+"_fraction"] = metrics[mission+"_count"] / pubcount if pubcount > 0 else 0
+        for science in sciences:
+            metrics[science+"_fraction"] = metrics[science+"_count"] / pubcount if pubcount > 0 else 0
+    
         return metrics
 
     def get_all(self, mission=None, science=None):
@@ -642,19 +655,18 @@ def kpub(args=None):
                         type=str, default=DEFAULT_DB,
                         help="Location of the publication list db. "
                              "Defaults to ~/.kpub.db.")
-    parser.add_argument('-e', '--exoplanets', action='store_true',
-                        help='Only show exoplanet publications.')
-    parser.add_argument('-a', '--astrophysics', action='store_true',
-                        help='Only show astrophysics publications.')
-    parser.add_argument('-k', '--kepler', action='store_true',
-                        help='Only show Kepler publications.')
-    parser.add_argument('-2', '--k2', action='store_true',
-                        help='Only show K2 publications.')
+    parser.add_argument('--science', dest="science", type=str, default=None,
+                        help="Only show a particular science. Defaults to all.")
+    parser.add_argument('--mission', dest="mission", type=str, default=None,
+                        help="Only show a particular mission. Defaults to all.")
     parser.add_argument('-m', '--month', action='store_true',
                         help='Group the papers by month rather than year.')
     parser.add_argument('-s', '--save', action='store_true',
                         help='Save the output and plots in the current directory.')
     args = parser.parse_args(args)
+
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    title = config.get('prepend', '').capitalize()
 
     db = PublicationDB(args.f)
 
@@ -666,24 +678,27 @@ def kpub(args=None):
             else:
                 suffix = ""
                 title_suffix = ""
-            output_fn = 'kpub{}.md'.format(suffix)
+
+            output_fn = f'kpub{suffix}.md'
             db.save_markdown(output_fn,
                              group_by_month=bymonth,
-                             title="Kepler/K2 publications{}".format(title_suffix))
-            sciences = self.config.get('missions')
+                             title=f"{title} publications{title_suffix}")
+
+            sciences = self.config.get('sciences', [])
             for science in sciences:
-                output_fn = 'kpub-{}{}.md'.format(science, suffix)
+                output_fn = f'kpub-{science}{suffix}.md'
                 db.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  science=science,
-                                 title="Kepler/K2 {} publications{}".format(science, title_suffix))
-            missions = self.config.get('missions')
+                                 title=f"{title} {science} publications{title_suffix}")
+
+            missions = self.config.get('missions', [])
             for mission in missions:
-                output_fn = 'kpub-{}{}.md'.format(mission, suffix)
+                output_fn = f'kpub-{mission}{suffix}.md'
                 db.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  mission=mission,
-                                 title="{} publications{}".format(mission.capitalize(), title_suffix))
+                                 title=f"{mission.capitalize()} publications{title_suffix}")
 
         # Finally, produce an overview page
         templatedir = os.path.join(PACKAGEDIR, 'templates')
@@ -704,23 +719,7 @@ def kpub(args=None):
         f.close()
 
     else:
-        if args.exoplanets and not args.astrophysics:
-            science = "exoplanets"
-        elif args.astrophysics and not args.exoplanets:
-            science = "astrophysics"
-        else:
-            science = None
-
-        if args.kepler and not args.k2:
-            mission = "kepler"
-        elif args.k2 and not args.kepler:
-            mission = "k2"
-        else:
-            mission = None
-
-        output = db.to_markdown(group_by_month=args.month,
-                                mission=mission,
-                                science=science)
+        output = db.to_markdown(group_by_month=args.month, mission=args.mission, science=args.science)
         from signal import signal, SIGPIPE, SIG_DFL
         signal(SIGPIPE, SIG_DFL)
         print(output)
@@ -735,7 +734,9 @@ def kpub_plot(args=None):
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    PublicationDB(args.f).plot()
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+
+    PublicationDB(args.f, config).plot()
 
 
 def kpub_update(args=None):
@@ -765,7 +766,9 @@ def kpub_add(args=None):
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     for bibcode in args.bibcode:
         db.add_by_bibcode(bibcode, interactive=True)
 
@@ -776,12 +779,14 @@ def kpub_delete(args=None):
         description="Deletes a paper from the publication list.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('bibcode', nargs='+',
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     for bibcode in args.bibcode:
         db.delete_by_bibcode(bibcode)
 
@@ -805,7 +810,9 @@ def kpub_import(args=None):
                         help="Filename of the csv file to ingest.")
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     import time
     for line in ProgressBar(open(args.csvfile, 'r').readlines()):
         for attempt in range(5):
@@ -827,7 +834,9 @@ def kpub_export(args=None):
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     cur = db.con.execute("SELECT bibcode, mission, science "
                          "FROM pubs ORDER BY bibcode;")
     for row in cur.fetchall():
@@ -848,7 +857,9 @@ def kpub_spreadsheet(args=None):
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     spreadsheet = []
     cur = db.con.execute("SELECT bibcode, year, month, date, mission, science, metrics "
                          "FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
@@ -901,5 +912,7 @@ if __name__ == '__main__':
 
     #todo: This is a hack until we figure out packaging
     cmd = sys.argv[1]
-    if cmd == 'update': kpub_update(sys.argv[2:])
+    if   cmd == 'update': kpub_update(sys.argv[2:])
+    elif cmd == 'plot':   kpub_plot(sys.argv[2:])
+    else:                 kpub(sys.argv[1:])
 
