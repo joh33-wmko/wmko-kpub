@@ -302,8 +302,9 @@ class PublicationDB(object):
         for ext in ['pdf', 'png']:
             plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
             plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
-            for mission in missions:
-                plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
+            if len(missions) > 1:
+                for mission in missions:
+                    plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
             plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
             plot.plot_author_count(self, f"kpub-author-count.{ext}")
 
@@ -361,7 +362,8 @@ class PublicationDB(object):
             try:
                 metrics[f"{js['science']}_count"] += 1
             except KeyError:
-                log.warning(f"{js['bibcode']}: no science category")
+                pass
+                #log.warning(f"{js['bibcode']}: no science category")
 
             #author counts
             authors['all'].extend(js['author_norm'])

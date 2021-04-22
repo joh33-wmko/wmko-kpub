@@ -84,7 +84,7 @@ def plot_by_year(db,
     # Obtain the dictionary which provides the annual counts
     current_year = datetime.datetime.now().year
     counts = db.get_annual_publication_count(year_begin=first_year, year_end=current_year)
-    pprint(counts)
+
     # Now make the actual plot
     #todo: not sure what this was for: bottom=list(counts['kepler'].values())
     fig = pl.figure()
@@ -234,17 +234,17 @@ def plot_author_count(db,
     cumulative_years = []
     paper_counts = []
     author_counts, first_author_counts = [], []
-    for year in range(first_year - 1, current_year):
+    for year in range(first_year - 1, current_year + 1):
         cumulative_years.append(year)
         metrics = db.get_metrics(cumulative_years)
         paper_counts.append(metrics['publication_count'])
         author_counts.append(metrics['author_count'])
         first_author_counts.append(metrics['first_author_count'])
 
-    # +1 because the stats for all of e.g. 2018 should show at Jan 1, 2019
-    ax.plot([y+1 for y in cumulative_years], paper_counts, label="Publications", lw=9)
+    # plot it
+    ax.plot([y for y in cumulative_years], paper_counts, label="Publications", lw=9)
     #ax.plot(cumulative_years, author_counts, label="Unique authors", lw=6)
-    ax.plot([y+1 for y in cumulative_years], first_author_counts, label="Unique first authors", lw=3)
+    ax.plot([y for y in cumulative_years], first_author_counts, label="Unique first authors", lw=3)
 
     # Aesthetics
     #pl.title("Kepler & K2's scientific output over time")
