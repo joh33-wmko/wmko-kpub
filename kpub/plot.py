@@ -86,7 +86,6 @@ def plot_by_year(db,
     counts = db.get_annual_publication_count(year_begin=first_year, year_end=current_year)
 
     # Now make the actual plot
-    #todo: not sure what this was for: bottom=list(counts['kepler'].values())
     fig = pl.figure()
     ax = fig.add_subplot(111)
     for i, mission in enumerate(missions):
@@ -247,7 +246,7 @@ def plot_author_count(db,
     ax.plot([y for y in cumulative_years], first_author_counts, label="Unique first authors", lw=3)
 
     # Aesthetics
-    #pl.title("Kepler & K2's scientific output over time")
+    #pl.title("Scientific output over time")
     pl.ylabel("Cumulative count")
     ax.get_xaxis().get_major_formatter().set_useOffset(False)
     pl.xticks(range(first_year - 1, current_year + 1))
