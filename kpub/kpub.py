@@ -116,13 +116,13 @@ class PublicationDB(object):
         except sql.IntegrityError:
             log.warning('{} was already ingested.'.format(article.bibcode))
 
-    def add_interactively(self, article, statusmsg=""):
+    def add_interactively(self, article, statusmsg="", highlights=None):
         """Adds an article by prompting the user for the classification.
 
         Parameters
         ----------
         article : `ads.Article` object
-        """
+        """        
         # Do not show an article that is already in the database
         if article in self:
             log.info("{} is already in the database "
@@ -132,7 +132,7 @@ class PublicationDB(object):
         # Print paper information to stdout
         print(chr(27) + "[2J")  # Clear screen
         print(statusmsg)
-        display_abstract(article._raw, self.config['colors'])
+        display_abstract(article._raw, self.config['colors'], highlights)
 
         # Prompt the user to classify the paper by mission
         #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
@@ -172,12 +172,13 @@ class PublicationDB(object):
         val = input()
         return valmap.get(val, '')
 
+
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
         if ads is None:
             log.error("This action requires the ADS key to be setup.")
             return
 
-        q = ads.SearchQuery(q="identifier:{}".format(bibcode), fl=FIELDS)
+        q = ads.SearchQuery(q=f"identifier:{bibcode}", fl=FIELDS, hl=['ack', 'body'])
         for article in q:
             # Print useful warnings
             if bibcode != article.bibcode:
@@ -185,7 +186,6 @@ class PublicationDB(object):
             if interactive and ('NONARTICLE' in article.property):
                 # Note: data products are sometimes tagged as NONARTICLE
                 log.warning("{} is not an article.".format(article.bibcode))
-
             if article in self:
                 log.warning("{} is already in the db.".format(article.bibcode))
             else:
@@ -557,13 +557,15 @@ class PublicationDB(object):
         qstr = f'{terms_str} pubdate:"{month}"'
         qry = ads.SearchQuery(q=qstr,
                               fl=FIELDS,
+                              hl=['ack', 'body'],
                               rows=9999999999)
 
         #loop and add
         articles = list(qry)
         for idx, article in enumerate(articles):
+            highlights = qry.highlights(article)
             statusmsg = (f"GROUP 1: Showing article {idx+1} out of {len(articles)} that matches in acknowledgements.\n\n")
-            self.add_interactively(article, statusmsg=statusmsg)
+            self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
 
         # Then search for keywords in the title and abstracts.  These need more scrutiny.
@@ -572,6 +574,7 @@ class PublicationDB(object):
         qstr = f'{terms_str} pubdate:"{month}"'
         qry = ads.SearchQuery(q=qstr,
                               fl=FIELDS,
+                              hl=['ack', 'body'],
                               rows=9999999999)
         articles = list(qry)
 
@@ -614,7 +617,14 @@ class PublicationDB(object):
 # Helper functions
 ##################
 
-def display_abstract(article_dict, colors):
+def highlight_text(text, colors):
+
+    for word, color in colors.items():
+        pattern = re.compile(word, re.IGNORECASE)
+        text = pattern.sub(HIGHLIGHTS[color] + word + HIGHLIGHTS['END'], str(text))
+    return text
+     
+def display_abstract(article_dict, colors, highlights=None):
     """Prints the title and abstract of an article to the terminal,
     given a dictionary of the article metadata.
 
@@ -622,6 +632,7 @@ def display_abstract(article_dict, colors):
     ----------
     article : `dict` containing standard ADS metadata keys
     colors  : `dict` mapping keywords to colors
+    highlights: `dict` containing 'ack' and 'body' lists of relevent text snippets
     """
     title = article_dict['title'][0]
     try:
@@ -629,14 +640,29 @@ def display_abstract(article_dict, colors):
     except KeyError:
         abstract = ""
 
-    for word, color in colors.items():
-        pattern = re.compile(word, re.IGNORECASE)
-        title    = pattern.sub(HIGHLIGHTS[color] + word + HIGHLIGHTS['END'], title)
-        abstract = pattern.sub(HIGHLIGHTS[color] + word + HIGHLIGHTS['END'], str(abstract))
+    title = highlight_text(title, colors)
+    abstract = highlight_text(abstract, colors)
+
+    ack_hl = 'NONE'
+    if highlights and 'ack' in highlights:
+        ack_hl = ''
+        for ack in highlights['ack']:
+            ack = ack.replace('<em>', '').replace('</em>', '')
+            ack_hl += "\n\t" + '"...' + highlight_text(ack, colors) + '"'
+
+    body_hl = 'NONE'
+    if highlights and 'body' in highlights:
+        body_hl = ''
+        for body in highlights['body']:
+            body = body.replace('<em>', '').replace('</em>', '')
+            body_hl += "\n\t" + '"...' + highlight_text(body, colors) + '"'
 
     print(title)
     print('-'*len(title))
     print(abstract)
+    print('')
+    print(f"Acknowledgement highlights: {ack_hl}")
+    print(f"Body highlights: {body_hl}")
     print('')
     print('Authors: ' + ', '.join(article_dict['author']))
     print('Date: ' + article_dict['pubdate'])
