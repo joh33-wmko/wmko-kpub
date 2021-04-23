@@ -817,6 +817,9 @@ def kpub_import(args=None):
     db = PublicationDB(args.f, config)
     import time
     for line in ProgressBar(open(args.csvfile, 'r').readlines()):
+        line = line.strip()
+        if not line:
+            continue
         for attempt in range(5):
             try:
                 col = line.split(',')  # Naive csv parsing
@@ -916,5 +919,9 @@ if __name__ == '__main__':
     cmd = sys.argv[1]
     if   cmd == 'update': kpub_update(sys.argv[2:])
     elif cmd == 'plot':   kpub_plot(sys.argv[2:])
+    elif cmd == 'add':    kpub_add(sys.argv[2:])
+    elif cmd == 'delete': kpub_delete(sys.argv[2:])
+    elif cmd == 'import': kpub_import(sys.argv[2:])
+    elif cmd == 'export': kpub_export(sys.argv[2:])
     else:                 kpub(sys.argv[1:])
 
