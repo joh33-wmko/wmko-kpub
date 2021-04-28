@@ -50,6 +50,20 @@
     'NIRES': "BLUE",
     'NIRSPEC': "BLUE",
     'OSIRIS': "BLUE",
-  }
+  },
 
+  #Specific instrument assocations to look for
+  "instruments": [
+    'KECK',
+    'DEIMOS',
+    'ESI',
+    'HIRES',
+    'KCWI',
+    'LRIS',
+    'MOSFIRE',
+    'NIRC2',
+    'NIRES',
+    'NIRSPEC',
+    'OSIRIS',
+  ]
 }

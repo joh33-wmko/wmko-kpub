@@ -15,11 +15,14 @@ import collections
 import sqlite3 as sql
 import numpy as np
 import yaml
+import requests
+import readline
 
-try:
-    import ads
-except Exception:
-    ads = None
+try:    import textract
+except: textract = None
+
+try:    import ads
+except: ads = None
 
 # External dependencies
 import jinja2
@@ -91,7 +94,7 @@ class PublicationDB(object):
                                 science,
                                 metrics)""")
 
-    def add(self, article, mission="", science=""):
+    def add(self, article, mission="", science="", instruments=[], highlights=None):
         """Adds a single article object to the database.
 
         Parameters
@@ -104,6 +107,8 @@ class PublicationDB(object):
         month = article.pubdate[0:7]
         article._raw['mission'] = mission
         article._raw['science'] = science
+        article._raw['highlights'] = highlights
+        article._raw['instruments'] = instruments
         try:
             cur = self.con.execute("INSERT INTO pubs "
                                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -147,7 +152,45 @@ class PublicationDB(object):
             sciences = self.config.get('sciences', [])
             science = self.prompt_grouping(sciences, 'Science')
 
-        self.add(article, mission=mission, science=science)
+        # Promput user to confirm instruments?
+        instruments = self.prompt_instruments(article.bibcode)
+
+        #add it
+        self.add(article, mission=mission, science=science, 
+                 instruments=instruments, highlights=highlights)
+
+
+    def prompt_instruments(self, bibcode):
+        '''Search for instances of instrument strings in full article.'''
+
+        #get related config vars
+        instruments = self.config.get('instruments')
+        ads_api_key = self.config.get('ADS_API_KEY')
+
+        #if not config for this, then return empty array
+        if not instruments:
+            return []
+
+        #try two methods for finding matches
+        try:
+            counts = get_instrument_match_counts_by_pdf(bibcode, instruments, ads_api_key)
+        except Exception as e:
+            print("ERROR: Could not parse PDF file.  Using alternate ADS query method...")
+            counts = get_instrument_match_counts_by_query(bibcode, instruments)
+
+        #print snippets
+        print("INSTRUMENT SNIPPETS FOUND:")
+        for instr, count in counts.items():
+            for snippet in count['snippets']:
+                snippet = highlight_text(snippet, self.config['colors'])
+                print(f"\t{instr}: {snippet}")
+
+        #prompt for user confirmation
+        instr_str = ", ".join(counts.keys())
+        val = input_with_prefill('=> Edit instrument list (comma-seperated): ', instr_str)
+        instrs = val.replace(' ', '').split(',')
+        return instrs
+
 
     def prompt_grouping(self, values, type, add_unrelated=False):
 
@@ -174,6 +217,7 @@ class PublicationDB(object):
 
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
+        #NOTE: For some reason, querying ADS by only bibcode/identifier will not return highlights.
         if ads is None:
             log.error("This action requires the ADS key to be setup.")
             return
@@ -576,10 +620,12 @@ class PublicationDB(object):
                               fl=FIELDS,
                               hl=['ack', 'body'],
                               rows=9999999999)
-        articles = list(qry)
 
         #loop and add
+        articles = list(qry)
         for idx, article in enumerate(articles):
+            highlights = qry.highlights(article)
+
             # Ignore articles without abstract
             if not hasattr(article, 'abstract') or article.abstract is None:
                 continue
@@ -608,7 +654,7 @@ class PublicationDB(object):
 
             # Propose to the user
             statusmsg = f"GROUP 2: Showing article {idx+1} out of {len(articles)}.)\n\n"
-            self.add_interactively(article, statusmsg=statusmsg)
+            self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
         log.info('Finished reviewing all articles for {}.'.format(month))
 
@@ -669,6 +715,83 @@ def display_abstract(article_dict, colors, highlights=None):
     print('Status: ' + str(article_dict['property']))
     print('URL: http://adsabs.harvard.edu/abs/' + article_dict['bibcode'])
     print('')
+
+
+def get_instrument_match_counts_by_query(bibcode, instruments):
+
+    counts = {}
+    for instr in instruments:
+        counts[instr] = {'count': 0, 'snippets': []}
+        q = f'bibcode:"{bibcode}" full:"{instr}" '
+        qry = ads.SearchQuery(q=q, hl=['title', 'abstract', 'ack', 'body'])
+        for a in qry:
+            highlights = qry.highlights(a)
+            for field, snippets in highlights.items():
+                for snippet in snippets:
+                    counts[instr]['count'] += 1
+                    counts[instr]['snippets'].append(snippet)
+
+    #only return counts > 0
+    counts = {key:val for key, val in counts.items() if val['count'] != 0}
+    return counts
+ 
+
+def get_instrument_match_counts_by_pdf(bibcode, instruments, ads_api_key):
+
+    #get pdf file and text
+    print('\nRetrieving PDF (May take from ~ 5 to 60 seconds)...')
+    outfile = f'/tmp/{bibcode}.pdf'
+    if os.path.isfile(outfile):
+        print(f'File {outfile} already downloaded')
+    else:
+        get_pdf_file(bibcode, outfile, ads_api_key)
+    text = get_pdf_text(outfile)
+
+    #count up matches
+    counts = {}
+    for instr in instruments:
+        counts[instr] = {'count': 0, 'snippets': []}
+        for ch in (' ', '/', '\('):
+            for m in re.finditer(ch+instr, text):
+                    snippet = text[m.start()-60:m.end()+60]
+                    snippet = snippet.replace("\n",' ')
+                    snippet = snippet.replace("\r",' ')
+                    snippet = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', ' ', snippet)
+                    counts[instr]['count'] += 1
+                    counts[instr]['snippets'].append(snippet)
+
+    #only return counts > 0
+    counts = {key:val for key, val in counts.items() if val['count'] != 0}
+    return counts
+  
+
+def get_pdf_file(bibcode, outfile, ads_api_key):
+
+    url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/EPRINT_PDF'
+    #url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/PUB_PDF'
+
+    headers = {f'Authorization': f'Bearer {ads_api_key}'}
+    r = requests.get(url, headers=headers)
+    with open(outfile, 'wb') as f:
+         f.write(r.content)
+    #print('PDF written to ', outfile)
+
+
+def get_pdf_text(outfile):
+    assert textract, "No textract module found."
+    text = textract.process(outfile)
+    text = text.decode("utf-8")
+    return text
+
+
+def input_with_prefill(prompt, text):
+    def hook():
+        readline.insert_text(text)
+        readline.redisplay()
+    readline.set_pre_input_hook(hook)
+    result = input(prompt)
+    readline.set_pre_input_hook()
+    return result
 
 
 #########################
@@ -849,6 +972,7 @@ def kpub_import(args=None):
         for attempt in range(5):
             try:
                 col = line.split(',')  # Naive csv parsing
+                #todo: include instruments param?
                 db.add_by_bibcode(col[0], mission=col[1], science=col[2].strip())
                 time.sleep(0.1)
                 break
@@ -868,6 +992,7 @@ def kpub_export(args=None):
     config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
 
     db = PublicationDB(args.f, config)
+#TODO: Why doesn't this exclude mission == 'unrelated' like kpub_spreadsheet?
     cur = db.con.execute("SELECT bibcode, mission, science "
                          "FROM pubs ORDER BY bibcode;")
     for row in cur.fetchall():
