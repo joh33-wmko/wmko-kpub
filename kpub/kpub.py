@@ -153,7 +153,9 @@ class PublicationDB(object):
             science = self.prompt_grouping(sciences, 'Science')
 
         # Promput user to confirm instruments?
-        instruments = self.prompt_instruments(article.bibcode)
+        instruments = []
+        if mission != 'unrelated':
+            instruments = self.prompt_instruments(article.bibcode)
 
         #add it
         self.add(article, mission=mission, science=science, 
