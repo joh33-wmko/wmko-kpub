@@ -1,17 +1,20 @@
 import pandas as pd
-
+from pprint import pprint
 
 df = pd.read_csv('SciencePaperBiblio.csv', sep=',', quotechar='"')
 df = df.fillna('')
 newdata = []
+instruments = {}
 for idx, row in df.iterrows():
 	bibcode = row['BibCode']
 	if not bibcode:
 		continue
-	data = {'bibcode':bibcode, 'mission':'keck', 'science':''}
-	newdata.insert(0, data)
 
-#write out all for use with kpub import 
-#TODO: include instruments?
-newdf = pd.DataFrame(newdata)
-newdf.to_csv('keck_import.csv', sep=',', index=False, header=False)
+	instrs = row['Instru']
+	instrs = instrs.split('|')
+	for instr in instrs:
+		if instr not in instruments:
+			instruments[instr] = 0
+		instruments[instr] += 1
+
+pprint(instruments)
