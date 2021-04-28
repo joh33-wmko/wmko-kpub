@@ -219,7 +219,7 @@ class PublicationDB(object):
 
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
-        #NOTE: For some reason, querying ADS by only bibcode/identifier will not return highlights.
+        #TODO: NOTE: Without querying for 'keck' in full text, highlights will not be returned.
         if ads is None:
             log.error("This action requires the ADS key to be setup.")
             return
@@ -753,7 +753,7 @@ def get_instrument_match_counts_by_pdf(bibcode, instruments, ads_api_key):
     counts = {}
     for instr in instruments:
         counts[instr] = {'count': 0, 'snippets': []}
-        for ch in (' ', '/', '\('):
+        for ch in (' ', '/', '\(', '-', ':'):
             for m in re.finditer(ch+instr, text):
                     snippet = text[m.start()-60:m.end()+60]
                     snippet = snippet.replace("\n",' ')
