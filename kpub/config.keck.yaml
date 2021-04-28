@@ -41,7 +41,7 @@
   "colors": {
     'KECK': "GREEN",
     'DEIMOS': "BLUE",
-    #'ESI': "BLUE",
+    'ESI': "BLUE",
     'HIRES': "BLUE",
     'KCWI': "BLUE",
     'LRIS': "BLUE",
@@ -65,5 +65,8 @@
     'NIRES',
     'NIRSPEC',
     'OSIRIS',
+    'AO',
+    'LGS',
+    'NGS',
   ]
 }
