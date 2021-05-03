@@ -54,7 +54,6 @@
 
   #Specific instrument assocations to look for
   "instruments": [
-    'KECK',
     'DEIMOS',
     'ESI',
     'HIRES',
