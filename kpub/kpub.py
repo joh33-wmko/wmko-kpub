@@ -17,12 +17,16 @@ import numpy as np
 import yaml
 import requests
 import readline
+from pprint import pprint
 
-try:    import textract
-except: textract = None
-
-try:    import ads
-except: ads = None
+try:    
+    import textract
+except: 
+    textract = None
+try:    
+    import ads
+except: 
+    ads = None
 
 # External dependencies
 import jinja2
@@ -141,16 +145,29 @@ class PublicationDB(object):
 
         # Prompt the user to classify the paper by mission
         #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
+        valmap = {'0': 'unrelated'}
         missions = self.config.get('missions', [])
-        mission = self.prompt_grouping(missions, 'Mission', add_unrelated=True)
+        valmap = add_prompt_valmaps(valmap, missions)
+        mission = ''
+        while True:
+            mission = prompt_grouping(valmap, 'Mission')
+            if mission.lower() == 'f':
+                self.find_all_snippets(article.bibcode)
+            else:
+                break
+
+        #Hitting return or any unrecognized key results in skip
+        mission = valmap.get(mission, '')
         if not mission:
             return
 
         # Prompt the user to classify the paper by science
         science = ''
-        if mission != 'unrelated':
-            sciences = self.config.get('sciences', [])
-            science = self.prompt_grouping(sciences, 'Science')
+        sciences = self.config.get('sciences', [])
+        if mission != 'unrelated' and sciences:
+            valmap = {}
+            valmap = add_prompt_valmaps(valmap, sciences)
+            science = prompt_grouping(valmap, 'Science')
 
         # Promput user to confirm instruments?
         instruments = []
@@ -158,8 +175,39 @@ class PublicationDB(object):
             instruments = self.prompt_instruments(article.bibcode)
 
         #add it
-        self.add(article, mission=mission, science=science, 
-                 instruments=instruments, highlights=highlights)
+        # self.add(article, mission=mission, science=science, 
+        #          instruments=instruments, highlights=highlights)
+
+
+    def find_all_snippets(self, bibcode):
+
+        colors = self.config.get('colors')
+        includes = self.config.get('ads_includes', [])
+        instruments = self.config.get('instruments', [])
+        ads_api_key = self.config.get('ADS_API_KEY')
+
+        #if not config for this, then return empty array
+        words = []
+        words += includes
+        words += instruments
+        if not words:
+            return []
+
+        #try two methods for finding matches
+        try:
+            counts = get_word_match_counts_by_pdf(bibcode, words, ads_api_key)
+        except Exception as e:
+            print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
+            counts = get_word_match_counts_by_query(bibcode, words)
+
+        #print snippets
+        print("SNIPPETS FOUND:")
+        for instr, count in counts.items():
+            for snippet in count['snippets']:
+                snippet = highlight_text(snippet, colors)
+                print(f"\t{instr}: {snippet}")
+
+        return counts
 
 
     def prompt_instruments(self, bibcode):
@@ -175,10 +223,10 @@ class PublicationDB(object):
 
         #try two methods for finding matches
         try:
-            counts = get_instrument_match_counts_by_pdf(bibcode, instruments, ads_api_key)
+            counts = get_word_match_counts_by_pdf(bibcode, instruments, ads_api_key)
         except Exception as e:
-            print("ERROR: Could not parse PDF file.  Using alternate ADS query method...")
-            counts = get_instrument_match_counts_by_query(bibcode, instruments)
+            print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
+            counts = get_word_match_counts_by_query(bibcode, instruments)
 
         #print snippets
         print("INSTRUMENT SNIPPETS FOUND:")
@@ -189,33 +237,9 @@ class PublicationDB(object):
 
         #prompt for user confirmation
         instr_str = ", ".join(counts.keys())
-        val = input_with_prefill('=> Edit instrument list (comma-seperated): ', instr_str)
+        val = input_with_prefill('\n=> Edit instrument list (comma-seperated): ', instr_str)
         instrs = val.replace(' ', '').split(',')
         return instrs
-
-
-    def prompt_grouping(self, values, type, add_unrelated=False):
-
-        #if no configuration for this, then return blank as value
-        if not values:
-            return ''
-
-        #build menu string
-        valmap = {}
-        if add_unrelated:
-            valmap['0'] = 'unrelated'
-        for idx, val in enumerate(values):
-            k = str(idx+1)
-            valmap[k] = val
-
-        prompt = f"=> Select {type}: "
-        for key, val in valmap.items():
-            prompt += f" [{key}] {val.capitalize()} "
-        prompt += " or [] skip? "
-
-        print(prompt, end="")
-        val = input()
-        return valmap.get(val, '')
 
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
@@ -586,38 +610,29 @@ class PublicationDB(object):
             log.error("This action requires the ADS key to be setup.")
             return
 
-        print(HIGHLIGHTS['YELLOW'] +
-              "Reminder: did you `git pull` kpub before running "
-              "this command? [y/n] " +
-              HIGHLIGHTS['END'],
-              end='')
-        if input() == 'n':
-            return
+        # print(HIGHLIGHTS['YELLOW'] +
+        #       "Reminder: did you `git pull` kpub before running "
+        #       "this command? [y/n] " +
+        #       HIGHLIGHTS['END'],
+        #       end='')
+        # if input() == 'n':
+        #     return
 
         if month is None:
             month = datetime.datetime.now().strftime("%Y-%m")
 
-        # First query all papers by acknowledgement.  These should be obvous approvals.
-        log.info(f"Querying ADS for acknowledgements (month={month}).")
-        terms_str = ' '.join(self.config['ads_query_terms_group_1'])
-        qstr = f'{terms_str} pubdate:"{month}"'
-        qry = ads.SearchQuery(q=qstr,
-                              fl=FIELDS,
-                              hl=['ack', 'body'],
-                              rows=9999999999)
 
-        #loop and add
-        articles = list(qry)
-        for idx, article in enumerate(articles):
-            highlights = qry.highlights(article)
-            statusmsg = (f"GROUP 1: Showing article {idx+1} out of {len(articles)} that matches in acknowledgements.\n\n")
-            self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
-
-
-        # Then search for keywords in the title and abstracts.  These need more scrutiny.
-        log.info(f"Querying ADS for titles and abstracts (month={month}).")
-        terms_str = ' '.join(self.config['ads_query_terms_group_2'])
-        qstr = f'{terms_str} pubdate:"{month}"'
+        # search for keywords in the full text.  These need more scrutiny.
+#TODO: If we want BODY highlights, need to use raw ADS request, not ads module, since  can't spec hl.maxanalyzedchars
+        log.info(f"\nQuerying ADS (month={month}).")
+        qstr = ''
+        for item in self.config.get('ads_includes', []):
+            qstr += f'full:"{item}" '
+        for item in self.config.get('ads_excludes', []):
+            qstr += f'-full:"{item}" '
+        for item in self.config.get('ads_extra', []):
+            qstr += f'{item} '
+        qstr += f' pubdate:"{month}"'
         qry = ads.SearchQuery(q=qstr,
                               fl=FIELDS,
                               hl=['ack', 'body'],
@@ -635,13 +650,12 @@ class PublicationDB(object):
 
             # Ignore articles already in the database
 #TODO: Should we be comparing ADS IDs here?  
-#TODO: And why is this check not in above loop?          
             if article in self:
                 continue
 
             # Ignore all the unrefereed non-arxiv stuff
 #TODO: This can be in the query
-#TODO: And why is this check not in above loop?          
+#TODO: what is this for?
             try:
                 if "NOT REFEREED" in article.property and article.pub.lower() != "arxiv e-prints":
                     continue
@@ -650,12 +664,12 @@ class PublicationDB(object):
 
             # Ignore proposals and cospar abstracts
 #TODO: This can be in the query
-#TODO: And why is this check not in above loop?          
+#TODO: what is this for?
             if ".prop." in article.bibcode or "cosp.." in article.bibcode:
                 continue
 
             # Propose to the user
-            statusmsg = f"GROUP 2: Showing article {idx+1} out of {len(articles)}.)\n\n"
+            statusmsg = f"Showing article {idx+1} out of {len(articles)}\n\n"
             self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
         log.info('Finished reviewing all articles for {}.'.format(month))
@@ -719,8 +733,44 @@ def display_abstract(article_dict, colors, highlights=None):
     print('')
 
 
-def get_instrument_match_counts_by_query(bibcode, instruments):
+def get_word_match_counts_by_query(bibcode, words):
 
+    bibcode = bibcode.replace('&', '%26')
+
+    counts = {}
+    for word in words:
+
+        url = ( 
+        "https://api.adsabs.harvard.edu/v1/search/query?"
+            f'q=bibcode:{bibcode}+full:{word}'
+            "&fl=id,bibcode"
+            "&sort=date+asc"
+            "&hl=true"
+            "&hl.fl=ack,body,title,abstract"
+            "&hl.snippets=4"
+            "&hl.fragsize=100"
+            "&hl.maxAnalyzedChars=500000"
+        )
+        headers = {'Authorization': 'Bearer kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU'}
+        r = requests.get(url, headers=headers)
+        data = r.json()
+        counts[word] = {'count': 0, 'snippets': []}
+        for doc in data['response']['docs']:
+            id = doc['id']
+            highlights = data['highlighting'][id]
+            for field, snippets in highlights.items():
+                for snippet in snippets:
+                    counts[word]['count'] += 1
+                    counts[word]['snippets'].append(snippet)
+
+    #only return counts > 0
+    counts = {key:val for key, val in counts.items() if val['count'] != 0}
+    return counts
+ 
+
+
+def get_word_match_counts_by_query_OLD(bibcode, instruments):
+    #todo: note: can't specify all the highlight params with ads module
     counts = {}
     for instr in instruments:
         counts[instr] = {'count': 0, 'snippets': []}
@@ -738,7 +788,7 @@ def get_instrument_match_counts_by_query(bibcode, instruments):
     return counts
  
 
-def get_instrument_match_counts_by_pdf(bibcode, instruments, ads_api_key):
+def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
 
     #get pdf file and text
     print('\nRetrieving PDF (May take from ~ 5 to 60 seconds)...')
@@ -747,20 +797,21 @@ def get_instrument_match_counts_by_pdf(bibcode, instruments, ads_api_key):
         print(f'File {outfile} already downloaded')
     else:
         get_pdf_file(bibcode, outfile, ads_api_key)
-    text = get_pdf_text(outfile)
+    text = get_pdf_text(outfile).lower()
 
     #count up matches
     counts = {}
-    for instr in instruments:
-        counts[instr] = {'count': 0, 'snippets': []}
+    for word in words:
+        counts[word] = {'count': 0, 'snippets': []}
         for ch in (' ', '/', '\(', '-', ':'):
-            for m in re.finditer(ch+instr, text):
+            find = f"{ch}{word}".lower()
+            for m in re.finditer(find, text):
                     snippet = text[m.start()-60:m.end()+60]
                     snippet = snippet.replace("\n",' ')
                     snippet = snippet.replace("\r",' ')
                     snippet = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', ' ', snippet)
-                    counts[instr]['count'] += 1
-                    counts[instr]['snippets'].append(snippet)
+                    counts[word]['count'] += 1
+                    counts[word]['snippets'].append(snippet)
 
     #only return counts > 0
     counts = {key:val for key, val in counts.items() if val['count'] != 0}
@@ -794,6 +845,28 @@ def input_with_prefill(prompt, text):
     result = input(prompt)
     readline.set_pre_input_hook()
     return result
+
+
+def add_prompt_valmaps(valmap, vals):
+
+    for idx, val in enumerate(vals):
+        k = str(idx+1)
+        valmap[k] = val
+    return valmap
+
+
+def prompt_grouping(valmap, type):
+
+    prompt = f"\n=> Select {type}: "
+    for key, val in valmap.items():
+        prompt += f" [{key}] {val.capitalize()} "
+    prompt += " or [] skip? "
+
+    print(prompt, end="")
+    val = input()
+    return val
+
+
 
 
 #########################

@@ -1,56 +1,34 @@
 {
-
   #Unique identifier for this mission/facility. Used for prepending to output filenames, etc.
   "prepend": "keck",
 
   #ADS API Key
   #todo: only need this if we switch to querying ADS directly (otherwise shoudl be in ~/.ads/dev_key per ads module instructions)
-  "ADS_API_KEY": "kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU",
+  "ADS_API_KEY": "",
 
   #Missions and sciences groupings
+  #NOTE: missions is the main grouping and is required. Sciences is optional.
   "missions": ['keck'],
   "sciences": [],
 
-  #ADS query terms list.  All will be joined with a space.
-  #NOTE: Do not include pubdate or year here since this is an input to run kpub
-  "ads_query_terms_group_1" : [
-    #'-bibcode:keck'
-    'ack:"keck"',
-    'property:"refereed"',
-    '-full:BICEP',
-    '-full:NUANCE',
-    '-full:"keck foundation"',
-    '-full:"keck array"',
-    #'database:astronomy'
+  #ADS query include terms list (searching full article text) 
+  "ads_includes": [
+    'keck'
   ],
 
-  #ADS query terms list.  All will be joined with a space.
-  #NOTE: Do not include pubdate or year here since this is an input to run kpub
-  "ads_query_terms_group_2" : [
-    #'-bibcode:keck'
-    'full:keck',
-    'property:"refereed"',
-    '-full:BICEP',
-    '-full:NUANCE',
-    '-full:"keck foundation"',
-    '-full:"keck array"',
-    #'database:astronomy'
+  #ADS query exclude terms list. Papers with any of these in full text will be excluded. 
+  "ads_excludes": [
+    "BICEP",
+    "NUANCE",
+    "keck foundation",
+    "keck array",
   ],
 
-  # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, BLUE, PURPLE, CYAN)
-  "colors": {
-    'KECK': "GREEN",
-    'DEIMOS': "BLUE",
-    'ESI': "BLUE",
-    'HIRES': "BLUE",
-    'KCWI': "BLUE",
-    'LRIS': "BLUE",
-    'MOSFIRE': "BLUE",
-    'NIRC2': "BLUE",
-    'NIRES': "BLUE",
-    'NIRSPEC': "BLUE",
-    'OSIRIS': "BLUE",
-  },
+  #ADS query extra terms list.  
+  "ads_extra": [
+    #'-bibcode:"keck"',
+    'property:"refereed"'
+  ],
 
   #Specific instrument assocations to look for
   "instruments": [
@@ -67,5 +45,26 @@
     'AO',
     'LGS',
     'NGS',
-  ]
+  ],
+
+  # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
+  "colors": {
+    'KECK': "GREEN",
+    'DEIMOS': "CYAN",
+    'ESI': "CYAN",
+    'HIRES': "CYAN",
+    'KCWI': "CYAN",
+    'LRIS': "CYAN",
+    'MOSFIRE': "CYAN",
+    'NIRC2': "CYAN",
+    'NIRES': "CYAN",
+    'NIRSPEC': "CYAN",
+    'OSIRIS': "CYAN",
+    'LGS': "CYAN",
+    'NGS': "CYAN",
+    'AO': "CYAN",
+  },
+
+ 
 }
+
