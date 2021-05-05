@@ -96,9 +96,10 @@ class PublicationDB(object):
                                 date,
                                 mission,
                                 science,
+                                instruments,
                                 metrics)""")
 
-    def add(self, article, mission="", science="", instruments=[], highlights=None):
+    def add(self, article, mission="", science="", instruments=""):
         """Adds a single article object to the database.
 
         Parameters
@@ -111,15 +112,14 @@ class PublicationDB(object):
         month = article.pubdate[0:7]
         article._raw['mission'] = mission
         article._raw['science'] = science
-        article._raw['highlights'] = highlights
         article._raw['instruments'] = instruments
+
         try:
             cur = self.con.execute("INSERT INTO pubs "
-                                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                                   [article.id, article.bibcode,
-                                    article.year, month, article.pubdate,
-                                    mission, science,
-                                    json.dumps(article._raw)])
+                "(id, bibcode, year, month, date, mission, science, instruments, metrics) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [article.id, article.bibcode, article.year, month, article.pubdate,
+                mission, science, instruments, json.dumps(article._raw)])
             log.info('Inserted {} row(s).'.format(cur.rowcount))
             self.con.commit()
         except sql.IntegrityError:
@@ -170,13 +170,12 @@ class PublicationDB(object):
             science = prompt_grouping(valmap, 'Science')
 
         # Promput user to confirm instruments?
-        instruments = []
+        instruments = ''
         if mission != 'unrelated':
             instruments = self.prompt_instruments(article.bibcode)
 
         #add it
-        # self.add(article, mission=mission, science=science, 
-        #          instruments=instruments, highlights=highlights)
+        self.add(article, mission=mission, science=science, instruments=instruments)
 
 
     def find_all_snippets(self, bibcode):
@@ -219,7 +218,7 @@ class PublicationDB(object):
 
         #if not config for this, then return empty array
         if not instruments:
-            return []
+            return ''
 
         #try two methods for finding matches
         try:
@@ -236,10 +235,10 @@ class PublicationDB(object):
                 print(f"\t{instr}: {snippet}")
 
         #prompt for user confirmation
-        instr_str = ", ".join(counts.keys())
-        val = input_with_prefill('\n=> Edit instrument list (comma-seperated): ', instr_str)
-        instrs = val.replace(' ', '').split(',')
-        return instrs
+        instr_str = "|".join(counts.keys())
+        val = input_with_prefill('\n=> Edit instrument list (pipe-seperated): ', instr_str)
+        val = val.replace(' ', '')
+        return val
 
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
