@@ -173,8 +173,8 @@ class PublicationDB(object):
 
         # Promput user to confirm instruments?
         instruments = ''
-        # if mission != 'unrelated':
-        #     instruments = self.prompt_instruments(article.bibcode)
+        if mission != 'unrelated':
+            instruments = self.prompt_instruments(article.bibcode)
 
         # Promput user to confirm instruments?
         archive = ''
@@ -775,7 +775,7 @@ def get_word_match_counts_by_query(bibcode, words):
         word = word.replace(' ', '+')
         url = ( 
         "https://api.adsabs.harvard.edu/v1/search/query?"
-            f'q=bibcode:{bibcode}+full:%22{word}%22'
+            f'q=bibcode:%22{bibcode}%22+full:%22{word}%22'
             "&fl=id,bibcode"
             "&sort=date+asc"
             "&hl=true"
