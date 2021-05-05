@@ -97,9 +97,10 @@ class PublicationDB(object):
                                 mission,
                                 science,
                                 instruments,
+                                archive,
                                 metrics)""")
 
-    def add(self, article, mission="", science="", instruments=""):
+    def add(self, article, mission="", science="", instruments="", archive=""):
         """Adds a single article object to the database.
 
         Parameters
@@ -113,13 +114,14 @@ class PublicationDB(object):
         article._raw['mission'] = mission
         article._raw['science'] = science
         article._raw['instruments'] = instruments
+        article._raw['archive'] = archive
 
         try:
             cur = self.con.execute("INSERT INTO pubs "
-                "(id, bibcode, year, month, date, mission, science, instruments, metrics) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                "(id, bibcode, year, month, date, mission, science, instruments, archive, metrics) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [article.id, article.bibcode, article.year, month, article.pubdate,
-                mission, science, instruments, json.dumps(article._raw)])
+                mission, science, instruments, archive, json.dumps(article._raw)])
             log.info('Inserted {} row(s).'.format(cur.rowcount))
             self.con.commit()
         except sql.IntegrityError:
@@ -171,11 +173,17 @@ class PublicationDB(object):
 
         # Promput user to confirm instruments?
         instruments = ''
+        # if mission != 'unrelated':
+        #     instruments = self.prompt_instruments(article.bibcode)
+
+        # Promput user to confirm instruments?
+        archive = ''
         if mission != 'unrelated':
-            instruments = self.prompt_instruments(article.bibcode)
+            archive = self.get_archive_acknowledgement(article.bibcode)
 
         #add it
-        self.add(article, mission=mission, science=science, instruments=instruments)
+        self.add(article, mission=mission, science=science, instruments=instruments,
+                 archive=archive)
 
 
     def find_all_snippets(self, bibcode):
@@ -209,19 +217,45 @@ class PublicationDB(object):
         return counts
 
 
+    def get_archive_acknowledgement(self, bibcode):
+        '''Search for instances of archive strings in full article.'''
+
+        #if not config for this, then return empty array
+        archive = self.config.get('archive')
+        if not archive:
+            return ''
+
+        #try two methods for finding matches
+        try:
+            ads_api_key = self.config.get('ADS_API_KEY')
+            counts = get_word_match_counts_by_pdf(bibcode, archive, ads_api_key)
+        except Exception as e:
+            print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
+            counts = get_word_match_counts_by_query(bibcode, archive)
+
+        #print snippets
+        print("ARCHIVE SNIPPETS FOUND:")
+        for key, count in counts.items():
+            for snippet in count['snippets']:
+                snippet = highlight_text(snippet, self.config['colors'])
+                print(f"\t{key}: {snippet}")
+
+        #return 
+        val = True if len(counts) > 0 else False
+        return val
+
+
     def prompt_instruments(self, bibcode):
         '''Search for instances of instrument strings in full article.'''
 
-        #get related config vars
-        instruments = self.config.get('instruments')
-        ads_api_key = self.config.get('ADS_API_KEY')
-
         #if not config for this, then return empty array
+        instruments = self.config.get('instruments')
         if not instruments:
             return ''
 
         #try two methods for finding matches
         try:
+            ads_api_key = self.config.get('ADS_API_KEY')
             counts = get_word_match_counts_by_pdf(bibcode, instruments, ads_api_key)
         except Exception as e:
             print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
@@ -738,10 +772,10 @@ def get_word_match_counts_by_query(bibcode, words):
 
     counts = {}
     for word in words:
-
+        word = word.replace(' ', '+')
         url = ( 
         "https://api.adsabs.harvard.edu/v1/search/query?"
-            f'q=bibcode:{bibcode}+full:{word}'
+            f'q=bibcode:{bibcode}+full:%22{word}%22'
             "&fl=id,bibcode"
             "&sort=date+asc"
             "&hl=true"
@@ -750,6 +784,7 @@ def get_word_match_counts_by_query(bibcode, words):
             "&hl.fragsize=100"
             "&hl.maxAnalyzedChars=500000"
         )
+        print(url)
         headers = {'Authorization': 'Bearer kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU'}
         r = requests.get(url, headers=headers)
         data = r.json()
