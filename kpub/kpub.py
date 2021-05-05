@@ -234,11 +234,13 @@ class PublicationDB(object):
             counts = get_word_match_counts_by_query(bibcode, archive)
 
         #print snippets
-        print("ARCHIVE SNIPPETS FOUND:")
-        for key, count in counts.items():
-            for snippet in count['snippets']:
-                snippet = highlight_text(snippet, self.config['colors'])
-                print(f"\t{key}: {snippet}")
+        # print("ARCHIVE SNIPPETS FOUND:")
+        # for key, count in counts.items():
+        #     for snippet in count['snippets']:
+        #         snippet = highlight_text(snippet, self.config['colors'])
+        #         print(f"\t{key}: {snippet}")
+        if len(counts) > 0:
+            print("ARCHIVE ACKNOWLDGEMENT FOUND")
 
         #return 
         val = True if len(counts) > 0 else False
