@@ -176,7 +176,7 @@ class PublicationDB(object):
         if mission != 'unrelated':
             instruments = self.prompt_instruments(article.bibcode)
 
-        # Promput user to confirm instruments?
+        # Get archive ack
         archive = ''
         if mission != 'unrelated':
             archive = self.get_archive_acknowledgement(article.bibcode)
@@ -684,7 +684,7 @@ class PublicationDB(object):
             abstract_lower = article.abstract.lower()
 
             # Ignore articles already in the database
-#TODO: Should we be comparing ADS IDs here?  
+#TODO: Should we be comparing ADS IDs here?  See def __contains__ below!
             if article in self:
                 continue
 
