@@ -288,7 +288,7 @@ def plot_affiliations():
     pub = cur.fetchone()
     if not pub:
         #print(f"ERROR could not find {bibcode}")
-        continue
+        return
 
     #todo: probably can move this and get_aff_type to PublicationDB object
     raw = json.loads(pub[2])
