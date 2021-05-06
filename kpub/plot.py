@@ -274,6 +274,54 @@ def plot_author_count(db,
     pl.close()
 
 
+def plot_affiliations():
+    '''
+    TODO: This is just some test code showing how to parse and map affiliations from
+    metrics data.  Need to think about how to plot.
+    '''
+
+    bibcode = ''
+    affdefs = '' #todo: load from config
+
+    con = sql.connect('/Users/joshriley/.kpub.db')
+    cur = con.execute(f"SELECT id, bibcode, metrics from pubs where bibcode='{bibcode}'")
+    pub = cur.fetchone()
+    if not pub:
+        #print(f"ERROR could not find {bibcode}")
+        continue
+
+    #todo: probably can move this and get_aff_type to PublicationDB object
+    raw = json.loads(pub[2])
+    num_affs = len(raw['aff'])
+    affs = []
+    for i in range(0,3):
+        aff = ''
+        if num_affs > i:
+            aff = get_aff(raw['aff'][i], affdefs)
+        affs.append(aff)
+
+
+def get_aff_type(affstr, affdefs):
+    '''
+    Search for institution strings in affiliation string.  Affiliation string
+    can have multiple semicolon-delimited entries.  'affmap' is an ordered 
+    array of preferred affiliation types.  Each type has an array of strings to
+    search for.
+    '''
+    affs = affstr.split(";")
+    for affdef in affdefs:
+        afftype = affdef['type']
+        for string in affdef['strings']:
+            for aff in affs:
+                if string.isupper():
+                    if re.search(string, aff):
+                        return afftype
+                else:
+                    if re.search(string, aff, re.IGNORECASE):
+                        return afftype                  
+    return "other"
+
+
 
 if __name__ == "__main__":
     plot_by_year()
