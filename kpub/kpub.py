@@ -1082,9 +1082,14 @@ def kpub_import(args=None):
             continue
         for attempt in range(5):
             try:
-                col = line.split(',')  # Naive csv parsing
-                #todo: include instruments param?
-                db.add_by_bibcode(col[0], mission=col[1], science=col[2].strip())
+                col = line.strip().split(',')  # Naive csv parsing
+                bibcode = col[0]
+                mission = col[1]
+                science = col[2]
+                instrs  = col[3]
+                archive = col[4]
+                db.add_by_bibcode(bibcode, mission=mission, science=science,
+                    instruments=instrs, archive=archive)
                 time.sleep(0.1)
                 break
             except Exception as e:
