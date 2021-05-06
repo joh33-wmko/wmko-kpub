@@ -50,7 +50,8 @@
   #Archives strings to look for to indicate was archived
   "archive": [
     'KOA', 
-    'Keck Observatory Archive'
+    'Keck Observatory Archive',
+    'Keck data archive'
   ],
 
   # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
@@ -70,8 +71,54 @@
     'NGS': "CYAN",
     'AO': "CYAN",
     'KOA': "YELLOW",
-    'Observatory Archive': "YELLOW"  #note: can't conflict with "KECK" above
+    'Archive': "YELLOW"  #note: can't conflict with "KECK" above
   },
- 
+
+  #Affiliation category types with search strings to identify.  "other" is default category.
+  #NOTE: If all caps, then search is case-sensitive.
+  "aff_defs": [
+    {
+      "type": "keck",
+      "strings": [
+        "keck",
+        "WMKO",
+        "California Institute of Technology",
+        "Caltech",
+        "CIT",
+        "University of California",
+        #"UCB", #This matches UCB (U Colorado at Boulder)
+        "UCD",
+        "UCI",
+        "UCLA",
+        "UCR",
+        "UCSB",
+        "UCSC",
+        "UCSD",
+        "USRA",
+        "University of Hawaii",
+        "University of Hawai'i",
+        "University of Hawai`i",
+        "University of Hawai‘i",
+        "Manoa",
+        "ANU",
+        "Australian National University",
+        "Northwestern",
+        "Swinburne",
+        "Yale",
+        "JPL",
+        "Jet Propulsion Laboratory",
+      ]
+    },
+    {
+      "type": "usa",
+      "strings": [
+        "USA",
+        "United States of America",
+        "NASA",
+        "National Aeronautics and Space Administration",
+      ]
+    },
+  ],
+
 }
 
