@@ -12,9 +12,10 @@
   "sciences": [],
 
   #sets of queries to run.  Query string is typically exactly what you put in ADS web gui.
+  #NOTE: ALL CAPS search terms will match case-sensitive.
   "ads_queries": [
-    {'name': "Acknowledgment", "query": 'property:refereed ack:keck NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
-    {'name': "Full text",      "query": 'property:refereed full:keck NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
+    {'name': "Acknowledgment", "query": 'ack:keck  database:astronomy property:refereed NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
+    {'name': "Full text",      "query": 'full:keck database:astronomy property:refereed NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
   ],
 
   #Specific instrument assocations to look for

@@ -1,4 +1,5 @@
 {
+
   #Unique identifier for this mission/facility. Used for prepending to output filenames, etc.
   "prepend": "keck",
 
@@ -7,28 +8,14 @@
   "ADS_API_KEY": "",
 
   #Missions and sciences groupings
-  #NOTE: missions is the main grouping and is required. Sciences is optional.
-  "missions": ['keck'],
+  "missions": [],
   "sciences": [],
 
-  #ADS query include terms list (searching full article text) 
-  "ads_includes": [
-    'keck'
-  ],
-
-  #ADS query exclude terms list. Papers with any of these in full text will be excluded. 
-  "ads_excludes": [
-    "BICEP",
-    "BICEP2",
-    "NUANCE",
-    #"keck array",
-    "keck carbon"
-  ],
-
-  #ADS query extra terms list.  
-  "ads_extra": [
-    #'-bibcode:"keck"',
-    'property:"refereed"'
+  #sets of queries to run.  Query string is typically exactly what you put in ADS web gui.
+  #NOTE: ALL CAPS search terms will match case-sensitive.
+  "ads_queries": [
+    {'name': "Acknowledgment", "query": 'ack:keck  database:astronomy property:refereed NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
+    {'name': "Full text",      "query": 'full:keck database:astronomy property:refereed NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
   ],
 
   #Specific instrument assocations to look for
@@ -51,8 +38,7 @@
   #Archives strings to look for to indicate was archived
   "archive": [
     'KOA', 
-    'Keck Observatory Archive',
-    'Keck data archive'
+    'Keck Observatory Archive'
   ],
 
   # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
@@ -120,6 +106,5 @@
       ]
     },
   ],
-
+ 
 }
-
