@@ -23,10 +23,6 @@ try:
     import textract
 except: 
     textract = None
-try:    
-    import ads
-except: 
-    ads = None
 
 # External dependencies
 import jinja2
@@ -39,6 +35,8 @@ from astropy.utils.console import ProgressBar
 import plot
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
 
+#ADS API URL
+ADS_API = 'https://api.adsabs.harvard.edu/v1/search/query?'
 
 # Where is the default location of the SQLite database?
 DEFAULT_DB = os.path.expanduser("~/.kpub.db")
@@ -103,47 +101,51 @@ class PublicationDB(object):
     def add(self, article, mission="", science="", instruments="", archive=""):
         """Adds a single article object to the database.
 
-        Parameters
-        ----------
-        article : `ads.Article` object.
-            An article object as returned by `ads.SearchQuery`.
+        Parameters:
+            article (json): Article json object returned from ADS API
+            mission (str)
+            science (str)
+            instruments (str): Pipe-delimited list of instruments
+            archive (int): 0 or 1 indicating if archiving reference was found
         """
-        log.debug('Ingesting {}'.format(article.bibcode))
-        # Also store the extra metadata in the json string
-        month = article.pubdate[0:7]
-        article._raw['mission'] = mission
-        article._raw['science'] = science
-        article._raw['instruments'] = instruments
-        article._raw['archive'] = archive
+        log.debug('Ingesting {}'.format(article['bibcode']))
 
+        # Store the extra metadata in the json string
+        month = article['pubdate'][0:7]
+        article['mission'] = mission
+        article['science'] = science
+        article['instruments'] = instruments
+        article['archive'] = archive
+
+        #insert to db
         try:
             cur = self.con.execute("INSERT INTO pubs "
                 "(id, bibcode, year, month, date, mission, science, instruments, archive, metrics) "
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                [article.id, article.bibcode, article.year, month, article.pubdate,
-                mission, science, instruments, archive, json.dumps(article._raw)])
+                [article['id'], article['bibcode'], article['year'], month, article['pubdate'],
+                mission, science, instruments, archive, json.dumps(article)])
             log.info('Inserted {} row(s).'.format(cur.rowcount))
             self.con.commit()
         except sql.IntegrityError:
-            log.warning('{} was already ingested.'.format(article.bibcode))
+            log.warning('{} was already ingested.'.format(article['bibcode']))
 
     def add_interactively(self, article, statusmsg="", highlights=None):
         """Adds an article by prompting the user for the classification.
 
-        Parameters
-        ----------
-        article : `ads.Article` object
+        Parameters:
+            article (json): Article json object returned from ADS API
         """        
         # Do not show an article that is already in the database
-        if article in self:
+#TODO: change this to be more straightforward function
+        if self.article_exists(article):
             log.info("{} is already in the database "
-                     "-- skipping.".format(article.bibcode))
+                     "-- skipping.".format(article['bibcode']))
             return
 
         # Print paper information to stdout
         print(chr(27) + "[2J")  # Clear screen
         print(statusmsg)
-        display_abstract(article._raw, self.config['colors'], highlights)
+        display_abstract(article, self.config['colors'], highlights)
 
         # Prompt the user to classify the paper by mission
         #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
@@ -154,7 +156,7 @@ class PublicationDB(object):
         while True:
             mission = prompt_grouping(valmap, 'Mission')
             if mission.lower() == 'm':
-                self.find_all_snippets(article.bibcode)
+                self.find_all_snippets(article['bibcode'])
             else:
                 break
 
@@ -174,12 +176,12 @@ class PublicationDB(object):
         # Promput user to confirm instruments?
         instruments = ''
         if mission != 'unrelated':
-            instruments = self.prompt_instruments(article.bibcode)
+            instruments = self.prompt_instruments(article['bibcode'])
 
         # Get archive ack
         archive = ''
         if mission != 'unrelated':
-            archive = self.get_archive_acknowledgement(article.bibcode)
+            archive = self.get_archive_acknowledgement(article['bibcode'])
 
         #add it
         self.add(article, mission=mission, science=science, instruments=instruments,
@@ -279,20 +281,18 @@ class PublicationDB(object):
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
         #TODO: NOTE: Without querying for 'keck' in full text, highlights will not be returned.
-        if ads is None:
-            log.error("This action requires the ADS key to be setup.")
-            return
-
-        q = ads.SearchQuery(q=f"identifier:{bibcode}", fl=FIELDS, hl=['ack', 'body'])
-        for article in q:
+        q = f"identifier:{bibcode}"
+        data = self.query_ads(q)
+        articles = data['response']['docs'] 
+        for article in articles:
             # Print useful warnings
-            if bibcode != article.bibcode:
-                log.warning("Requested {} but ADS API returned {}".format(bibcode, article.bibcode))
-            if interactive and ('NONARTICLE' in article.property):
+            if bibcode != article['bibcode']:
+                log.warning("Requested {} but ADS API returned {}".format(bibcode, article['bibcode']))
+            if interactive and ('NONARTICLE' in article['property']):
                 # Note: data products are sometimes tagged as NONARTICLE
-                log.warning("{} is not an article.".format(article.bibcode))
-            if article in self:
-                log.warning("{} is already in the db.".format(article.bibcode))
+                log.warning("{} is not an article.".format(article['bibcode']))
+            if self.article_exists(article):
+                log.warning("{} is already in the db.".format(article['bibcode']))
             else:
                 if interactive:
                     self.add_interactively(article)
@@ -304,9 +304,9 @@ class PublicationDB(object):
         log.info('Deleted {} row(s).'.format(cur.rowcount))
         self.con.commit()
 
-    def __contains__(self, article):
+    def article_exists(self, article):
         count = self.con.execute("SELECT COUNT(*) FROM pubs WHERE id = ? OR bibcode = ?;",
-                                 [article.id, article.bibcode]).fetchone()[0]
+                                 [article['id'], article['bibcode']]).fetchone()[0]
         return bool(count)
 
     def query(self, mission=None, science=None, year=None):
@@ -633,7 +633,7 @@ class PublicationDB(object):
             result['both'][year] = sum(result[mission][year] for mission in missions)
         return result
 
-    def update(self, month=None, query_terms_group1=[], query_terms_group2=[]):
+    def update(self, month=None):
         """Query ADS for new publications.
 
         Parameters
@@ -641,9 +641,6 @@ class PublicationDB(object):
         month : str
             Of the form "YYYY-MM".
         """
-        if ads is None:
-            log.error("This action requires the ADS key to be setup.")
-            return
 
         # print(HIGHLIGHTS['YELLOW'] +
         #       "Reminder: did you `git pull` kpub before running "
@@ -656,59 +653,56 @@ class PublicationDB(object):
         if month is None:
             month = datetime.datetime.now().strftime("%Y-%m")
 
+        #query 1
+        queries = self.config.get('ads_queries')
+        for query in queries:
+            log.info(f"Querying {query['name']} (month={month})")
+            data = self.query_ads(query['query'], month)
+            articles = data['response']['docs'] 
 
-        # search for keywords in the full text.  These need more scrutiny.
-#TODO: If we want BODY highlights, need to use raw ADS request, not ads module, since  can't spec hl.maxanalyzedchars
-        log.info(f"\nQuerying ADS (month={month}).")
-        qstr = ''
-        for item in self.config.get('ads_includes', []):
-            qstr += f'full:"{item}" '
-        for item in self.config.get('ads_excludes', []):
-            qstr += f'-full:"{item}" '
-        for item in self.config.get('ads_extra', []):
-            qstr += f'{item} '
-        qstr += f' pubdate:"{month}"'
-        print(qstr)
-        qry = ads.SearchQuery(q=qstr,
-                              fl=FIELDS,
-                              hl=['ack', 'body'],
-                              rows=9999999999)
+            #loop and add
+            for idx, article in enumerate(articles):
 
-        #loop and add
-        articles = list(qry)
-        for idx, article in enumerate(articles):
-            highlights = qry.highlights(article)
-
-            # Ignore articles without abstract
-            if not hasattr(article, 'abstract') or article.abstract is None:
-                continue
-            abstract_lower = article.abstract.lower()
-
-            # Ignore articles already in the database
-#TODO: Should we be comparing ADS IDs here?  See def __contains__ below!
-            if article in self:
-                continue
-
-            # Ignore all the unrefereed non-arxiv stuff
-#TODO: This can be in the query
-#TODO: what is this for?
-            try:
-                if "NOT REFEREED" in article.property and article.pub.lower() != "arxiv e-prints":
+                # Ignore articles without abstract
+                if not article.get('abstract'):
                     continue
-            except (AttributeError, TypeError, ads.exceptions.APIResponseError):
-                pass  # no .pub attribute or .property not iterable
 
-            # Ignore proposals and cospar abstracts
-#TODO: This can be in the query
-#TODO: what is this for?
-            if ".prop." in article.bibcode or "cosp.." in article.bibcode:
-                continue
+                # Ignore articles already in the database
+                if self.article_exists(article):
+                    print(f"SKIPPING {idx+1} out of {len(articles)}: {article['bibcode']}")
+                    continue
 
-            # Propose to the user
-            statusmsg = f"Showing article {idx+1} out of {len(articles)}\n\n"
-            self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
+                # Propose to the user
+                statusmsg = f"Showing article {idx+1} out of {len(articles)} ({query['name']} query)\n\n"
+                highlights = data['highlighting'][article['id']]
+                self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
-        log.info('Finished reviewing all articles for {}.'.format(month))
+        log.info(f'Finished reviewing all articles for {month}.')
+
+    def query_ads(self, query, month=None):
+        '''Query ADS API'''
+
+        query = query.replace(' ', '+')
+        query = query.replace('"', '%22')
+        if month: query += f"+pubdate:{month}"
+
+        fl = ','.join(FIELDS)
+        url = (f'{ADS_API}'
+            f'q={query}'
+            f"&fl={fl}"
+            "&sort=date+asc"
+            "&hl=true"
+            "&hl.fl=ack,body,title,abstract"
+            "&hl.snippets=4"
+            "&hl.fragsize=100"
+            "&hl.maxAnalyzedChars=500000"
+            "&rows=9999999"
+        )
+        key = self.config.get('ADS_API_KEY')
+        headers = {'Authorization': f'Bearer {key}'}
+        r = requests.get(url, headers=headers)
+        data = r.json()
+        return data
 
 
 ##################
@@ -771,13 +765,13 @@ def display_abstract(article_dict, colors, highlights=None):
 
 def get_word_match_counts_by_query(bibcode, words):
 
+
     bibcode = bibcode.replace('&', '%26')
 
     counts = {}
     for word in words:
         word = word.replace(' ', '+')
-        url = ( 
-        "https://api.adsabs.harvard.edu/v1/search/query?"
+        url = (f'{ADS_API}' 
             f'q=bibcode:%22{bibcode}%22+full:%22{word}%22'
             "&fl=id,bibcode"
             "&sort=date+asc"

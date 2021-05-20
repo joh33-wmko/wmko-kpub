@@ -11,46 +11,99 @@
   "missions": [],
   "sciences": [],
 
-
-  #ADS query terms list.  All will be joined with a space.
-  #NOTE: Do not include pubdate or year here since this is an input to run kpub
-  "ads_query_terms_group_1" : [
-    #'-bibcode:keck'
-    'ack:"keck"',
-    'property:"refereed"',
-    '-full:BICEP',
-    '-full:NUANCE',
-    '-full:"keck foundation"',
-    '-full:"keck array"',
-    #'database:astronomy'
+  #sets of queries to run.  Query string is typically exactly what you put in ADS web gui.
+  "ads_queries": [
+    {'name': "Acknowledgment", "query": 'property:refereed ack:keck NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
+    {'name': "Full text",      "query": 'property:refereed full:keck NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
   ],
 
-  #ADS query terms list.  All will be joined with a space.
-  #NOTE: Do not include pubdate or year here since this is an input to run kpub
-  "ads_query_terms_group_2" : [
-    #'-bibcode:keck'
-    'full:keck',
-    'property:"refereed"',
-    '-full:BICEP',
-    '-full:NUANCE',
-    '-full:"keck foundation"',
-    '-full:"keck array"',
-    #'database:astronomy'
+  #Specific instrument assocations to look for
+  "instruments": [
+    'DEIMOS',
+    'ESI',
+    'HIRES',
+    'KCWI',
+    'LRIS',
+    'MOSFIRE',
+    'NIRC2',
+    'NIRES',
+    'NIRSPEC',
+    'OSIRIS',
+    'AO',
+    'LGS',
+    'NGS',
   ],
 
-  # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, BLUE, PURPLE, CYAN)
+  #Archives strings to look for to indicate was archived
+  "archive": [
+    'KOA', 
+    'Keck Observatory Archive'
+  ],
+
+  # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
   "colors": {
     'KECK': "GREEN",
-    'DEIMOS': "BLUE",
-    #'ESI': "BLUE",
-    'HIRES': "BLUE",
-    'KCWI': "BLUE",
-    'LRIS': "BLUE",
-    'MOSFIRE': "BLUE",
-    'NIRC2': "BLUE",
-    'NIRES': "BLUE",
-    'NIRSPEC': "BLUE",
-    'OSIRIS': "BLUE",
-  }
+    'DEIMOS': "CYAN",
+    'ESI': "CYAN",
+    'HIRES': "CYAN",
+    'KCWI': "CYAN",
+    'LRIS': "CYAN",
+    'MOSFIRE': "CYAN",
+    'NIRC2': "CYAN",
+    'NIRES': "CYAN",
+    'NIRSPEC': "CYAN",
+    'OSIRIS': "CYAN",
+    'LGS': "CYAN",
+    'NGS': "CYAN",
+    'AO': "CYAN",
+    'KOA': "YELLOW",
+    'Archive': "YELLOW"  #note: can't conflict with "KECK" above
+  },
 
+  #Affiliation category types with search strings to identify.  "other" is default category.
+  #NOTE: If all caps, then search is case-sensitive.
+  "aff_defs": [
+    {
+      "type": "keck",
+      "strings": [
+        "keck",
+        "WMKO",
+        "California Institute of Technology",
+        "Caltech",
+        "CIT",
+        "University of California",
+        #"UCB", #This matches UCB (U Colorado at Boulder)
+        "UCD",
+        "UCI",
+        "UCLA",
+        "UCR",
+        "UCSB",
+        "UCSC",
+        "UCSD",
+        "USRA",
+        "University of Hawaii",
+        "University of Hawai'i",
+        "University of Hawai`i",
+        "University of Hawai‘i",
+        "Manoa",
+        "ANU",
+        "Australian National University",
+        "Northwestern",
+        "Swinburne",
+        "Yale",
+        "JPL",
+        "Jet Propulsion Laboratory",
+      ]
+    },
+    {
+      "type": "usa",
+      "strings": [
+        "USA",
+        "United States of America",
+        "NASA",
+        "National Aeronautics and Space Administration",
+      ]
+    },
+  ],
+ 
 }
