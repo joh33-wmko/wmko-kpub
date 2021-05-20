@@ -147,13 +147,13 @@ class PublicationDB(object):
 
         # Prompt the user to classify the paper by mission
         #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
-        valmap = {'0': 'unrelated'}
+        valmap = {'m': 'more context', '0': 'unrelated'}
         missions = self.config.get('missions', [])
         valmap = add_prompt_valmaps(valmap, missions)
         mission = ''
         while True:
             mission = prompt_grouping(valmap, 'Mission')
-            if mission.lower() == 'f':
+            if mission.lower() == 'm':
                 self.find_all_snippets(article.bibcode)
             else:
                 break
@@ -668,6 +668,7 @@ class PublicationDB(object):
         for item in self.config.get('ads_extra', []):
             qstr += f'{item} '
         qstr += f' pubdate:"{month}"'
+        print(qstr)
         qry = ads.SearchQuery(q=qstr,
                               fl=FIELDS,
                               hl=['ack', 'body'],
@@ -786,7 +787,6 @@ def get_word_match_counts_by_query(bibcode, words):
             "&hl.fragsize=100"
             "&hl.maxAnalyzedChars=500000"
         )
-        print(url)
         headers = {'Authorization': 'Bearer kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU'}
         r = requests.get(url, headers=headers)
         data = r.json()
@@ -804,26 +804,6 @@ def get_word_match_counts_by_query(bibcode, words):
     return counts
  
 
-
-def get_word_match_counts_by_query_OLD(bibcode, instruments):
-    #todo: note: can't specify all the highlight params with ads module
-    counts = {}
-    for instr in instruments:
-        counts[instr] = {'count': 0, 'snippets': []}
-        q = f'bibcode:"{bibcode}" full:"{instr}" '
-        qry = ads.SearchQuery(q=q, hl=['title', 'abstract', 'ack', 'body'])
-        for a in qry:
-            highlights = qry.highlights(a)
-            for field, snippets in highlights.items():
-                for snippet in snippets:
-                    counts[instr]['count'] += 1
-                    counts[instr]['snippets'].append(snippet)
-
-    #only return counts > 0
-    counts = {key:val for key, val in counts.items() if val['count'] != 0}
-    return counts
- 
-
 def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
 
     #get pdf file and text
@@ -834,6 +814,9 @@ def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
     else:
         get_pdf_file(bibcode, outfile, ads_api_key)
     text = get_pdf_text(outfile).lower()
+    text = text.replace("\n",' ')
+    text = text.replace("\r",' ')
+    text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', ' ', text)
 
     #count up matches
     counts = {}
@@ -843,9 +826,6 @@ def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
             find = f"{ch}{word}".lower()
             for m in re.finditer(find, text):
                     snippet = text[m.start()-60:m.end()+60]
-                    snippet = snippet.replace("\n",' ')
-                    snippet = snippet.replace("\r",' ')
-                    snippet = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', ' ', snippet)
                     counts[word]['count'] += 1
                     counts[word]['snippets'].append(snippet)
 
