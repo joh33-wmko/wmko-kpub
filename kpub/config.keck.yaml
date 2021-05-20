@@ -19,9 +19,10 @@
   #ADS query exclude terms list. Papers with any of these in full text will be excluded. 
   "ads_excludes": [
     "BICEP",
+    "BICEP2",
     "NUANCE",
-    "keck foundation",
-    "keck array",
+    #"keck array",
+    "keck carbon"
   ],
 
   #ADS query extra terms list.  
