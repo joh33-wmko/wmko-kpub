@@ -17,6 +17,7 @@ import numpy as np
 import yaml
 import requests
 import readline
+import webbrowser
 from pprint import pprint
 
 try:    
@@ -135,8 +136,8 @@ class PublicationDB(object):
         Parameters:
             article (json): Article json object returned from ADS API
         """        
+
         # Do not show an article that is already in the database
-#TODO: change this to be more straightforward function
         if self.article_exists(article):
             log.info("{} is already in the database "
                      "-- skipping.".format(article['bibcode']))
@@ -149,14 +150,17 @@ class PublicationDB(object):
 
         # Prompt the user to classify the paper by mission
         #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
-        valmap = {'m': 'more context', '0': 'unrelated'}
+        valmap = {'0': 'unrelated'}
         missions = self.config.get('missions', [])
         valmap = add_prompt_valmaps(valmap, missions)
         mission = ''
         while True:
+            print("\n([p] PDF view  [m] More context)")
             mission = prompt_grouping(valmap, 'Mission')
             if mission.lower() == 'm':
                 self.find_all_snippets(article['bibcode'])
+            elif mission.lower() == 'p':
+                self.open_pdf(article['bibcode'])
             else:
                 break
 
@@ -191,13 +195,13 @@ class PublicationDB(object):
     def find_all_snippets(self, bibcode):
 
         colors = self.config.get('colors')
-        includes = self.config.get('ads_includes', [])
+        missions = self.config.get('missions', [])
         instruments = self.config.get('instruments', [])
         ads_api_key = self.config.get('ADS_API_KEY')
 
         #if not config for this, then return empty array
         words = []
-        words += includes
+        words += missions
         words += instruments
         if not words:
             return []
@@ -210,7 +214,7 @@ class PublicationDB(object):
             counts = get_word_match_counts_by_query(bibcode, words)
 
         #print snippets
-        print("SNIPPETS FOUND:")
+        print("\nSNIPPETS FOUND:")
         for instr, count in counts.items():
             for snippet in count['snippets']:
                 snippet = highlight_text(snippet, colors)
@@ -266,7 +270,7 @@ class PublicationDB(object):
             counts = get_word_match_counts_by_query(bibcode, instruments)
 
         #print snippets
-        print("INSTRUMENT SNIPPETS FOUND:")
+        print("\nINSTRUMENT SNIPPETS FOUND:")
         for instr, count in counts.items():
             for snippet in count['snippets']:
                 snippet = highlight_text(snippet, self.config['colors'])
@@ -650,15 +654,23 @@ class PublicationDB(object):
         # if input() == 'n':
         #     return
 
+        #Assume current month if not supplied.
+        #NOTE: We use the term "month" but user can supply just the year to do a whole year.
         if month is None:
             month = datetime.datetime.now().strftime("%Y-%m")
 
         #query 1
         queries = self.config.get('ads_queries')
         for query in queries:
-            log.info(f"Querying {query['name']} (month={month})")
+            log.info(f"\nQuerying {query['name']} (date={month})")
             data = self.query_ads(query['query'], month)
-            articles = data['response']['docs'] 
+            tmp_articles = data['response']['docs'] 
+
+            #remove those already in our db
+            articles = []
+            for a in tmp_articles:
+                if self.article_exists(a): print(f"SKIPPING {a['bibcode']} already in DB.")
+                else: articles.append(a)
 
             #loop and add
             for idx, article in enumerate(articles):
@@ -667,9 +679,9 @@ class PublicationDB(object):
                 if not article.get('abstract'):
                     continue
 
-                # Ignore articles already in the database
-                if self.article_exists(article):
-                    print(f"SKIPPING {idx+1} out of {len(articles)}: {article['bibcode']}")
+                # Ignore proposals, cospar abstracts and tmp articles
+                bibcode = article['bibcode']
+                if ".prop." in bibcode or "cosp.." in bibcode or ".tmp" in bibcode:
                     continue
 
                 # Propose to the user
@@ -677,14 +689,25 @@ class PublicationDB(object):
                 highlights = data['highlighting'][article['id']]
                 self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
-        log.info(f'Finished reviewing all articles for {month}.')
+        log.info(f'\nFinished reviewing all articles for {month}.')
 
-    def query_ads(self, query, month=None):
+
+    def open_pdf(self, bibcode):
+        key = self.config.get('ADS_API_KEY')
+        outfile = f'/tmp/{bibcode}.pdf'
+        if not os.path.isfile(outfile):
+            get_pdf_file(bibcode, outfile, key)
+        if os.path.isfile(outfile):
+            print(f"Opening {outfile}...")
+            webbrowser.open('file://' + os.path.realpath(outfile))
+
+
+    def query_ads(self, query, date):
         '''Query ADS API'''
 
         query = query.replace(' ', '+')
         query = query.replace('"', '%22')
-        if month: query += f"+pubdate:{month}"
+        query += f"+pubdate:{date}"
 
         fl = ','.join(FIELDS)
         url = (f'{ADS_API}'
@@ -765,7 +788,6 @@ def display_abstract(article_dict, colors, highlights=None):
 
 def get_word_match_counts_by_query(bibcode, words):
 
-
     bibcode = bibcode.replace('&', '%26')
 
     counts = {}
@@ -801,12 +823,10 @@ def get_word_match_counts_by_query(bibcode, words):
 def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
 
     #get pdf file and text
-    print('\nRetrieving PDF (May take from ~ 5 to 60 seconds)...')
     outfile = f'/tmp/{bibcode}.pdf'
-    if os.path.isfile(outfile):
-        print(f'File {outfile} already downloaded')
-    else:
+    if not os.path.isfile(outfile):
         get_pdf_file(bibcode, outfile, ads_api_key)
+
     text = get_pdf_text(outfile).lower()
     text = text.replace("\n",' ')
     text = text.replace("\r",' ')
@@ -830,14 +850,17 @@ def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
 
 def get_pdf_file(bibcode, outfile, ads_api_key):
 
+    print('\nRetrieving PDF (May take up to a minute)...')
     url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/EPRINT_PDF'
     #url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/PUB_PDF'
-
     headers = {f'Authorization': f'Bearer {ads_api_key}'}
     r = requests.get(url, headers=headers)
+    if r.status_code != 200:
+        print("Could not download PDF file.")
+        return False
     with open(outfile, 'wb') as f:
          f.write(r.content)
-    #print('PDF written to ', outfile)
+    return True
 
 
 def get_pdf_text(outfile):
@@ -867,7 +890,7 @@ def add_prompt_valmaps(valmap, vals):
 
 def prompt_grouping(valmap, type):
 
-    prompt = f"\n=> Select {type}: "
+    prompt = f"=> Select {type}: "
     for key, val in valmap.items():
         prompt += f" [{key}] {val.capitalize()} "
     prompt += " or [] skip? "
