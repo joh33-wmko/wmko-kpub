@@ -218,7 +218,7 @@ class PublicationDB(object):
         for instr, count in counts.items():
             for snippet in count['snippets']:
                 snippet = highlight_text(snippet, colors)
-                print(f"\t{instr}: {snippet}")
+                print(f'"... {snippet}"')
 
         return counts
 
@@ -244,7 +244,7 @@ class PublicationDB(object):
         # for key, count in counts.items():
         #     for snippet in count['snippets']:
         #         snippet = highlight_text(snippet, self.config['colors'])
-        #         print(f"\t{key}: {snippet}")
+        #         print(f'"... {snippet}"')
         if len(counts) > 0:
             print("ARCHIVE ACKNOWLDGEMENT FOUND")
 
@@ -274,7 +274,7 @@ class PublicationDB(object):
         for instr, count in counts.items():
             for snippet in count['snippets']:
                 snippet = highlight_text(snippet, self.config['colors'])
-                print(f"\t{instr}: {snippet}")
+                print(f'"... {snippet}"')
 
         #prompt for user confirmation
         instr_str = "|".join(counts.keys())
@@ -638,14 +638,12 @@ class PublicationDB(object):
         return result
 
     def update(self, month=None):
-        """Query ADS for new publications.
-
-        Parameters
-        ----------
-        month : str
-            Of the form "YYYY-MM".
         """
-
+        Query ADS for new publications.
+        Parameters:
+            month (str): Used for ADS pubdate param. Format "YYYY-MM" or "YYYY".
+        """
+        # # git pull reminder
         # print(HIGHLIGHTS['YELLOW'] +
         #       "Reminder: did you `git pull` kpub before running "
         #       "this command? [y/n] " +
@@ -693,21 +691,26 @@ class PublicationDB(object):
 
 
     def open_pdf(self, bibcode):
+        '''Open PDF file in local browser.  Download if necessary.'''
         key = self.config.get('ADS_API_KEY')
-        outfile = f'/tmp/{bibcode}.pdf'
-        if not os.path.isfile(outfile):
-            get_pdf_file(bibcode, outfile, key)
+        outfile = get_pdf_file(bibcode, key)
         if os.path.isfile(outfile):
             print(f"Opening {outfile}...")
             webbrowser.open('file://' + os.path.realpath(outfile))
 
 
-    def query_ads(self, query, date):
-        '''Query ADS API'''
+    def query_ads(self, query, pubdate=None):
+        '''
+        Query ADS API.  Add in standard params needed for data store and text highlights.
+
+        Parameters:
+            query (str): An ADS compliant query string (exactly what is entered in web search GUI.)
+            date (str): Optional ADS pubdate param. YYYY-MM or YYYY. Ex: "2019-03", "2020"
+        '''
 
         query = query.replace(' ', '+')
         query = query.replace('"', '%22')
-        query += f"+pubdate:{date}"
+        if pubdate: query += f"+pubdate:{pubdate}"
 
         fl = ','.join(FIELDS)
         url = (f'{ADS_API}'
@@ -823,10 +826,7 @@ def get_word_match_counts_by_query(bibcode, words):
 def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
 
     #get pdf file and text
-    outfile = f'/tmp/{bibcode}.pdf'
-    if not os.path.isfile(outfile):
-        get_pdf_file(bibcode, outfile, ads_api_key)
-
+    outfile = get_pdf_file(bibcode, ads_api_key)
     text = get_pdf_text(outfile).lower()
     text = text.replace("\n",' ')
     text = text.replace("\r",' ')
@@ -839,7 +839,7 @@ def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
         for ch in (' ', '/', '\(', '-', ':'):
             find = f"{ch}{word}".lower()
             for m in re.finditer(find, text):
-                    snippet = text[m.start()-60:m.end()+60]
+                    snippet = text[m.start()-80:m.end()+80]
                     counts[word]['count'] += 1
                     counts[word]['snippets'].append(snippet)
 
@@ -848,7 +848,11 @@ def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
     return counts
   
 
-def get_pdf_file(bibcode, outfile, ads_api_key):
+def get_pdf_file(bibcode, ads_api_key):
+
+    outfile = f'/tmp/{bibcode}.pdf'
+    if os.path.isfile(outfile):
+        return outfile
 
     print('\nRetrieving PDF (May take up to a minute)...')
     url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/EPRINT_PDF'
@@ -860,7 +864,7 @@ def get_pdf_file(bibcode, outfile, ads_api_key):
         return False
     with open(outfile, 'wb') as f:
          f.write(r.content)
-    return True
+    return outfile
 
 
 def get_pdf_text(outfile):
@@ -1006,7 +1010,7 @@ def kpub_update(args=None):
                         type=str, default=DEFAULT_DB,
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('month', nargs='?', default=None,
-                        help='Month to query, e.g. 2015-06.')
+                        help='Month to query, YYYY-MM or YYYY. e.g. "2015-06" or "2020"')
     args = parser.parse_args(args)
 
     config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
