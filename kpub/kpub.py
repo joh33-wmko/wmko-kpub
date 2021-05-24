@@ -1109,11 +1109,10 @@ def kpub_export(args=None):
     config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
 
     db = PublicationDB(args.f, config)
-#TODO: Why doesn't this exclude mission == 'unrelated' like kpub_spreadsheet?
-    cur = db.con.execute("SELECT bibcode, mission, science "
-                         "FROM pubs ORDER BY bibcode;")
+    cur = db.con.execute("SELECT bibcode, mission, science, instruments, archive "
+                         "FROM pubs ORDER BY bibcode asc;")
     for row in cur.fetchall():
-        print('{0},{1},{2}'.format(row[0], row[1], row[2]))
+        print(f'{row[0]},{row[1]},{row[2]},{row[3]},{row[4]}')
 
 
 def kpub_spreadsheet(args=None):
