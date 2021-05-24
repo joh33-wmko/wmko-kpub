@@ -32,8 +32,8 @@ from astropy import log
 from astropy.utils.console import ProgressBar
 
 #todo: temp hack until we figure out packaging stuff
-##from . import plot, PACKAGEDIR, MISSIONS, SCIENCES
-import plot
+from . import plot
+#import plot
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
 
 #ADS API URL
@@ -928,7 +928,7 @@ def kpub(args=None):
                         help='Save the output and plots in the current directory.')
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     title = config.get('prepend', '').capitalize()
 
     db = PublicationDB(args.f)
@@ -997,7 +997,7 @@ def kpub_plot(args=None):
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
     PublicationDB(args.f, config).plot()
 
@@ -1013,7 +1013,7 @@ def kpub_update(args=None):
                         help='Month to query, YYYY-MM or YYYY. e.g. "2015-06" or "2020"')
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
     PublicationDB(args.f, config).update(month=args.month)
 
@@ -1029,7 +1029,7 @@ def kpub_add(args=None):
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
     db = PublicationDB(args.f, config)
     for bibcode in args.bibcode:
@@ -1047,7 +1047,7 @@ def kpub_delete(args=None):
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
     db = PublicationDB(args.f, config)
     for bibcode in args.bibcode:
@@ -1073,7 +1073,7 @@ def kpub_import(args=None):
                         help="Filename of the csv file to ingest.")
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
     db = PublicationDB(args.f, config)
     import time
@@ -1106,7 +1106,7 @@ def kpub_export(args=None):
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
     db = PublicationDB(args.f, config)
     cur = db.con.execute("SELECT bibcode, mission, science, instruments, archive "
@@ -1129,7 +1129,7 @@ def kpub_spreadsheet(args=None):
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    config = yaml.load(open('config.live.yaml'), Loader=yaml.FullLoader)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
     db = PublicationDB(args.f, config)
     spreadsheet = []
