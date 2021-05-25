@@ -3,19 +3,33 @@
   #Unique identifier for this mission/facility. Used for prepending to output filenames, etc.
   "prepend": "keck",
 
-  #ADS API Key
-  #todo: only need this if we switch to querying ADS directly (otherwise shoudl be in ~/.ads/dev_key per ads module instructions)
-  "ADS_API_KEY": "",
+  #ADS API Key 
+  #NOTE: Create an account at https://ui.adsabs.harvard.edu/, generate an ADS API key and copy it here.
+  "ADS_API_KEY": "kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU",
 
   #Missions and sciences groupings
-  "missions": [],
+  #NOTE: missions is the main grouping and is required. Sciences is optional.
+  "missions": ['keck'],
   "sciences": [],
 
-  #sets of queries to run.  Query string is typically exactly what you put in ADS web gui.
+  #Sets of queries to run.  Query string is typically exactly what you put in ADS web gui.
   #NOTE: ALL CAPS search terms will match case-sensitive.
   "ads_queries": [
-    {'name': "Ackn/Abstract",  "query": '(ack:keck OR abs:keck)  database:astronomy property:refereed NOT property:nonarticle NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
-    {'name': "Full text",      "query": 'full:"keck observatory" database:astronomy property:refereed NOT property:nonarticle NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'},
+    {
+      'name': "Ackn/Abstract",  
+      "query": '(ack:keck OR abs:keck) 
+                database:astronomy property:refereed NOT property:nonarticle 
+                NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'
+    },
+    {
+      'name': "Full text",      
+      "query": '(=full:"keck observatory" OR =full:"keck DEIMOS" OR =full:"keck ESI"
+                OR =full:"keck HIRES" OR =full:"keck KCWI" OR =full:"keck LRIS" OR =full:"keck MOSFIRE"  
+                OR =full:"keck NIRC2" OR =full:"keck NIRES" OR =full:"keck NIRSPEC" OR =full:"keck OSIRIS"  
+                ) 
+                database:astronomy property:refereed NOT property:nonarticle 
+                NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'
+    },
   ],
 
   #Specific instrument assocations to look for
@@ -108,3 +122,4 @@
   ],
  
 }
+
