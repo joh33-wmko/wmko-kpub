@@ -1,19 +1,23 @@
 {
 
-  #Unique identifier for this mission/facility. Used for prepending to output filenames, etc.
-  "prepend": "keck",
-
   #ADS API Key 
   #NOTE: Create an account at https://ui.adsabs.harvard.edu/, generate an ADS API key and copy it here.
   "ADS_API_KEY": "kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU",
 
-  #Missions and sciences groupings
+  #Unique identifier for this mission/facility. Used for labeling and prepending to output filenames, etc.
+  "prepend": "keck",
+
+  #Missions and sciences groupings.  You will be prompted to confirm which mission and science each article belongs to.
+  #This is used to categorize plots as well.
   #NOTE: missions is the main grouping and is required. Sciences is optional.
   "missions": ['keck'],
   "sciences": [],
 
-  #Sets of queries to run.  Query string is typically exactly what you put in ADS web gui.
-  #NOTE: ALL CAPS search terms will match case-sensitive.
+  #Sets of queries to run.  
+  #"query" string is exactly what is entered into the ADS web gui. See ADS website for query string nuances.
+  #The suggested strategy is that the first group should be mostly good matches and needs less scrutiny, 
+  #while subsequent groups may contain more false positives and needs more scrutiny.
+  #NOTE: ALL CAPS search terms will match case-sensitive. 
   "ads_queries": [
     {
       'name': "Ackn/Abstract",  
@@ -23,16 +27,18 @@
     },
     {
       'name': "Full text",      
-      "query": '(=full:"keck observatory" OR =full:"keck DEIMOS" OR =full:"keck ESI"
-                OR =full:"keck HIRES" OR =full:"keck KCWI" OR =full:"keck LRIS" OR =full:"keck MOSFIRE"  
-                OR =full:"keck NIRC2" OR =full:"keck NIRES" OR =full:"keck NIRSPEC" OR =full:"keck OSIRIS"  
+      "query": '(=full:"keck observatory" OR =full:"keck DEIMOS" OR =full:"keck ESI" 
+                OR =full:"keck HIRES" OR =full:"keck KCWI" OR =full:"keck LRIS" OR =full:"keck MOSFIRE" 
+                OR =full:"keck NIRC2" OR =full:"keck NIRES" OR =full:"keck NIRSPEC" OR =full:"keck OSIRIS" 
                 ) 
                 database:astronomy property:refereed NOT property:nonarticle 
                 NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'
     },
   ],
 
-  #Specific instrument assocations to look for
+  #Specific instrument assocations to look for.  The code assumes any of these strings found will 
+  #constitute the instrument list.  If this is defined, you will be prompted to confirm the 
+  #instrument associations list for each article.  
   "instruments": [
     'DEIMOS',
     'ESI',
@@ -49,13 +55,14 @@
     'NGS',
   ],
 
-  #Archives strings to look for to indicate was archived
+  #Archives strings to look for to indicate archiving was referenced.
+  #NOTE: You will not be prompted to confirm this.
   "archive": [
     'KOA', 
     'Keck Observatory Archive'
   ],
 
-  # Dict of keywords to highlight in the title and abstract (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
+  # Dict of keywords to highlight in text hi (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
   "colors": {
     'KECK': "GREEN",
     'DEIMOS': "CYAN",
@@ -72,10 +79,10 @@
     'NGS': "CYAN",
     'AO': "CYAN",
     'KOA': "YELLOW",
-    'Archive': "YELLOW"  #note: can't conflict with "KECK" above
+    'Archive': "YELLOW"  
   },
 
-  #Affiliation category types with search strings to identify.  "other" is default category.
+  #Affiliation category types with search strings to identify.  "other" is default type category.
   #NOTE: If all caps, then search is case-sensitive.
   "aff_defs": [
     {

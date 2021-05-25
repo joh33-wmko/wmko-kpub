@@ -4,6 +4,15 @@
 
 `kpub` is a generic tool that enables an institution to keep track of it's scientific publications in an easy way. It leverages SQLite and the [ADS API](https://github.com/adsabs/adsabs-dev-api) to create and curate a database that contains the metadata of mission-related articles.
 
+This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version of [kpub](https://github.com/KeplerGO/kpub) for Kepler/K2.  The major changes here are:
+
+- Code is now config file driven so it can be used by any mission or institution.
+- Add optional tracking of instrument assocations and associated new plots.
+- Add optional tracking of archive references and associated new plots.
+- Added affiliations mapping and plotting.
+- Add automated PDF download, view, and search for highlight snippets.
+- Removed reliance on 'ads' third-party module (due to some limitations).
+
 ## Example use
 
 Add a new article to the database using its bibcode. This command will display the article's metadata and ask the user to classify the science:
@@ -181,5 +190,5 @@ This generalized configurable version created by Josh Riley (jriley at keck.hawa
 
 
 ## Acknowledgements
-This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version for Kepler/K2.  Thanks also to NASA ADS for providing a web API.
+This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version of [kpub](https://github.com/KeplerGO/kpub) for Kepler/K2.  Thanks also to NASA ADS for providing a web API to their database.
 
