@@ -6,7 +6,7 @@
 
 This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version of [kpub](https://github.com/KeplerGO/kpub) for Kepler/K2.  The major changes here are:
 
-- Code is now config file driven so it can be used by any mission or institution.
+- Code is now config file driven so it can be used by any mission or facility.
 - Add optional tracking of instrument assocations and associated new plots.
 - Add optional tracking of archive references and associated new plots.
 - Added affiliations mapping and plotting.
