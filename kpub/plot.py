@@ -2,12 +2,12 @@
 import datetime
 import numpy as np
 from astropy import log
+from pprint import pprint
 
 from matplotlib import pyplot as pl
 import matplotlib.patheffects as path_effects
 import matplotlib as mpl
 
-from . import SCIENCES
 
 # Configure the aesthetics
 mpl.rcParams["figure.figsize"] = (10, 6)
@@ -51,7 +51,7 @@ def plot_by_year(db,
                  barwidth=0.75,
                  dpi=200,
                  extrapolate=True,
-                 mission='both',
+                 missions=[],
                  colors=["#3498db", "#27ae60", "#95a5a6"]):
     """Plots a bar chart showing the number of publications per year.
 
@@ -75,11 +75,11 @@ def plot_by_year(db,
     extrapolate : boolean
         If `True`, extrapolate the publication count in the current year.
 
-    mission : str
-        'kepler', 'k2', or 'both'
+    missions : list str
+        Example: ['kepler', 'k2']
 
     colors : list of str
-        Define the facecolor for [kepler, k2, extrapolation]
+        Define the facecolor for plots
     """
     # Obtain the dictionary which provides the annual counts
     current_year = datetime.datetime.now().year
@@ -88,32 +88,26 @@ def plot_by_year(db,
     # Now make the actual plot
     fig = pl.figure()
     ax = fig.add_subplot(111)
-    if mission != 'k2':
-        pl.bar(np.array(list(counts['kepler'].keys())),
-               list(counts['kepler'].values()),
-               label='Kepler',
-               facecolor=colors[0],
+    for i, mission in enumerate(missions):
+        idx = i % len(colors)
+        bottom = None
+        if i>0:
+            prev = missions[i-1]
+            bottom = list(counts[prev].values())        
+        pl.bar(np.array(list(counts[mission].keys())),
+               list(counts[mission].values()),
+               bottom = bottom,
+               label=mission.capitalize(),
+               facecolor=colors[idx],
                width=barwidth)
-    if mission != 'kepler':
-        if mission == 'k2':
-            bottom = None
-        else:
-            bottom = list(counts['kepler'].values())
-        pl.bar(np.array(list(counts['k2'].keys())),
-               list(counts['k2'].values()),
-               bottom=bottom,
-               label='K2-Based Publications',
-               facecolor=colors[1],
-               width=barwidth)
+
     # Also plot the extrapolated prediction for the current year
     if extrapolate:
         now = datetime.datetime.now()
         fraction_of_year_passed = float(now.strftime("%-j")) / 365.2425
-        if mission == 'both':
-            current_total = (counts['kepler'][current_year] +
-                             counts['k2'][current_year])
-        else:
-            current_total = counts[mission][current_year]
+        current_total = 0
+        for mission in missions:
+            current_total += counts[mission][current_year]
         expected = (1/fraction_of_year_passed - 1) * current_total
         pl.bar(current_year,
                expected,
@@ -149,8 +143,8 @@ def plot_by_year(db,
     pl.close()
 
 
-def plot_science_piechart(db, output_fn="kpub-piechart.pdf", dpi=200):
-    """Plots a piechart showing exoplanet vs astrophysics publications.
+def plot_science_piechart(db, output_fn="kpub-piechart.pdf", dpi=200, sciences=[]):
+    """Plots a piechart showing science category publications.
 
     Parameters
     ----------
@@ -162,9 +156,15 @@ def plot_science_piechart(db, output_fn="kpub-piechart.pdf", dpi=200):
 
     dpi : float
         Output resolution.
+
+    sciences : str list
+        List of sciences categories to plot independently
     """
+    if not sciences:
+      return
+
     count = []
-    for science in SCIENCES:
+    for science in sciences:
         cur = db.con.execute("SELECT COUNT(*) FROM pubs "
                              "WHERE science = ?;", [science])
         rows = list(cur.fetchall())
@@ -183,7 +183,7 @@ def plot_science_piechart(db, output_fn="kpub-piechart.pdf", dpi=200):
                                                 foreground='#333333'),
                             path_effects.Normal()])
     pl.legend(handles=patches,
-              labels=["Exoplanets", "Astrophysics"],
+              labels=sciences,
               fontsize=22,
               bbox_to_anchor=(0.2, 1.05, 1., 0.),
               loc=3,
@@ -221,7 +221,7 @@ def plot_author_count(db,
         Output resolution.
 
     colors : list of str
-        Define the facecolor for [kepler, k2, extrapolation]
+        Define the facecolors
     """
     # Obtain the dictionary which provides the annual counts
     current_year = datetime.datetime.now().year
@@ -233,23 +233,20 @@ def plot_author_count(db,
     cumulative_years = []
     paper_counts = []
     author_counts, first_author_counts = [], []
-    k2_count, kepler_count = [], []
-    for year in range(first_year - 1, current_year):
+    for year in range(first_year - 1, current_year + 1):
         cumulative_years.append(year)
         metrics = db.get_metrics(cumulative_years)
         paper_counts.append(metrics['publication_count'])
         author_counts.append(metrics['author_count'])
         first_author_counts.append(metrics['first_author_count'])
-        k2_count.append(metrics['k2_count'])
-        kepler_count.append(metrics['kepler_count'])
 
-    # +1 because the stats for all of e.g. 2018 should show at Jan 1, 2019
-    ax.plot([y+1 for y in cumulative_years], paper_counts, label="Kepler & K2 publications", lw=9)
+    # plot it
+    ax.plot([y for y in cumulative_years], paper_counts, label="Publications", lw=9)
     #ax.plot(cumulative_years, author_counts, label="Unique authors", lw=6)
-    ax.plot([y+1 for y in cumulative_years], first_author_counts, label="Unique first authors", lw=3)
+    ax.plot([y for y in cumulative_years], first_author_counts, label="Unique first authors", lw=3)
 
     # Aesthetics
-    #pl.title("Kepler & K2's scientific output over time")
+    #pl.title("Scientific output over time")
     pl.ylabel("Cumulative count")
     ax.get_xaxis().get_major_formatter().set_useOffset(False)
     pl.xticks(range(first_year - 1, current_year + 1))
@@ -275,6 +272,54 @@ def plot_author_count(db,
     log.info("Writing {}".format(output_fn))
     pl.savefig(output_fn, dpi=dpi)
     pl.close()
+
+
+def plot_affiliations():
+    '''
+    TODO: This is just some test code showing how to parse and map affiliations from
+    metrics data.  Need to think about how to plot.
+    '''
+
+    bibcode = ''
+    affdefs = '' #todo: load from config
+
+    con = sql.connect('/Users/joshriley/.kpub.db')
+    cur = con.execute(f"SELECT id, bibcode, metrics from pubs where bibcode='{bibcode}'")
+    pub = cur.fetchone()
+    if not pub:
+        #print(f"ERROR could not find {bibcode}")
+        return
+
+    #todo: probably can move this and get_aff_type to PublicationDB object
+    raw = json.loads(pub[2])
+    num_affs = len(raw['aff'])
+    affs = []
+    for i in range(0,3):
+        aff = ''
+        if num_affs > i:
+            aff = get_aff(raw['aff'][i], affdefs)
+        affs.append(aff)
+
+
+def get_aff_type(affstr, affdefs):
+    '''
+    Search for institution strings in affiliation string.  Affiliation string
+    can have multiple semicolon-delimited entries.  'affmap' is an ordered 
+    array of preferred affiliation types.  Each type has an array of strings to
+    search for.
+    '''
+    affs = affstr.split(";")
+    for affdef in affdefs:
+        afftype = affdef['type']
+        for string in affdef['strings']:
+            for aff in affs:
+                if string.isupper():
+                    if re.search(string, aff):
+                        return afftype
+                else:
+                    if re.search(string, aff, re.IGNORECASE):
+                        return afftype                  
+    return "other"
 
 
 

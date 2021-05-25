@@ -23,20 +23,21 @@ entry_points = {'console_scripts': [
 ]}
 
 setup(name='kpub',
-      version='1.2.0dev',
-      description="A simple tool to keep track of the publications related "
-                  "to NASA's Kepler/K2 mission.",
+      version='2.0.0dev',
+      description="A simple tool to keep track of the ADS publications "
+                  "related to a particular mission.",
       long_description=long_description,
-      author='Geert Barentsen',
-      author_email='hello@geert.io',
+      author='Geert Barentsen (original), Josh Riley (v2.0 generic model)',
+      author_email='hello@geert.io, joshjriley@gmail.com',
       license='MIT',
-      url='http://barentsen.github.io/kpub',
+      url='http://github.com/joshjriley/kpub',
       packages=['kpub'],
-      data_files=[('kpub/templates', ['kpub/templates/template.md', 'kpub/templates/template-overview.md'])],
+      data_files=[('kpub/config', ['kpub/config/config.live.yaml']),  
+                  ('kpub/templates', ['kpub/templates/template.md', 'kpub/templates/template-overview.md'])],
       install_requires=["jinja2",
                         "six",
                         "astropy",
-                        "ads"],
+                        "textract"],
       entry_points=entry_points,
       classifiers=[
           "Development Status :: 5 - Production/Stable",

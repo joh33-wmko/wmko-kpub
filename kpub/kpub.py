@@ -1,5 +1,7 @@
-"""Build and maintain a database of Kepler/K2 publications.
 """
+Build and maintain a database of publications.
+"""
+
 from __future__ import print_function, division, unicode_literals
 
 # Standard library
@@ -12,11 +14,16 @@ import argparse
 import collections
 import sqlite3 as sql
 import numpy as np
+import yaml
+import requests
+import readline
+import webbrowser
+from pprint import pprint
 
-try:
-    import ads
-except Exception:
-    ads = None
+try:    
+    import textract
+except: 
+    textract = None
 
 # External dependencies
 import jinja2
@@ -24,7 +31,13 @@ from six.moves import input  # needed to support Python 2
 from astropy import log
 from astropy.utils.console import ProgressBar
 
-from . import plot, PACKAGEDIR, MISSIONS, SCIENCES
+#todo: temp hack until we figure out packaging stuff
+from . import plot
+#import plot
+PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
+
+#ADS API URL
+ADS_API = 'https://api.adsabs.harvard.edu/v1/search/query?'
 
 # Where is the default location of the SQLite database?
 DEFAULT_DB = os.path.expanduser("~/.kpub.db")
@@ -41,16 +54,16 @@ FIELDS = ['date', 'pub', 'id', 'volume', 'links_data', 'citation', 'doi',
           'first_author', 'reader', 'read_count', 'indexstamp', 'issue', 'keyword_facet',
           'aff', 'facility', 'simbid']
 
-
-class Highlight:
-    """Defines colors for highlighting words in the terminal."""
-    RED = "\033[4;31m"
-    GREEN = "\033[4;32m"
-    YELLOW = "\033[4;33m"
-    BLUE = "\033[4;34m"
-    PURPLE = "\033[4;35m"
-    CYAN = "\033[4;36m"
-    END = '\033[0m'
+#Defines colors for highlighting words in the terminal.
+HIGHLIGHTS = {
+    "RED"    : "\033[4;31m",
+    "GREEN"  : "\033[4;32m",
+    "YELLOW" : "\033[4;33m",
+    "BLUE"   : "\033[4;34m",
+    "PURPLE" : "\033[4;35m",
+    "CYAN"   : "\033[4;36m",
+    "END"    : '\033[0m',
+}
 
 
 class PublicationDB(object):
@@ -61,8 +74,9 @@ class PublicationDB(object):
     filename : str
         Path to the SQLite database file.
     """
-    def __init__(self, filename=DEFAULT_DB):
+    def __init__(self, filename=DEFAULT_DB, config=None):
         self.filename = filename
+        self.config = config
         self.con = sql.connect(filename)
         pubs_table_exists = self.con.execute(
                                 """
@@ -70,7 +84,7 @@ class PublicationDB(object):
                                    WHERE type='table' AND name='pubs';
                                 """).fetchone()[0]
         if not pubs_table_exists:
-            self.create_table()
+            self.create_table()    
 
     def create_table(self):
         self.con.execute("""CREATE TABLE pubs(
@@ -81,94 +95,208 @@ class PublicationDB(object):
                                 date,
                                 mission,
                                 science,
+                                instruments,
+                                archive,
                                 metrics)""")
 
-    def add(self, article, mission="kepler", science="exoplanets"):
+    def add(self, article, mission="", science="", instruments="", archive=""):
         """Adds a single article object to the database.
 
-        Parameters
-        ----------
-        article : `ads.Article` object.
-            An article object as returned by `ads.SearchQuery`.
+        Parameters:
+            article (json): Article json object returned from ADS API
+            mission (str)
+            science (str)
+            instruments (str): Pipe-delimited list of instruments
+            archive (int): 0 or 1 indicating if archiving reference was found
         """
-        log.debug('Ingesting {}'.format(article.bibcode))
-        # Also store the extra metadata in the json string
-        month = article.pubdate[0:7]
-        article._raw['mission'] = mission
-        article._raw['science'] = science
+        log.debug('Ingesting {}'.format(article['bibcode']))
+
+        # Store the extra metadata in the json string
+        month = article['pubdate'][0:7]
+        article['mission'] = mission
+        article['science'] = science
+        article['instruments'] = instruments
+        article['archive'] = archive
+
+        #insert to db
         try:
             cur = self.con.execute("INSERT INTO pubs "
-                                   "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                                   [article.id, article.bibcode,
-                                    article.year, month, article.pubdate,
-                                    mission, science,
-                                    json.dumps(article._raw)])
+                "(id, bibcode, year, month, date, mission, science, instruments, archive, metrics) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [article['id'], article['bibcode'], article['year'], month, article['pubdate'],
+                mission, science, instruments, archive, json.dumps(article)])
             log.info('Inserted {} row(s).'.format(cur.rowcount))
             self.con.commit()
         except sql.IntegrityError:
-            log.warning('{} was already ingested.'.format(article.bibcode))
+            log.warning('{} was already ingested.'.format(article['bibcode']))
 
-    def add_interactively(self, article, statusmsg=""):
+    def add_interactively(self, article, statusmsg="", highlights=None):
         """Adds an article by prompting the user for the classification.
 
-        Parameters
-        ----------
-        article : `ads.Article` object
-        """
+        Parameters:
+            article (json): Article json object returned from ADS API
+        """        
+
         # Do not show an article that is already in the database
-        if article in self:
+        if self.article_exists(article):
             log.info("{} is already in the database "
-                     "-- skipping.".format(article.bibcode))
+                     "-- skipping.".format(article['bibcode']))
             return
 
         # Print paper information to stdout
         print(chr(27) + "[2J")  # Clear screen
         print(statusmsg)
-        display_abstract(article._raw)
+        display_abstract(article, self.config['colors'], highlights)
 
-        # Prompt the user to classify the paper by mission and science
-        print("=> Kepler [1], K2 [2], unrelated [3], or skip [any key]? ",
-              end="")
-        prompt = input()
-        if prompt == "1":
-            mission = "kepler"
-        elif prompt == "2":
-            mission = "k2"
-        elif prompt == "3":
-            mission = "unrelated"
-        else:
+        # Prompt the user to classify the paper by mission
+        #NOTE: 'unrelated' is how things are permenantly marked to skip in DB.
+        valmap = {'0': 'unrelated'}
+        missions = self.config.get('missions', [])
+        valmap = add_prompt_valmaps(valmap, missions)
+        mission = ''
+        while True:
+            print("\n([p] PDF view  [m] More context)")
+            mission = prompt_grouping(valmap, 'Mission')
+            if mission.lower() == 'm':
+                self.find_all_snippets(article['bibcode'])
+            elif mission.lower() == 'p':
+                self.open_pdf(article['bibcode'])
+            else:
+                break
+
+        #Hitting return or any unrecognized key results in skip
+        mission = valmap.get(mission, '')
+        if not mission:
             return
-        print(mission)
 
-        # Now classify by science
-        science = ""
-        if mission != "unrelated":
-            print('=> Exoplanets [1] or Astrophysics [2]? ', end='')
-            prompt = input()
-            if prompt == "1":
-                science = "exoplanets"
-            elif prompt == "2":
-                science = "astrophysics"
-            print(science)
+        # Prompt the user to classify the paper by science
+        science = ''
+        sciences = self.config.get('sciences', [])
+        if mission != 'unrelated' and sciences:
+            valmap = {}
+            valmap = add_prompt_valmaps(valmap, sciences)
+            science = prompt_grouping(valmap, 'Science')
 
-        self.add(article, mission=mission, science=science)
+        # Promput user to confirm instruments?
+        instruments = ''
+        if mission != 'unrelated':
+            instruments = self.prompt_instruments(article['bibcode'])
+
+        # Get archive ack
+        archive = ''
+        if mission != 'unrelated':
+            archive = self.get_archive_acknowledgement(article['bibcode'])
+
+        #add it
+        self.add(article, mission=mission, science=science, instruments=instruments,
+                 archive=archive)
+
+
+    def find_all_snippets(self, bibcode):
+
+        colors = self.config.get('colors')
+        missions = self.config.get('missions', [])
+        instruments = self.config.get('instruments', [])
+        ads_api_key = self.config.get('ADS_API_KEY')
+
+        #if not config for this, then return empty array
+        words = []
+        words += missions
+        words += instruments
+        if not words:
+            return []
+
+        #try two methods for finding matches
+        try:
+            counts = get_word_match_counts_by_pdf(bibcode, words, ads_api_key)
+        except Exception as e:
+            print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
+            counts = get_word_match_counts_by_query(bibcode, words)
+
+        #print snippets
+        print("\nSNIPPETS FOUND:")
+        for instr, count in counts.items():
+            for snippet in count['snippets']:
+                snippet = highlight_text(snippet, colors)
+                print(f'"... {snippet}"')
+
+        return counts
+
+
+    def get_archive_acknowledgement(self, bibcode):
+        '''Search for instances of archive strings in full article.'''
+
+        #if not config for this, then return empty array
+        archive = self.config.get('archive')
+        if not archive:
+            return ''
+
+        #try two methods for finding matches
+        try:
+            ads_api_key = self.config.get('ADS_API_KEY')
+            counts = get_word_match_counts_by_pdf(bibcode, archive, ads_api_key)
+        except Exception as e:
+            print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
+            counts = get_word_match_counts_by_query(bibcode, archive)
+
+        #print snippets
+        # print("ARCHIVE SNIPPETS FOUND:")
+        # for key, count in counts.items():
+        #     for snippet in count['snippets']:
+        #         snippet = highlight_text(snippet, self.config['colors'])
+        #         print(f'"... {snippet}"')
+        if len(counts) > 0:
+            print("ARCHIVE ACKNOWLDGEMENT FOUND")
+
+        #return 
+        val = True if len(counts) > 0 else False
+        return val
+
+
+    def prompt_instruments(self, bibcode):
+        '''Search for instances of instrument strings in full article.'''
+
+        #if not config for this, then return empty array
+        instruments = self.config.get('instruments')
+        if not instruments:
+            return ''
+
+        #try two methods for finding matches
+        try:
+            ads_api_key = self.config.get('ADS_API_KEY')
+            counts = get_word_match_counts_by_pdf(bibcode, instruments, ads_api_key)
+        except Exception as e:
+            print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
+            counts = get_word_match_counts_by_query(bibcode, instruments)
+
+        #print snippets
+        print("\nINSTRUMENT SNIPPETS FOUND:")
+        for instr, count in counts.items():
+            for snippet in count['snippets']:
+                snippet = highlight_text(snippet, self.config['colors'])
+                print(f'"... {snippet}"')
+
+        #prompt for user confirmation
+        instr_str = "|".join(counts.keys())
+        val = input_with_prefill('\n=> Edit instrument list (pipe-seperated): ', instr_str)
+        val = val.replace(' ', '')
+        return val
+
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
-        if ads is None:
-            log.error("This action requires the ADS key to be setup.")
-            return
-
-        q = ads.SearchQuery(q="identifier:{}".format(bibcode), fl=FIELDS)
-        for article in q:
+        #TODO: NOTE: Without querying for 'keck' in full text, highlights will not be returned.
+        q = f"identifier:{bibcode}"
+        data = self.query_ads(q)
+        articles = data['response']['docs'] 
+        for article in articles:
             # Print useful warnings
-            if bibcode != article.bibcode:
-                log.warning("Requested {} but ADS API returned {}".format(bibcode, article.bibcode))
-            if interactive and ('NONARTICLE' in article.property):
+            if bibcode != article['bibcode']:
+                log.warning("Requested {} but ADS API returned {}".format(bibcode, article['bibcode']))
+            if interactive and ('NONARTICLE' in article['property']):
                 # Note: data products are sometimes tagged as NONARTICLE
-                log.warning("{} is not an article.".format(article.bibcode))
-
-            if article in self:
-                log.warning("{} is already in the db.".format(article.bibcode))
+                log.warning("{} is not an article.".format(article['bibcode']))
+            if self.article_exists(article):
+                log.warning("{} is already in the db.".format(article['bibcode']))
             else:
                 if interactive:
                     self.add_interactively(article)
@@ -180,9 +308,9 @@ class PublicationDB(object):
         log.info('Deleted {} row(s).'.format(cur.rowcount))
         self.con.commit()
 
-    def __contains__(self, article):
+    def article_exists(self, article):
         count = self.con.execute("SELECT COUNT(*) FROM pubs WHERE id = ? OR bibcode = ?;",
-                                 [article.id, article.bibcode]).fetchone()[0]
+                                 [article['id'], article['bibcode']]).fetchone()[0]
         return bool(count)
 
     def query(self, mission=None, science=None, year=None):
@@ -191,9 +319,9 @@ class PublicationDB(object):
         Parameters
         ----------
         mission : str
-            'kepler' or 'k2'
+            Examples: 'kepler' or 'k2'
         science : str
-            'exoplanets' or 'astrophysics'
+            Examples: 'exoplanets' or 'astrophysics'
         year : int or list of int
             Examples: 2009, 2010, [2009, 2010], ...
 
@@ -204,7 +332,7 @@ class PublicationDB(object):
         """
         # Build the query
         if mission is None:
-            where = "(mission = 'kepler' OR mission = 'k2') "
+            where = "(mission != 'unrelated') "
         else:
             where = "(mission = '{}') ".format(mission)
 
@@ -278,23 +406,17 @@ class PublicationDB(object):
 
     def plot(self):
         """Saves beautiful plot of the database."""
-        for extension in ['pdf', 'png']:
-            plot.plot_by_year(self,
-                              "kpub-publication-rate.{}".format(extension))
-            plot.plot_by_year(self,
-                              "kpub-publication-rate-kepler.{}".format(extension),
-                              mission='kepler')
-            plot.plot_by_year(self,
-                              "kpub-publication-rate-k2.{}".format(extension),
-                              first_year=2014,
-                              mission='k2')
-            plot.plot_by_year(self,
-                              "kpub-publication-rate-without-extrapolation.{}".format(extension),
-                              extrapolate=False)
-            plot.plot_science_piechart(self,
-                                       "kpub-piechart.{}".format(extension))
-            plot.plot_author_count(self,
-                                   "kpub-author-count.{}".format(extension))
+        missions = self.config.get('missions', [])
+        sciences = self.config.get('sciences', [])
+        for ext in ['pdf', 'png']:
+            plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
+            plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
+            if len(missions) > 1:
+                for mission in missions:
+                    plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
+            plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
+            plot.plot_author_count(self, f"kpub-author-count.{ext}")
+
 
     def get_metrics(self, year=None):
         """Returns a dictionary of overall publication statistics.
@@ -304,67 +426,88 @@ class PublicationDB(object):
         * # of unique author surnames.
         * # of citations.
         * # of peer-reviewed pubs.
-        * # of Kepler/K2/exoplanet/astrophysics.
+        * # of per mission and science
         """
-        metrics = {
-                   "publication_count": 0,
-                   "kepler_count": 0,
-                   "k2_count": 0,
-                   "exoplanets_count": 0,
-                   "astrophysics_count": 0,
-                   "refereed_count": 0,
-                   "kepler_refereed_count": 0,
-                   "k2_refereed_count": 0,
-                   "citation_count": 0,
-                   "kepler_citation_count": 0,
-                   "k2_citation_count": 0,
-                   "phd_count": 0,
-                   "kepler_phd_count": 0,
-                   "k2_phd_count": 0
-                   }
-        authors, first_authors = [], []
-        k2_authors, kepler_authors = [], []
-        k2_first_authors, kepler_first_authors = [], []
+
+        missions = self.config.get('missions', [])
+        sciences = self.config.get('sciences', [])
+
+        #init stats
+        metrics = {}
+        metrics['publication_count'] = 0
+        metrics['refereed_count'] = 0
+        metrics['citation_count'] = 0
+        metrics['phd_count'] = 0
+        for mission in missions:
+            metrics[f'{mission}_count'] = 0
+            metrics[f'{mission}_refereed_count'] = 0
+            metrics[f'{mission}_citation_count'] = 0
+            metrics[f'{mission}_phd_count'] = 0
+        for science in sciences:
+            metrics[f'{science}_count'] = 0
+
+
+        authors, first_authors = {}, {}
+        authors['all'] = []
+        first_authors['all'] = []
+        for mission in missions:
+            authors[mission] = []
+            first_authors[mission] = []
+
         for article in self.query(year=year):
             api_response = article[2]
             js = json.loads(api_response)
+
+            #general count
             metrics["publication_count"] += 1
-            metrics["{}_count".format(js["mission"])] += 1
-            if "PhDT" in js["bibcode"]:
+            metrics[f"{js['mission']}_count"] += 1
+
+            #phd counts
+            if "PhDT" in js['bibcode']:
                 metrics["phd_count"] += 1
-                metrics["{}_phd_count".format(js["mission"])] += 1
+                metrics[f"{js['mission']}_phd_count"] += 1
+
+            #science counts
             try:
-                metrics["{}_count".format(js["science"])] += 1
+                metrics[f"{js['science']}_count"] += 1
             except KeyError:
-                log.warning("{}: no science category".format(js["bibcode"]))
-            authors.extend(js["author_norm"])
-            first_authors.append(js["first_author_norm"])
-            if js["mission"] == 'k2':
-                k2_authors.extend(js["author_norm"])
-                k2_first_authors.append(js["first_author_norm"])
-            else:
-                kepler_authors.extend(js["author_norm"])
-                kepler_first_authors.append(js["first_author_norm"])
+                pass
+                #log.warning(f"{js['bibcode']}: no science category")
+
+            #author counts
+            authors['all'].extend(js['author_norm'])
+            first_authors['all'].append(js['first_author_norm'])
+            authors[js['mission']].extend(js['author_norm'])
+            first_authors[js['mission']].append(js['first_author_norm'])
+
+            #refereed counts
             try:
-                if "REFEREED" in js["property"]:
+                if "REFEREED" in js['property']:
                     metrics["refereed_count"] += 1
-                    metrics["{}_refereed_count".format(js["mission"])] += 1
+                    metrics[f"{js['mission']}_refereed_count"] += 1
             except TypeError:  # proprety is None
                 pass
+
+            #citation counts
             try:
-                metrics["citation_count"] += js["citation_count"]
-                metrics["{}_citation_count".format(js["mission"])] += js["citation_count"]
+                metrics["citation_count"] += js['citation_count']
+                metrics[f"{js['mission']}_citation_count"] += js['citation_count']
             except (KeyError, TypeError):
                 log.warning("{}: no citation_count".format(js["bibcode"]))
-        metrics["author_count"] = np.unique(authors).size
-        metrics["first_author_count"] = np.unique(first_authors).size
-        metrics["kepler_author_count"] = np.unique(kepler_authors).size
-        metrics["kepler_first_author_count"] = np.unique(kepler_first_authors).size
-        metrics["k2_author_count"] = np.unique(k2_authors).size
-        metrics["k2_first_author_count"] = np.unique(k2_first_authors).size
+
+        metrics["author_count"] = np.unique(authors['all']).size
+        metrics["first_author_count"] = np.unique(first_authors['all']).size
+        for mission in missions:
+            metrics[f"{mission}_author_count"] = np.unique(authors[mission]).size
+            metrics[f"{mission}_first_author_count"] = np.unique(first_authors[mission]).size
+
         # Also compute fractions
-        for frac in ["kepler", "k2", "exoplanets", "astrophysics"]:
-            metrics[frac+"_fraction"] = metrics[frac+"_count"] / metrics["publication_count"]
+        pubcount = metrics["publication_count"]
+        for mission in missions:
+            metrics[mission+"_fraction"] = metrics[mission+"_count"] / pubcount if pubcount > 0 else 0
+        for science in sciences:
+            metrics[science+"_fraction"] = metrics[science+"_count"] / pubcount if pubcount > 0 else 0
+    
         return metrics
 
     def get_all(self, mission=None, science=None):
@@ -446,7 +589,8 @@ class PublicationDB(object):
         """
         # Initialize a dictionary to contain the data to plot
         result = {}
-        for mission in MISSIONS:
+        missions = self.config.get('missions', [])
+        for mission in missions:
             result[mission] = {}
             for year in range(year_begin, year_end + 1):
                 result[mission][year] = 0
@@ -462,7 +606,7 @@ class PublicationDB(object):
         # Also combine counts
         result['both'] = {}
         for year in range(year_begin, year_end + 1):
-            result['both'][year] = sum(result[mission][year] for mission in MISSIONS)
+            result['both'][year] = sum(result[mission][year] for mission in missions)
         return result
 
     def get_annual_publication_count_cumulative(self, year_begin=2009, year_end=datetime.datetime.now().year):
@@ -478,7 +622,8 @@ class PublicationDB(object):
         """
         # Initialize a dictionary to contain the data to plot
         result = {}
-        for mission in MISSIONS:
+        missions = self.config.get('missions', [])
+        for mission in missions:
             result[mission] = {}
             for year in range(year_begin, year_end + 1):
                 cur = self.con.execute("SELECT COUNT(*) FROM pubs "
@@ -489,172 +634,276 @@ class PublicationDB(object):
         # Also combine counts
         result['both'] = {}
         for year in range(year_begin, year_end + 1):
-            result['both'][year] = sum(result[mission][year] for mission in MISSIONS)
+            result['both'][year] = sum(result[mission][year] for mission in missions)
         return result
 
-    def update(self, month=None,
-               exclude=['keplerian', 'johannes', 'k<sub>2</sub>',
-                        "kepler equation", "kepler's equation", "xmm-newton",
-                        "kepler's law", "kepler's third law", "kepler problem",
-                        "kepler crater", "kepler's supernova", "kepler's snr"]
-               ):
-        """Query ADS for new publications.
-
-        Parameters
-        ----------
-        month : str
-            Of the form "YYYY-MM".
-
-        exclude : list of str
-            Ignore articles if they contain any of the strings given
-            in this list. (Case-insensitive.)
+    def update(self, month=None):
         """
-        if ads is None:
-            log.error("This action requires the ADS key to be setup.")
-            return
+        Query ADS for new publications.
+        Parameters:
+            month (str): Used for ADS pubdate param. Format "YYYY-MM" or "YYYY".
+        """
+        # # git pull reminder
+        # print(HIGHLIGHTS['YELLOW'] +
+        #       "Reminder: did you `git pull` kpub before running "
+        #       "this command? [y/n] " +
+        #       HIGHLIGHTS['END'],
+        #       end='')
+        # if input() == 'n':
+        #     return
 
-        print(Highlight.YELLOW +
-              "Reminder: did you `git pull` kpub before running "
-              "this command? [y/n] " +
-              Highlight.END,
-              end='')
-        if input() == 'n':
-            return
-
+        #Assume current month if not supplied.
+        #NOTE: We use the term "month" but user can supply just the year to do a whole year.
         if month is None:
             month = datetime.datetime.now().strftime("%Y-%m")
 
-        # First show all the papers with the Kepler funding message in the ack
-        log.info("Querying ADS for acknowledgements (month={}).".format(month))
-        database = "astronomy"
-        qry = ads.SearchQuery(q="""(ack:"Kepler mission"
-                                    OR ack:"K2 mission"
-                                    OR ack:"Kepler team"
-                                    OR ack:"K2 team")
-                                   -ack:"partial support from"
-                                   pubdate:"{}"
-                                   database:"{}"
-                                """.format(month, database),
-                              fl=FIELDS,
-                              rows=9999999999)
-        articles = list(qry)
-        for idx, article in enumerate(articles):
-            statusmsg = ("Showing article {} out of {} that mentions Kepler "
-                         "in the acknowledgements.\n\n".format(
-                            idx+1, len(articles)))
-            self.add_interactively(article, statusmsg=statusmsg)
+        #query 1
+        queries = self.config.get('ads_queries')
+        for query in queries:
+            log.info(f"\nQuerying {query['name']} (date={month})")
+            data = self.query_ads(query['query'], month)
+            tmp_articles = data['response']['docs'] 
 
-        # Then search for keywords in the title and abstracts
-        log.info("Querying ADS for titles and abstracts "
-                 "(month={}).".format(month))
-        qry = ads.SearchQuery(q="""(
-                                    abs:"Kepler"
-                                    OR abs:"K2"
-                                    OR abs:"KIC"
-                                    OR abs:"EPIC"
-                                    OR abs:"KOI"
-                                    OR abs:"8462852"
-                                    OR abs:"1145+017"
-                                    OR abs:"NGC 6791"
-                                    OR abs:"NGC 6819"
-                                    OR title:"Kepler"
-                                    OR title:"K2"
-                                    OR title:"8462852"
-                                    OR title:"1145+017"
-                                    OR full:"K2-ESPRINT"
-                                    OR full:"Kepler photometry"
-                                    OR full:"K2 photometry"
-                                    OR full:"Kepler lightcurve"
-                                    OR full:"K2 lightcurve"
-                                    )
-                                   pubdate:"{}"
-                                   database:"{}"
-                                """.format(month, database),
-                              fl=FIELDS,
-                              rows=9999999999)
-        articles = list(qry)
+            #remove those already in our db
+            articles = []
+            for a in tmp_articles:
+                if self.article_exists(a): print(f"SKIPPING {a['bibcode']} already in DB.")
+                else: articles.append(a)
 
-        for idx, article in enumerate(articles):
-            # Ignore articles without abstract
-            if not hasattr(article, 'abstract') or article.abstract is None:
-                continue
-            abstract_lower = article.abstract.lower()
+            #loop and add
+            for idx, article in enumerate(articles):
 
-            ignore = False
+                # Ignore articles without abstract
+                if not article.get('abstract'):
+                    continue
 
-            # Ignore articles containing any of the excluded terms
-#TODO: This is only excluding by abstract.  What about full body?  This should probably go in query.
-            for term in exclude:
-                if term.lower() in abstract_lower:
-                    ignore = True
+                # Ignore proposals, cospar abstracts and tmp articles
+                bibcode = article['bibcode']
+                if ".prop." in bibcode or "cosp.." in bibcode or ".tmp" in bibcode:
+                    continue
 
-            # Ignore articles already in the database
-#TODO: Should we be comparing ADS IDs here?            
-            if article in self:
-                ignore = True
+                # Propose to the user
+                statusmsg = f"Showing article {idx+1} out of {len(articles)} ({query['name']} query)\n\n"
+                highlights = data['highlighting'][article['id']]
+                self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
-            # Ignore all the unrefereed non-arxiv stuff
-#TODO: This can be in the query
-            try:
-                if "NOT REFEREED" in article.property and article.pub.lower() != "arxiv e-prints":
-                    ignore = True
-            except (AttributeError, TypeError, ads.exceptions.APIResponseError):
-                pass  # no .pub attribute or .property not iterable
+        log.info(f'\nFinished reviewing all articles for {month}.')
 
-            # Ignore proposals and cospar abstracts
-#TODO: This can be in the query
-            if ".prop." in article.bibcode or "cosp.." in article.bibcode:
-                ignore = True
 
-            if not ignore:  # Propose to the user
-                statusmsg = '(Reviewing article {} out of {}.)\n\n'.format(
-                                idx+1, len(articles))
-                self.add_interactively(article, statusmsg=statusmsg)
-        log.info('Finished reviewing all articles for {}.'.format(month))
+    def open_pdf(self, bibcode):
+        '''Open PDF file in local browser.  Download if necessary.'''
+        key = self.config.get('ADS_API_KEY')
+        outfile = get_pdf_file(bibcode, key)
+        if os.path.isfile(outfile):
+            print(f"Opening {outfile}...")
+            webbrowser.open('file://' + os.path.realpath(outfile))
+
+
+    def query_ads(self, query, pubdate=None):
+        '''
+        Query ADS API.  Add in standard params needed for data store and text highlights.
+
+        Parameters:
+            query (str): An ADS compliant query string (exactly what is entered in web search GUI.)
+            date (str): Optional ADS pubdate param. YYYY-MM or YYYY. Ex: "2019-03", "2020"
+        '''
+
+        query = query.replace(' ', '+')
+        query = query.replace('"', '%22')
+        if pubdate: query += f"+pubdate:{pubdate}"
+
+        fl = ','.join(FIELDS)
+        url = (f'{ADS_API}'
+            f'q={query}'
+            f"&fl={fl}"
+            "&sort=date+asc"
+            "&hl=true"
+            "&hl.fl=ack,body,title,abstract"
+            "&hl.snippets=4"
+            "&hl.fragsize=100"
+            "&hl.maxAnalyzedChars=500000"
+            "&rows=9999999"
+        )
+        key = self.config.get('ADS_API_KEY')
+        headers = {'Authorization': f'Bearer {key}'}
+        r = requests.get(url, headers=headers)
+        data = r.json()
+        return data
 
 
 ##################
 # Helper functions
 ##################
 
-def display_abstract(article_dict):
+def highlight_text(text, colors):
+
+    for word, color in colors.items():
+        pattern = re.compile(word, re.IGNORECASE)
+        text = pattern.sub(HIGHLIGHTS[color] + word + HIGHLIGHTS['END'], str(text))
+    return text
+     
+def display_abstract(article_dict, colors, highlights=None):
     """Prints the title and abstract of an article to the terminal,
     given a dictionary of the article metadata.
 
     Parameters
     ----------
     article : `dict` containing standard ADS metadata keys
+    colors  : `dict` mapping keywords to colors
+    highlights: `dict` containing 'ack' and 'body' lists of relevent text snippets
     """
-    # Highlight keywords in the title and abstract
-    colors = {'KEPLER': Highlight.BLUE,
-              'KIC': Highlight.BLUE,
-              'KOI': Highlight.BLUE,
-              '8462852': Highlight.BLUE,  # KIC ID of Tabby's star
-              'K2': Highlight.RED,
-              'EPIC': Highlight.RED,
-              '1145+017': Highlight.RED,  # Disintegrating WD in K2
-              'PLANET': Highlight.YELLOW}
-
     title = article_dict['title'][0]
     try:
         abstract = article_dict['abstract']
     except KeyError:
         abstract = ""
 
-    for word in colors:
-        pattern = re.compile(word, re.IGNORECASE)
-        title = pattern.sub(colors[word] + word + Highlight.END, title)
-        abstract = pattern.sub(colors[word]+word+Highlight.END, str(abstract))
+    title = highlight_text(title, colors)
+    abstract = highlight_text(abstract, colors)
+
+    ack_hl = 'NONE'
+    if highlights and 'ack' in highlights:
+        ack_hl = ''
+        for ack in highlights['ack']:
+            ack = ack.replace('<em>', '').replace('</em>', '')
+            ack_hl += "\n\t" + '"...' + highlight_text(ack, colors) + '"'
+
+    body_hl = 'NONE'
+    if highlights and 'body' in highlights:
+        body_hl = ''
+        for body in highlights['body']:
+            body = body.replace('<em>', '').replace('</em>', '')
+            body_hl += "\n\t" + '"...' + highlight_text(body, colors) + '"'
 
     print(title)
     print('-'*len(title))
     print(abstract)
+    print('')
+    print(f"Acknowledgement highlights: {ack_hl}")
+    print(f"Body highlights: {body_hl}")
     print('')
     print('Authors: ' + ', '.join(article_dict['author']))
     print('Date: ' + article_dict['pubdate'])
     print('Status: ' + str(article_dict['property']))
     print('URL: http://adsabs.harvard.edu/abs/' + article_dict['bibcode'])
     print('')
+
+
+def get_word_match_counts_by_query(bibcode, words):
+
+    bibcode = bibcode.replace('&', '%26')
+
+    counts = {}
+    for word in words:
+        word = word.replace(' ', '+')
+        url = (f'{ADS_API}' 
+            f'q=bibcode:%22{bibcode}%22+full:%22{word}%22'
+            "&fl=id,bibcode"
+            "&sort=date+asc"
+            "&hl=true"
+            "&hl.fl=ack,body,title,abstract"
+            "&hl.snippets=4"
+            "&hl.fragsize=100"
+            "&hl.maxAnalyzedChars=500000"
+        )
+        headers = {'Authorization': 'Bearer kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU'}
+        r = requests.get(url, headers=headers)
+        data = r.json()
+        counts[word] = {'count': 0, 'snippets': []}
+        for doc in data['response']['docs']:
+            id = doc['id']
+            highlights = data['highlighting'][id]
+            for field, snippets in highlights.items():
+                for snippet in snippets:
+                    counts[word]['count'] += 1
+                    counts[word]['snippets'].append(snippet)
+
+    #only return counts > 0
+    counts = {key:val for key, val in counts.items() if val['count'] != 0}
+    return counts
+ 
+
+def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
+
+    #get pdf file and text
+    outfile = get_pdf_file(bibcode, ads_api_key)
+    text = get_pdf_text(outfile).lower()
+    text = text.replace("\n",' ')
+    text = text.replace("\r",' ')
+    text = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff]', ' ', text)
+
+    #count up matches
+    counts = {}
+    for word in words:
+        counts[word] = {'count': 0, 'snippets': []}
+        for ch in (' ', '/', '\(', '-', ':'):
+            find = f"{ch}{word}".lower()
+            for m in re.finditer(find, text):
+                    snippet = text[m.start()-80:m.end()+80]
+                    counts[word]['count'] += 1
+                    counts[word]['snippets'].append(snippet)
+
+    #only return counts > 0
+    counts = {key:val for key, val in counts.items() if val['count'] != 0}
+    return counts
+  
+
+def get_pdf_file(bibcode, ads_api_key):
+
+    outfile = f'/tmp/{bibcode}.pdf'
+    if os.path.isfile(outfile):
+        return outfile
+
+    print('\nRetrieving PDF (May take up to a minute)...')
+    url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/EPRINT_PDF'
+    #url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/PUB_PDF'
+    headers = {f'Authorization': f'Bearer {ads_api_key}'}
+    r = requests.get(url, headers=headers)
+    if r.status_code != 200:
+        print("Could not download PDF file.")
+        return False
+    with open(outfile, 'wb') as f:
+         f.write(r.content)
+    return outfile
+
+
+def get_pdf_text(outfile):
+    assert textract, "No textract module found."
+    text = textract.process(outfile)
+    text = text.decode("utf-8")
+    return text
+
+
+def input_with_prefill(prompt, text):
+    def hook():
+        readline.insert_text(text)
+        readline.redisplay()
+    readline.set_pre_input_hook(hook)
+    result = input(prompt)
+    readline.set_pre_input_hook()
+    return result
+
+
+def add_prompt_valmaps(valmap, vals):
+
+    for idx, val in enumerate(vals):
+        k = str(idx+1)
+        valmap[k] = val
+    return valmap
+
+
+def prompt_grouping(valmap, type):
+
+    prompt = f"=> Select {type}: "
+    for key, val in valmap.items():
+        prompt += f" [{key}] {val.capitalize()} "
+    prompt += " or [] skip? "
+
+    print(prompt, end="")
+    val = input()
+    return val
+
+
 
 
 #########################
@@ -664,24 +913,23 @@ def display_abstract(article_dict):
 def kpub(args=None):
     """Lists the publications in the database in Markdown format."""
     parser = argparse.ArgumentParser(
-        description="View the Kepler/K2 publication list in markdown format.")
+        description="View the publication list in markdown format.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
+                        help="Location of the publication list db. "
                              "Defaults to ~/.kpub.db.")
-    parser.add_argument('-e', '--exoplanets', action='store_true',
-                        help='Only show exoplanet publications.')
-    parser.add_argument('-a', '--astrophysics', action='store_true',
-                        help='Only show astrophysics publications.')
-    parser.add_argument('-k', '--kepler', action='store_true',
-                        help='Only show Kepler publications.')
-    parser.add_argument('-2', '--k2', action='store_true',
-                        help='Only show K2 publications.')
+    parser.add_argument('--science', dest="science", type=str, default=None,
+                        help="Only show a particular science. Defaults to all.")
+    parser.add_argument('--mission', dest="mission", type=str, default=None,
+                        help="Only show a particular mission. Defaults to all.")
     parser.add_argument('-m', '--month', action='store_true',
                         help='Group the papers by month rather than year.')
     parser.add_argument('-s', '--save', action='store_true',
                         help='Save the output and plots in the current directory.')
     args = parser.parse_args(args)
+
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+    title = config.get('prepend', '').capitalize()
 
     db = PublicationDB(args.f)
 
@@ -693,22 +941,27 @@ def kpub(args=None):
             else:
                 suffix = ""
                 title_suffix = ""
-            output_fn = 'kpub{}.md'.format(suffix)
+
+            output_fn = f'kpub{suffix}.md'
             db.save_markdown(output_fn,
                              group_by_month=bymonth,
-                             title="Kepler/K2 publications{}".format(title_suffix))
-            for science in SCIENCES:
-                output_fn = 'kpub-{}{}.md'.format(science, suffix)
+                             title=f"{title} publications{title_suffix}")
+
+            sciences = self.config.get('sciences', [])
+            for science in sciences:
+                output_fn = f'kpub-{science}{suffix}.md'
                 db.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  science=science,
-                                 title="Kepler/K2 {} publications{}".format(science, title_suffix))
-            for mission in ['kepler', 'k2']:
-                output_fn = 'kpub-{}{}.md'.format(mission, suffix)
+                                 title=f"{title} {science} publications{title_suffix}")
+
+            missions = self.config.get('missions', [])
+            for mission in missions:
+                output_fn = f'kpub-{mission}{suffix}.md'
                 db.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  mission=mission,
-                                 title="{} publications{}".format(mission.capitalize(), title_suffix))
+                                 title=f"{mission.capitalize()} publications{title_suffix}")
 
         # Finally, produce an overview page
         templatedir = os.path.join(PACKAGEDIR, 'templates')
@@ -729,23 +982,7 @@ def kpub(args=None):
         f.close()
 
     else:
-        if args.exoplanets and not args.astrophysics:
-            science = "exoplanets"
-        elif args.astrophysics and not args.exoplanets:
-            science = "astrophysics"
-        else:
-            science = None
-
-        if args.kepler and not args.k2:
-            mission = "kepler"
-        elif args.k2 and not args.kepler:
-            mission = "k2"
-        else:
-            mission = None
-
-        output = db.to_markdown(group_by_month=args.month,
-                                mission=mission,
-                                science=science)
+        output = db.to_markdown(group_by_month=args.month, mission=args.mission, science=args.science)
         from signal import signal, SIGPIPE, SIG_DFL
         signal(SIGPIPE, SIG_DFL)
         print(output)
@@ -757,11 +994,12 @@ def kpub_plot(args=None):
         description="Creates beautiful plots of the database.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    PublicationDB(args.f).plot()
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+
+    PublicationDB(args.f, config).plot()
 
 
 def kpub_update(args=None):
@@ -770,28 +1008,30 @@ def kpub_update(args=None):
         description="Interactively query ADS for new publications.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('month', nargs='?', default=None,
-                        help='Month to query, e.g. 2015-06.')
+                        help='Month to query, YYYY-MM or YYYY. e.g. "2015-06" or "2020"')
     args = parser.parse_args(args)
 
-    PublicationDB(args.f).update(month=args.month)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+
+    PublicationDB(args.f, config).update(month=args.month)
 
 
 def kpub_add(args=None):
     """Add a publication with a known ADS bibcode."""
     parser = argparse.ArgumentParser(
-        description="Add a paper to the Kepler/K2 publication list.")
+        description="Add a paper to the publication list.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('bibcode', nargs='+',
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     for bibcode in args.bibcode:
         db.add_by_bibcode(bibcode, interactive=True)
 
@@ -799,16 +1039,17 @@ def kpub_add(args=None):
 def kpub_delete(args=None):
     """Deletes a publication using its ADS bibcode."""
     parser = argparse.ArgumentParser(
-        description="Deletes a paper from the Kepler/K2 publication list.")
+        description="Deletes a paper from the publication list.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('bibcode', nargs='+',
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     for bibcode in args.bibcode:
         db.delete_by_bibcode(bibcode)
 
@@ -821,25 +1062,35 @@ def kpub_import(args=None):
     hence this routine may take 10-20 minutes to complete.
     """
     parser = argparse.ArgumentParser(
-        description="Batch-import papers into the Kepler/K2 publication list "
+        description="Batch-import papers into the publication list "
                     "from a CSV file. The CSV file must have three columns "
                     "(bibcode,mission,science) separated by commas. "
                     "For example: '2004ApJ...610.1199G,kepler,astrophysics'.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('csvfile',
                         help="Filename of the csv file to ingest.")
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     import time
     for line in ProgressBar(open(args.csvfile, 'r').readlines()):
+        line = line.strip()
+        if not line:
+            continue
         for attempt in range(5):
             try:
-                col = line.split(',')  # Naive csv parsing
-                db.add_by_bibcode(col[0], mission=col[1], science=col[2].strip())
+                col = line.strip().split(',')  # Naive csv parsing
+                bibcode = col[0]
+                mission = col[1]
+                science = col[2]
+                instrs  = col[3]
+                archive = col[4]
+                db.add_by_bibcode(bibcode, mission=mission, science=science,
+                    instruments=instrs, archive=archive)
                 time.sleep(0.1)
                 break
             except Exception as e:
@@ -849,18 +1100,19 @@ def kpub_import(args=None):
 def kpub_export(args=None):
     """Export the bibcodes and classifications in CSV format."""
     parser = argparse.ArgumentParser(
-        description="Export the Kepler/K2 publication list in CSV format.")
+        description="Export the publication list in CSV format.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
-    cur = db.con.execute("SELECT bibcode, mission, science "
-                         "FROM pubs ORDER BY bibcode;")
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
+    cur = db.con.execute("SELECT bibcode, mission, science, instruments, archive "
+                         "FROM pubs ORDER BY bibcode asc;")
     for row in cur.fetchall():
-        print('{0},{1},{2}'.format(row[0], row[1], row[2]))
+        print(f'{row[0]},{row[1]},{row[2]},{row[3]},{row[4]}')
 
 
 def kpub_spreadsheet(args=None):
@@ -871,14 +1123,15 @@ def kpub_spreadsheet(args=None):
         print('ERROR: pandas needs to be installed for this feature.')
 
     parser = argparse.ArgumentParser(
-        description="Export the Kepler/K2 publication list in XLS format.")
+        description="Export the publication list in XLS format.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
-                        help="Location of the Kepler/K2 publication list db. "
-                             "Defaults to ~/.kpub.db.")
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
-    db = PublicationDB(args.f)
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+
+    db = PublicationDB(args.f, config)
     spreadsheet = []
     cur = db.con.execute("SELECT bibcode, year, month, date, mission, science, metrics "
                          "FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
@@ -922,10 +1175,20 @@ def kpub_spreadsheet(args=None):
                     ('affiliations', metrics['aff'])])
         spreadsheet.append(myrow)
 
-    output_fn = 'kepler-publications.xls'
+    output_fn = 'kpub-publications.xls'
     print('Writing {}'.format(output_fn))
     pd.DataFrame(spreadsheet).to_excel(output_fn, index=False)
 
 
 if __name__ == '__main__':
-    pass
+
+    #todo: This is a hack until we figure out packaging
+    cmd = sys.argv[1]
+    if   cmd == 'update': kpub_update(sys.argv[2:])
+    elif cmd == 'plot':   kpub_plot(sys.argv[2:])
+    elif cmd == 'add':    kpub_add(sys.argv[2:])
+    elif cmd == 'delete': kpub_delete(sys.argv[2:])
+    elif cmd == 'import': kpub_import(sys.argv[2:])
+    elif cmd == 'export': kpub_export(sys.argv[2:])
+    else:                 kpub(sys.argv[1:])
+
