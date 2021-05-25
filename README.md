@@ -7,15 +7,21 @@
 This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version of [kpub](https://github.com/KeplerGO/kpub) for Kepler/K2.  The major changes here are:
 
 - Code is now config file driven so it can be used by any mission or facility.
-- Add optional tracking of instrument assocations and associated new plots.
-- Add optional tracking of archive references and associated new plots.
+- Added optional tracking of instrument assocations and associated new plots.
+- Added optional tracking of archive references and associated new plots.
 - Added affiliations mapping and plotting.
-- Add automated PDF download, view, and search for highlight snippets.
+- Added automated PDF download, view, and search for highlight snippets.
 - Removed reliance on 'ads' third-party module (due to some limitations).
 
 ## Example use
 
-Add a new article to the database using its bibcode. This command will display the article's metadata and ask the user to classify the science:
+Search ADS by pubdate month or year for new articles and try to add them interactively:
+```
+kpub-update 2015-07
+kpub-update 2015
+```
+
+Add a new article to the database interactively using its bibcode:
 ```
 kpub-add 2015arXiv150204715F
 ```
@@ -25,16 +31,11 @@ Remove an article using its bibcode:
 kpub-delete 2015ApJ...800...46B
 ```
 
-Search ADS by pubdate month interactively for new articles and try to add them:
-```
-kpub-update 2015-07
-```
-
 For example output, see the `data/output/` sub-directory in this repository.
 
 ## Installation
 
-To install the latest version from source, first get the code:
+First, get the source code:
 ```
 git clone https://github.com/KeckObservatory/kpub.git
 ```
