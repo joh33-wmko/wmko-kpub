@@ -32,8 +32,8 @@ from astropy import log
 from astropy.utils.console import ProgressBar
 
 #todo: temp hack until we figure out packaging stuff
-from . import plot
-#import plot
+#from . import plot
+import plot
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
 
 #ADS API URL
@@ -408,14 +408,21 @@ class PublicationDB(object):
         """Saves beautiful plot of the database."""
         missions = self.config.get('missions', [])
         sciences = self.config.get('sciences', [])
+        plots_cfg = self.config.get('plots', [])
         for ext in ['pdf', 'png']:
             plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
             plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
-            if len(missions) > 1:
-                for mission in missions:
-                    plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
+            for mission in missions:
+                plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
             plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
             plot.plot_author_count(self, f"kpub-author-count.{ext}")
+            if instruments:
+                plot.plot_instruments(self, f"kpub-publications-by-instrument.{ext}", instruments=instruments)
+
+        #bokeh plots
+        plot.plot_instruments(self, f"kpub-instruments.html", 
+                              year_begin=plots_cfg['year_begin'],
+                              instruments=plots_cfg['instruments'])
 
 
     def get_metrics(self, year=None):
@@ -576,7 +583,8 @@ class PublicationDB(object):
         idx_top = np.argsort(paper_count)[::-1][:top]
         return names[idx_top], paper_count[idx_top]
 
-    def get_annual_publication_count(self, year_begin=2009, year_end=datetime.datetime.now().year):
+    def get_annual_publication_count(self, year_begin=2009, year_end=datetime.datetime.now().year,
+                                     instrument=None):
         """Returns a dict containing the number of publications per year per mission.
 
         Parameters
@@ -594,11 +602,14 @@ class PublicationDB(object):
             result[mission] = {}
             for year in range(year_begin, year_end + 1):
                 result[mission][year] = 0
-            cur = self.con.execute("SELECT year, COUNT(*) FROM pubs "
-                                   "WHERE mission = ? "
-                                   "AND year >= '2009' "
-                                   "GROUP BY year;",
-                                   [mission])
+            q = "SELECT year, COUNT(*) FROM pubs "
+            q += f" WHERE mission = '{mission}' "
+            q += f" AND year >= '{year_begin}' "
+            if instrument: 
+                q += f" AND instruments like '%{instrument}%' "
+            q += " GROUP BY year;"
+            print(q)
+            cur = self.con.execute(q)
             rows = list(cur.fetchall())
             for row in rows:
                 if int(row[0]) <= year_end:
@@ -990,15 +1001,13 @@ def kpub(args=None):
 
 def kpub_plot(args=None):
     """Creates beautiful plots of the database."""
-    parser = argparse.ArgumentParser(
-        description="Creates beautiful plots of the database.")
+    parser = argparse.ArgumentParser(description="Creates beautiful plots of the database.")
     parser.add_argument('-f', metavar='dbfile',
                         type=str, default=DEFAULT_DB,
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
-
     PublicationDB(args.f, config).plot()
 
 

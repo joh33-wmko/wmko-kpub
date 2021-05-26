@@ -62,6 +62,12 @@
     'Keck Observatory Archive'
   ],
 
+  #plot configs
+  "plots": {
+    "year_begin": 1994,
+    "instruments": ['DEIMOS','ESI','HIRES','KCWI','LRIS','MOSFIRE','NIRC2','NIRES','NIRSPEC','OSIRIS'],
+  },
+
   # Dict of keywords to highlight in text hi (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
   "colors": {
     'KECK': "GREEN",

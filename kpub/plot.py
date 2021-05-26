@@ -3,10 +3,16 @@ import datetime
 import numpy as np
 from astropy import log
 from pprint import pprint
+import sys
 
 from matplotlib import pyplot as pl
 import matplotlib.patheffects as path_effects
 import matplotlib as mpl
+
+from bokeh.palettes import Category20
+from bokeh.plotting import figure, show, output_file, save
+from bokeh.models import Legend, ColumnDataSource, Title
+from bokeh.io import export_png
 
 
 # Configure the aesthetics
@@ -43,6 +49,65 @@ mpl.rcParams["ytick.major.size"] = 0
 mpl.rcParams["grid.color"] = "bdc3c7"
 mpl.rcParams["grid.linestyle"] = "-"
 mpl.rcParams["grid.linewidth"] = 1
+
+
+def plot_instruments(db,
+                     output_fn='kpub-publications-by-instrument.html',
+                     year_begin=2000,
+                     missions=[],
+                     instruments=[]):
+    """Plots a multiline graph showing the number of publications per instrument per year.
+
+    Parameters
+    ----------
+    db : `PublicationDB` object
+        Data to plot.
+
+    output_fn : str
+        Output filename of the plot.
+
+    first_year : int
+        What year should the plot start?
+    """
+    # Obtain the dictionary which provides the annual counts
+    data = {}
+    for instr in instruments:    
+      year_end = datetime.datetime.now().year -1
+      counts = db.get_annual_publication_count(year_begin=year_begin, 
+                                               year_end=year_end,
+                                               instrument=instr)
+      data[instr] = counts['keck']
+
+    years = list(np.arange(year_begin, year_end+1))
+    years = [str(year) for year in years]
+    instrs = list(data.keys())
+    pallete = Category20[len(instrs)]
+    values = []
+    for instr, idata in data.items():
+      vals = [idata[year] for year in idata]
+      values.append(vals)
+    plotdata = {
+      'years': [years] * len(instrs),
+      'values': values,
+      'columns': instrs,
+      'color': pallete[0:len(instrs)]
+    }
+    source = ColumnDataSource(plotdata)
+    p = figure(width = 1000, height = 800, x_range = years)
+    p.multi_line(xs = 'years',
+                 ys = 'values',
+                 color = 'color',
+                 legend = 'columns',
+                 line_width = 3,
+                 source = source)
+    p.add_layout(Title(text="by instrument", text_font_style="italic"), 'above')
+    p.add_layout(Title(text="Publications per year", text_font_size="16pt"), 'above')
+    p.legend.location = 'top_left'
+
+    log.info("Writing {}".format(output_fn))
+    output_file(output_fn)
+    save(p)
+    #show(p)
 
 
 def plot_by_year(db,
@@ -84,7 +149,8 @@ def plot_by_year(db,
     # Obtain the dictionary which provides the annual counts
     current_year = datetime.datetime.now().year
     counts = db.get_annual_publication_count(year_begin=first_year, year_end=current_year)
-
+    pprint(counts)
+    sys.exit()
     # Now make the actual plot
     fig = pl.figure()
     ax = fig.add_subplot(111)
