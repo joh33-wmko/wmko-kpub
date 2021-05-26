@@ -416,13 +416,13 @@ class PublicationDB(object):
                 plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
             plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
             plot.plot_author_count(self, f"kpub-author-count.{ext}")
-            if instruments:
-                plot.plot_instruments(self, f"kpub-publications-by-instrument.{ext}", instruments=instruments)
 
         #bokeh plots
-        plot.plot_instruments(self, f"kpub-instruments.html", 
-                              year_begin=plots_cfg['year_begin'],
-                              instruments=plots_cfg['instruments'])
+        if plots_cfg['instruments']:
+            plot.plot_instruments(self, f"kpub-publications-by-instrument", 
+                                  year_begin=plots_cfg['year_begin'],
+                                  missions=missions, 
+                                  instruments=plots_cfg['instruments'])
 
 
     def get_metrics(self, year=None):
@@ -608,7 +608,6 @@ class PublicationDB(object):
             if instrument: 
                 q += f" AND instruments like '%{instrument}%' "
             q += " GROUP BY year;"
-            print(q)
             cur = self.con.execute(q)
             rows = list(cur.fetchall())
             for row in rows:

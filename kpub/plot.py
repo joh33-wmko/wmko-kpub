@@ -52,7 +52,7 @@ mpl.rcParams["grid.linewidth"] = 1
 
 
 def plot_instruments(db,
-                     output_fn='kpub-publications-by-instrument.html',
+                     output_fn='kpub-publications-by-instrument',
                      year_begin=2000,
                      missions=[],
                      instruments=[]):
@@ -68,46 +68,52 @@ def plot_instruments(db,
 
     first_year : int
         What year should the plot start?
+
+    instruments : array(str)
+        List of instruments to graph
     """
     # Obtain the dictionary which provides the annual counts
-    data = {}
-    for instr in instruments:    
-      year_end = datetime.datetime.now().year -1
-      counts = db.get_annual_publication_count(year_begin=year_begin, 
-                                               year_end=year_end,
-                                               instrument=instr)
-      data[instr] = counts['keck']
+    for i, mission in enumerate(missions):
 
-    years = list(np.arange(year_begin, year_end+1))
-    years = [str(year) for year in years]
-    instrs = list(data.keys())
-    pallete = Category20[len(instrs)]
-    values = []
-    for instr, idata in data.items():
-      vals = [idata[year] for year in idata]
-      values.append(vals)
-    plotdata = {
-      'years': [years] * len(instrs),
-      'values': values,
-      'columns': instrs,
-      'color': pallete[0:len(instrs)]
-    }
-    source = ColumnDataSource(plotdata)
-    p = figure(width = 1000, height = 800, x_range = years)
-    p.multi_line(xs = 'years',
-                 ys = 'values',
-                 color = 'color',
-                 legend = 'columns',
-                 line_width = 3,
-                 source = source)
-    p.add_layout(Title(text="by instrument", text_font_style="italic"), 'above')
-    p.add_layout(Title(text="Publications per year", text_font_size="16pt"), 'above')
-    p.legend.location = 'top_left'
+        data = {}
+        for instr in instruments:    
+            year_end = datetime.datetime.now().year -1
+            counts = db.get_annual_publication_count(year_begin=year_begin, 
+                                                     year_end=year_end,
+                                                     instrument=instr)
+            data[instr] = counts[mission]
 
-    log.info("Writing {}".format(output_fn))
-    output_file(output_fn)
-    save(p)
-    #show(p)
+        years = list(np.arange(year_begin, year_end+1))
+        years = [str(year) for year in years]
+        instrs = list(data.keys())
+        pallete = Category20[len(instrs)]
+        values = []
+        for instr, idata in data.items():
+          vals = [idata[year] for year in idata]
+          values.append(vals)
+        plotdata = {
+          'years': [years] * len(instrs),
+          'values': values,
+          'columns': instrs,
+          'color': pallete[0:len(instrs)]
+        }
+        source = ColumnDataSource(plotdata)
+        p = figure(width = 1000, height = 800, x_range = years)
+        p.multi_line(xs = 'years',
+                     ys = 'values',
+                     color = 'color',
+                     legend = 'columns',
+                     line_width = 3,
+                     source = source)
+        p.add_layout(Title(text="by instrument", text_font_style="italic"), 'above')
+        p.add_layout(Title(text=f"{mission.upper()} publications per year", text_font_size="16pt"), 'above')
+        p.legend.location = 'top_left'
+
+        fn = f"{output_fn}-{mission}.html"
+        log.info(f"Writing {fn}")
+        output_file(fn)
+        save(p)
+        #show(p)
 
 
 def plot_by_year(db,
