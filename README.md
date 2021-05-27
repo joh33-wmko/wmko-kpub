@@ -58,6 +58,12 @@ ln -s /path/to/git/repo/data/kpub.db ~/.kpub.db
 
 The `kpub-add`and `kpub-update` tools that come with this package require an api key from NASA ADS labs to retrieve publication meta-data.
 
+## Uninstall
+
+```
+pip uninstall kpub
+```
+
 ## Usage
 
 `kpub` adds a number of tools to the command line (described below).
