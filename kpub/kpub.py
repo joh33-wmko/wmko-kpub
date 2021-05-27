@@ -941,7 +941,7 @@ def get_pdf_file(bibcode, ads_api_key):
     #url = f'https://ui.adsabs.harvard.edu/link_gateway/{bibcode}/PUB_PDF'
     headers = {f'Authorization': f'Bearer {ads_api_key}'}
     r = requests.get(url, headers=headers)
-    if r.status_code != 200:
+    if r.status_code != 200 or len(r.content) < 1000:
         print("Could not download PDF file.")
         return False
     with open(outfile, 'wb') as f:
@@ -951,7 +951,11 @@ def get_pdf_file(bibcode, ads_api_key):
 
 def get_pdf_text(outfile):
     assert textract, "No textract module found."
-    text = textract.process(outfile)
+    try:
+        text = textract.process(outfile, method='pdfminer')
+    except Exception as e:
+        print("textract: pdfminer method failed.  Trying pdftotext method...")
+        text = textract.process(outfile, method='pdftotext')
     text = text.decode("utf-8")
     return text
 
