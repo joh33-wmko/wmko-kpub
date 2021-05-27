@@ -107,7 +107,7 @@ class PublicationDB(object):
             mission (str)
             science (str)
             instruments (str): Pipe-delimited list of instruments
-            archive (int): 0 or 1 indicating if archiving reference was found
+            archive (str): 0 or 1 indicating if archiving reference was found
         """
         log.debug('Ingesting {}'.format(article['bibcode']))
 
@@ -248,8 +248,9 @@ class PublicationDB(object):
         if len(counts) > 0:
             print("ARCHIVE ACKNOWLDGEMENT FOUND")
 
-        #return 
-        val = True if len(counts) > 0 else False
+        #return "0" or "1"
+        #NOTE: Using str values b/c original code used blobs for all DB cols.
+        val = "1" if len(counts) > 0 else "0"
         return val
 
 
@@ -1183,20 +1184,28 @@ def kpub_import(args=None):
 
 def kpub_export(args=None):
     """Export the bibcodes and classifications in CSV format."""
-    parser = argparse.ArgumentParser(
-        description="Export the publication list in CSV format.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
+    parser = argparse.ArgumentParser(description="Export the publication list in CSV format.")
+    parser.add_argument('-f', metavar='dbfile', type=str, default=DEFAULT_DB,
+        help="Location of the publication list db. Defaults to ~/.kpub.db.")
+    parser.add_argument("--archived", default=False, action="store_true",
+        help="Only export records marked as archived.")
+    parser.add_argument("--bibcodes", default=False, action="store_true",
+        help="Only export one bibcode column.")
     args = parser.parse_args(args)
 
-    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
+    q = "SELECT bibcode, mission, science, instruments, archive "
+    q += " FROM pubs WHERE 1"
+    if args.archived: 
+        q += " AND archive='1' "
+    q += " ORDER BY bibcode asc;"
 
+    config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     db = PublicationDB(args.f, config)
-    cur = db.con.execute("SELECT bibcode, mission, science, instruments, archive "
-                         "FROM pubs ORDER BY bibcode asc;")
+    cur = db.con.execute(q)
+
     for row in cur.fetchall():
-        print(f'{row[0]},{row[1]},{row[2]},{row[3]},{row[4]}')
+        if args.bibcodes: print(f'{row[0]}')
+        else:             print(f'{row[0]},{row[1]},{row[2]},{row[3]},{row[4]}')
 
 
 def kpub_spreadsheet(args=None):
