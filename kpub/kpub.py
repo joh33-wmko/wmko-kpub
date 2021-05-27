@@ -409,20 +409,26 @@ class PublicationDB(object):
         missions = self.config.get('missions', [])
         sciences = self.config.get('sciences', [])
         plots_cfg = self.config.get('plots', [])
-        for ext in ['pdf', 'png']:
-            plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
-            plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
-            for mission in missions:
-                plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
-            plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
-            plot.plot_author_count(self, f"kpub-author-count.{ext}")
+        # for ext in ['pdf', 'png']:
+        #     plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
+        #     plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
+        #     for mission in missions:
+        #         plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
+        #     plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
+        #     plot.plot_author_count(self, f"kpub-author-count.{ext}")
 
-        #bokeh plots
-        if plots_cfg['instruments']:
-            plot.plot_instruments(self, f"kpub-publications-by-instrument", 
+        # #bokeh plots
+        # if plots_cfg['instruments']:
+        #     plot.plot_instruments(self, f"kpub-publications-by-instrument", 
+        #                           year_begin=plots_cfg['year_begin'],
+        #                           missions=missions, 
+        #                           instruments=plots_cfg['instruments'])
+
+        if self.config['aff_defs']:
+            plot.plot_affiliations(self, f"kpub-affiliations", 
                                   year_begin=plots_cfg['year_begin'],
-                                  missions=missions, 
-                                  instruments=plots_cfg['instruments'])
+#                                  year_begin=plots_cfg['year_begin'],
+                                  missions=missions)
 
 
     def get_metrics(self, year=None):
@@ -582,6 +588,72 @@ class PublicationDB(object):
         paper_count = np.array(list(authors.values()))
         idx_top = np.argsort(paper_count)[::-1][:top]
         return names[idx_top], paper_count[idx_top]
+
+    def get_affiliation_counts(self, year_begin, year_end, mission):
+
+        #init data
+        counts = {}
+        aff_defs = self.config['aff_defs']
+        for affdef in aff_defs:
+            counts['first author '+affdef['type']] = {}
+            counts['top3 authors '+affdef['type']] = {}
+            for year in range(year_begin, year_end+1):
+                counts['first author '+affdef['type']][year] = 0
+                counts['top3 authors '+affdef['type']][year] = 0
+
+        #query
+        cur = self.con.execute("select year, metrics from pubs "
+                               f" where mission='{mission}' "
+                               f" and year >= '{year_begin}'"
+                               f" and year <= '{year_end}'"
+                               )
+        articles = cur.fetchall()
+
+        #for each article, get affiliations for first 3 authors for each article
+        for article in articles:
+            year = int(article[0])
+            metrics = json.loads(article[1])
+            num_affs = len(metrics['aff'])
+            affs = []
+            for i in range(0,3):
+                if num_affs > i:
+                    afftype = self.get_aff_type(metrics['aff'][i], aff_defs)
+                    if not afftype: continue
+                    affs.append(afftype)
+                    if i == 0:
+                        counts['first author '+afftype][year] += 1
+            if len(affs) == 3 and len(set(affs)) == 1:
+                counts['top3 authors '+afftype][year] += 1
+
+        return counts
+
+    def get_aff_type(self, affstr, aff_defs):
+        '''
+        Search for institution strings in affiliation string.  Affiliation string
+        can have multiple semicolon-delimited entries.  'affmap' is an ordered 
+        array of preferred affiliation types.  Each type has an array of strings to
+        search for.
+        '''
+        #Sometimes the value is blank or "-"
+        if len(affstr.strip()) <= 2:
+            return None
+
+        default = ''
+        affs = affstr.split(";")
+        for affdef in aff_defs:
+            afftype = affdef['type']
+            if not affdef['strings']: 
+                default = afftype
+                continue
+            for string in affdef['strings']:
+                for aff in affs:
+                    if string.isupper():
+                        if re.search(string, aff):
+                            return afftype
+                    else:
+                        if re.search(string, aff, re.IGNORECASE):
+                            return afftype                  
+        return default
 
     def get_annual_publication_count(self, year_begin=2009, year_end=datetime.datetime.now().year,
                                      instrument=None):

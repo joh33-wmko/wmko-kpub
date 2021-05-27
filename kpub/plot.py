@@ -9,7 +9,7 @@ from matplotlib import pyplot as pl
 import matplotlib.patheffects as path_effects
 import matplotlib as mpl
 
-from bokeh.palettes import Category20
+from bokeh.palettes import Category20, Category10
 from bokeh.plotting import figure, show, output_file, save
 from bokeh.models import Legend, ColumnDataSource, Title
 from bokeh.io import export_png
@@ -50,70 +50,6 @@ mpl.rcParams["grid.color"] = "bdc3c7"
 mpl.rcParams["grid.linestyle"] = "-"
 mpl.rcParams["grid.linewidth"] = 1
 
-
-def plot_instruments(db,
-                     output_fn='kpub-publications-by-instrument',
-                     year_begin=2000,
-                     missions=[],
-                     instruments=[]):
-    """Plots a multiline graph showing the number of publications per instrument per year.
-
-    Parameters
-    ----------
-    db : `PublicationDB` object
-        Data to plot.
-
-    output_fn : str
-        Output filename of the plot.
-
-    first_year : int
-        What year should the plot start?
-
-    instruments : array(str)
-        List of instruments to graph
-    """
-    # Obtain the dictionary which provides the annual counts
-    for i, mission in enumerate(missions):
-
-        data = {}
-        for instr in instruments:    
-            year_end = datetime.datetime.now().year -1
-            counts = db.get_annual_publication_count(year_begin=year_begin, 
-                                                     year_end=year_end,
-                                                     instrument=instr)
-            data[instr] = counts[mission]
-
-        years = list(np.arange(year_begin, year_end+1))
-        years = [str(year) for year in years]
-        instrs = list(data.keys())
-        pallete = Category20[len(instrs)]
-        values = []
-        for instr, idata in data.items():
-          vals = [idata[year] for year in idata]
-          values.append(vals)
-        plotdata = {
-          'years': [years] * len(instrs),
-          'values': values,
-          'columns': instrs,
-          'color': pallete[0:len(instrs)]
-        }
-        source = ColumnDataSource(plotdata)
-        p = figure(width = 1000, height = 800, x_range = years)
-        p.multi_line(xs = 'years',
-                     ys = 'values',
-                     color = 'color',
-                     legend = 'columns',
-                     line_width = 3,
-                     source = source)
-        p.add_layout(Title(text="by instrument", text_font_style="italic"), 'above')
-        p.add_layout(Title(text=f"{mission.upper()} publications per year", text_font_size="16pt"), 'above')
-        p.legend.location = 'top_left'
-
-        fn = f"{output_fn}-{mission}.html"
-        log.info(f"Writing {fn}")
-        output_file(fn)
-        save(p)
-        #show(p)
 
 
 def plot_by_year(db,
@@ -346,7 +282,123 @@ def plot_author_count(db,
     pl.close()
 
 
-def plot_affiliations():
+def plot_instruments(db,
+                     output_fn='kpub-publications-by-instrument',
+                     year_begin=2000,
+                     missions=[],
+                     instruments=[]):
+    """Plots a multiline graph showing the number of publications per instrument per year.
+
+    Parameters
+    ----------
+    db : `PublicationDB` object
+        Data to plot.
+
+    output_fn : str
+        Output filename of the plot.
+
+    first_year : int
+        What year should the plot start?
+
+    instruments : array(str)
+        List of instruments to graph
+    """
+    # Obtain the dictionary which provides the annual counts
+    for i, mission in enumerate(missions):
+
+        data = {}
+        for instr in instruments:    
+            year_end = datetime.datetime.now().year -1
+            counts = db.get_annual_publication_count(year_begin=year_begin, 
+                                                     year_end=year_end,
+                                                     instrument=instr)
+            data[instr] = counts[mission]
+
+        years = list(np.arange(year_begin, year_end+1))
+        years = [str(year) for year in years]
+        instrs = list(data.keys())
+        pallete = Category20[len(instrs)]
+        values = []
+        for instr, idata in data.items():
+          vals = [idata[year] for year in idata]
+          values.append(vals)
+        plotdata = {
+          'years': [years] * len(instrs),
+          'values': values,
+          'columns': instrs,
+          'color': pallete[0:len(instrs)]
+        }
+        source = ColumnDataSource(plotdata)
+        p = figure(width = 1000, height = 800, x_range = years)
+        p.multi_line(xs = 'years',
+                     ys = 'values',
+                     color = 'color',
+                     legend = 'columns',
+                     line_width = 3,
+                     source = source)
+        p.add_layout(Title(text="by instrument", text_font_style="italic"), 'above')
+        p.add_layout(Title(text=f"{mission.upper()} publications per year", text_font_size="16pt"), 'above')
+        p.legend.location = 'top_left'
+
+        fn = f"{output_fn}-{mission}.html"
+        log.info(f"Writing {fn}")
+        output_file(fn)
+        save(p)
+        #show(p)
+
+
+def plot_affiliations(db,
+                     output_fn='kpub-affiliations',
+                     year_begin=2000,
+                     missions=[]):
+    """Plots a bar graph showing counts for different affiliation types.
+
+    Parameters:
+      db (PublicationDB): Object that contains function to get needed data.
+      output_fn (str): Output filename of the plot.
+      year_begin (int): What year to start querying/plotting data?
+      missions (array): List of missions to generate distinct graphs for.
+    """
+    # Obtain the dictionary which provides the annual counts
+    for i, mission in enumerate(missions):
+
+        year_end = datetime.datetime.now().year -1
+        data = db.get_affiliation_counts(year_begin=year_begin, 
+                                           year_end=year_end,
+                                           mission=mission)
+
+        years = list(np.arange(year_begin, year_end+1))
+        years = [str(year) for year in years]
+        cols = list(data.keys())
+        pallete = Category10[len(cols)]
+        values = []
+        for instr, idata in data.items():
+          vals = [idata[year] for year in idata]
+          values.append(vals)
+        plotdata = {
+          'years': [years] * len(cols),
+          'values': values,
+          'columns': cols,
+          'color': pallete[0:len(cols)]
+        }
+        source = ColumnDataSource(plotdata)
+        p = figure(width = 1000, height = 800, x_range = years)
+        p.multi_line(xs = 'years',
+                     ys = 'values',
+                     color = 'color',
+                     legend = 'columns',
+                     line_width = 3,
+                     source = source)
+        p.add_layout(Title(text=f"{mission.upper()} affiliations per year", text_font_size="16pt"), 'above')
+        p.legend.location = 'top_left'
+
+        fn = f"{output_fn}-{mission}.html"
+        log.info(f"Writing {fn}")
+        output_file(fn)
+        save(p)
+
+
+def test_plot_affiliations():
     '''
     TODO: This is just some test code showing how to parse and map affiliations from
     metrics data.  Need to think about how to plot.
@@ -372,26 +424,6 @@ def plot_affiliations():
             aff = get_aff(raw['aff'][i], affdefs)
         affs.append(aff)
 
-
-def get_aff_type(affstr, affdefs):
-    '''
-    Search for institution strings in affiliation string.  Affiliation string
-    can have multiple semicolon-delimited entries.  'affmap' is an ordered 
-    array of preferred affiliation types.  Each type has an array of strings to
-    search for.
-    '''
-    affs = affstr.split(";")
-    for affdef in affdefs:
-        afftype = affdef['type']
-        for string in affdef['strings']:
-            for aff in affs:
-                if string.isupper():
-                    if re.search(string, aff):
-                        return afftype
-                else:
-                    if re.search(string, aff, re.IGNORECASE):
-                        return afftype                  
-    return "other"
 
 
 
