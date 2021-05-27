@@ -1187,7 +1187,7 @@ def kpub_export(args=None):
     parser = argparse.ArgumentParser(description="Export the publication list in CSV format.")
     parser.add_argument('-f', metavar='dbfile', type=str, default=DEFAULT_DB,
         help="Location of the publication list db. Defaults to ~/.kpub.db.")
-    parser.add_argument("--archived", default=False, action="store_true",
+    parser.add_argument("--archive", default=False, action="store_true",
         help="Only export records marked as archived.")
     parser.add_argument("--bibcodes", default=False, action="store_true",
         help="Only export one bibcode column.")
@@ -1195,7 +1195,7 @@ def kpub_export(args=None):
 
     q = "SELECT bibcode, mission, science, instruments, archive "
     q += " FROM pubs WHERE 1"
-    if args.archived: 
+    if args.archive: 
         q += " AND archive='1' "
     q += " ORDER BY bibcode asc;"
 

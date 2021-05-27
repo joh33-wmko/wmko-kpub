@@ -5,6 +5,10 @@ update:
 push:
 	kpub-export > data/kpub-export.csv
 	git add data/kpub.db data/kpub-export.csv
+	kpub-export --bibcodes > data/kpub-export-bibcodes.csv
+	git add data/kpub-export-bibcodes.csv
+	kpub-export --bibcodes --archive > data/kpub-export-bibcodes-archive.csv
+	git add data/kpub-export-bibcodes-archive.csv
 	git commit -m "Regular db update"
 	git push
 
