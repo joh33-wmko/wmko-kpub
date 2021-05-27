@@ -32,8 +32,8 @@ from astropy import log
 from astropy.utils.console import ProgressBar
 
 #todo: temp hack until we figure out packaging stuff
-#from . import plot
-import plot
+from . import plot
+#import plot
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
 
 #ADS API URL
@@ -410,25 +410,23 @@ class PublicationDB(object):
         missions = self.config.get('missions', [])
         sciences = self.config.get('sciences', [])
         plots_cfg = self.config.get('plots', [])
-        # for ext in ['pdf', 'png']:
-        #     plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
-        #     plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
-        #     for mission in missions:
-        #         plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
-        #     plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
-        #     plot.plot_author_count(self, f"kpub-author-count.{ext}")
+        for ext in ['pdf', 'png']:
+            plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
+            plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
+            for mission in missions:
+                plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
+            plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
+            plot.plot_author_count(self, f"kpub-author-count.{ext}")
 
-        # #bokeh plots
-        # if plots_cfg['instruments']:
-        #     plot.plot_instruments(self, f"kpub-publications-by-instrument", 
-        #                           year_begin=plots_cfg['year_begin'],
-        #                           missions=missions, 
-        #                           instruments=plots_cfg['instruments'])
-
+        #bokeh plots
+        if plots_cfg['instruments']:
+            plot.plot_instruments(self, f"kpub-publications-by-instrument", 
+                                  year_begin=plots_cfg['year_begin'],
+                                  missions=missions, 
+                                  instruments=plots_cfg['instruments'])
         if self.config['aff_defs']:
             plot.plot_affiliations(self, f"kpub-affiliations", 
                                   year_begin=plots_cfg['year_begin'],
-#                                  year_begin=plots_cfg['year_begin'],
                                   missions=missions)
 
 
