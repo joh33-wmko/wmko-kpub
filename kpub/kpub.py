@@ -724,14 +724,14 @@ class PublicationDB(object):
         Parameters:
             month (str): Used for ADS pubdate param. Format "YYYY-MM" or "YYYY".
         """
-        # # git pull reminder
-        # print(HIGHLIGHTS['YELLOW'] +
-        #       "Reminder: did you `git pull` kpub before running "
-        #       "this command? [y/n] " +
-        #       HIGHLIGHTS['END'],
-        #       end='')
-        # if input() == 'n':
-        #     return
+        # git pull reminder
+        print(HIGHLIGHTS['YELLOW'] +
+              "Reminder: did you `git pull` kpub before running "
+              "this command? [y/n] " +
+              HIGHLIGHTS['END'],
+              end='')
+        if input() == 'n':
+            return
 
         #Assume current month if not supplied.
         #NOTE: We use the term "month" but user can supply just the year to do a whole year.
@@ -768,7 +768,11 @@ class PublicationDB(object):
                 highlights = data['highlighting'][article['id']]
                 self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
+        #all done
         log.info(f'\nFinished reviewing all articles for {month}.')
+        print(HIGHLIGHTS['YELLOW'] +
+              "\nREMINDER: Do a `make push` to update the data files in github!" +
+              HIGHLIGHTS['END'])
 
 
     def open_pdf(self, bibcode):
