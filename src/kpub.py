@@ -32,8 +32,8 @@ from astropy import log
 from astropy.utils.console import ProgressBar
 
 #todo: temp hack until we figure out packaging stuff
-from . import plot
-#import plot
+#from . import plot
+import plot
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
 
 #ADS API URL
@@ -64,6 +64,10 @@ HIGHLIGHTS = {
     "CYAN"   : "\033[4;36m",
     "END"    : '\033[0m',
 }
+
+#misc globals
+PLOTDIR = "data/plots"
+MDDIR   = "data/output"
 
 
 class PublicationDB(object):
@@ -411,21 +415,21 @@ class PublicationDB(object):
         sciences = self.config.get('sciences', [])
         plots_cfg = self.config.get('plots', [])
         for ext in ['pdf', 'png']:
-            plot.plot_by_year(self, f"kpub-publication-rate.{ext}", missions=missions)
-            plot.plot_by_year(self, f"kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
+            plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate.{ext}", missions=missions)
+            plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
             for mission in missions:
-                plot.plot_by_year(self, f"kpub-publication-rate-{mission}.{ext}", missions=[mission])
-            plot.plot_science_piechart(self, f"kpub-piechart.{ext}", sciences=sciences)
-            plot.plot_author_count(self, f"kpub-author-count.{ext}")
+                plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-{mission}.{ext}", missions=[mission])
+            plot.plot_science_piechart(self, f"{PLOTDIR}/kpub-piechart.{ext}", sciences=sciences)
+            plot.plot_author_count(self, f"{PLOTDIR}/kpub-author-count.{ext}")
 
         #bokeh plots
         if plots_cfg['instruments']:
-            plot.plot_instruments(self, f"kpub-publications-by-instrument", 
+            plot.plot_instruments(self, f"{PLOTDIR}/kpub-publications-by-instrument", 
                                   year_begin=plots_cfg['year_begin'],
                                   missions=missions, 
                                   instruments=plots_cfg['instruments'])
         if self.config['aff_defs']:
-            plot.plot_affiliations(self, f"kpub-affiliations", 
+            plot.plot_affiliations(self, f"{PLOTDIR}/kpub-affiliations", 
                                   year_begin=plots_cfg['year_begin'],
                                   missions=missions)
 
@@ -999,14 +1003,13 @@ def prompt_grouping(valmap, type):
 # Command-line interfaces
 #########################
 
-def kpub(args=None):
+def kpub_markdown(args=None):
     """Lists the publications in the database in Markdown format."""
+
     parser = argparse.ArgumentParser(
         description="View the publication list in markdown format.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. "
-                             "Defaults to ~/.kpub.db.")
+    parser.add_argument('-f', metavar='dbfile', type=str, default=DEFAULT_DB,
+                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('--science', dest="science", type=str, default=None,
                         help="Only show a particular science. Defaults to all.")
     parser.add_argument('--mission', dest="mission", type=str, default=None,
@@ -1031,7 +1034,7 @@ def kpub(args=None):
                 suffix = ""
                 title_suffix = ""
 
-            output_fn = f"kpub-{config['prepend']}{suffix}.md"
+            output_fn = f"{MDDIR}/kpub-{config['prepend']}{suffix}.md"
             db.save_markdown(output_fn,
                              group_by_month=bymonth,
                              title=f"{title} publications{title_suffix}")
@@ -1039,7 +1042,7 @@ def kpub(args=None):
             sciences = config.get('sciences', [])
             if len(sciences) > 1:
                 for science in sciences:
-                    output_fn = f"kpub-{config['prepend']}-{science}{suffix}.md"
+                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-{science}{suffix}.md"
                     db.save_markdown(output_fn,
                                      group_by_month=bymonth,
                                      science=science,
@@ -1048,7 +1051,7 @@ def kpub(args=None):
             missions = config.get('missions', [])
             if len(missions) > 1:
                 for mission in missions:
-                    output_fn = f"kpub-{config['prepend']}-{mission}{suffix}.md"
+                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-{mission}{suffix}.md"
                     db.save_markdown(output_fn,
                                      group_by_month=bymonth,
                                      mission=mission,
@@ -1056,7 +1059,6 @@ def kpub(args=None):
 
         # Finally, produce an overview page
         templatedir = os.path.join(PACKAGEDIR, 'templates')
-        templatedir = 'templates'
         env = jinja2.Environment(loader=jinja2.FileSystemLoader(templatedir))
         template = env.get_template('template-overview.md')
         markdown = template.render(institution=title,
@@ -1065,7 +1067,7 @@ def kpub(args=None):
                                    most_active_first_authors=db.get_most_active_first_authors(),
                                    now=datetime.datetime.now())
         # most_read=db.get_most_read(20),
-        filename = 'publications.md'
+        filename = f'{MDDIR}/publications.md'
         log.info('Writing {}'.format(filename))
         f = open(filename, 'w')
         if sys.version_info >= (3, 0):
@@ -1281,13 +1283,15 @@ def kpub_spreadsheet(args=None):
 
 if __name__ == '__main__':
 
-    #todo: This is a hack until we figure out packaging
     cmd = sys.argv[1]
-    if   cmd == 'update': kpub_update(sys.argv[2:])
-    elif cmd == 'plot':   kpub_plot(sys.argv[2:])
-    elif cmd == 'add':    kpub_add(sys.argv[2:])
-    elif cmd == 'delete': kpub_delete(sys.argv[2:])
-    elif cmd == 'import': kpub_import(sys.argv[2:])
-    elif cmd == 'export': kpub_export(sys.argv[2:])
-    else:                 kpub(sys.argv[1:])
+    if   cmd == 'update':      kpub_update(sys.argv[2:])
+    elif cmd == 'plot':        kpub_plot(sys.argv[2:])
+    elif cmd == 'add':         kpub_add(sys.argv[2:])
+    elif cmd == 'delete':      kpub_delete(sys.argv[2:])
+    elif cmd == 'import':      kpub_import(sys.argv[2:])
+    elif cmd == 'export':      kpub_export(sys.argv[2:])
+    elif cmd == 'markdown':    kpub_markdown(sys.argv[2:])
+    elif cmd == 'spreadsheet': kpub_spreadsheet(sys.argv[2:])
+    else: print("ERROR: Unknown kpub command")
+
 
