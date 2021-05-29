@@ -1034,7 +1034,7 @@ def kpub_markdown(args=None):
                 suffix = ""
                 title_suffix = ""
 
-            output_fn = f"{MDDIR}/kpub-{config['prepend']}{suffix}.md"
+            output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications{suffix}.md"
             db.save_markdown(output_fn,
                              group_by_month=bymonth,
                              title=f"{title} publications{title_suffix}")
@@ -1042,7 +1042,7 @@ def kpub_markdown(args=None):
             sciences = config.get('sciences', [])
             if len(sciences) > 1:
                 for science in sciences:
-                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-{science}{suffix}.md"
+                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{science}{suffix}.md"
                     db.save_markdown(output_fn,
                                      group_by_month=bymonth,
                                      science=science,
@@ -1051,7 +1051,7 @@ def kpub_markdown(args=None):
             missions = config.get('missions', [])
             if len(missions) > 1:
                 for mission in missions:
-                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-{mission}{suffix}.md"
+                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{mission}{suffix}.md"
                     db.save_markdown(output_fn,
                                      group_by_month=bymonth,
                                      mission=mission,
@@ -1067,7 +1067,7 @@ def kpub_markdown(args=None):
                                    most_active_first_authors=db.get_most_active_first_authors(),
                                    now=datetime.datetime.now())
         # most_read=db.get_most_read(20),
-        filename = f'{MDDIR}/publications.md'
+        filename = f'{MDDIR}/publications-overview.md'
         log.info('Writing {}'.format(filename))
         f = open(filename, 'w')
         if sys.version_info >= (3, 0):

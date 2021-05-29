@@ -1,0 +1,85 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.bokeh.org/bokeh/release/bokeh-2.2.3.min.js" integrity="sha384-T2yuo9Oe71Cz/I4X9Ac5+gpEa5a8PpJCDlqKYO0CfAuEszu1JrXLl8YugMqYe3sM" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="d16b1e11-8fac-4d65-86c7-e9e7b412b731" data-root-id="1002"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="1140">
+          {"1586157e-d7a6-4708-9fd0-67a3d9c8be77":{"roots":{"references":[{"attributes":{"text":"KECK publications per year","text_font_size":{"value":"16pt"}},"id":"1049","type":"Title"},{"attributes":{},"id":"1043","type":"Selection"},{"attributes":{},"id":"1021","type":"SaveTool"},{"attributes":{},"id":"1039","type":"CategoricalTickFormatter"},{"attributes":{},"id":"1015","type":"BasicTicker"},{"attributes":{"above":[{"id":"1048"},{"id":"1049"}],"below":[{"id":"1011"}],"center":[{"id":"1013"},{"id":"1017"},{"id":"1046"}],"left":[{"id":"1014"}],"plot_height":800,"plot_width":1000,"renderers":[{"id":"1035"}],"title":{"id":"1037"},"toolbar":{"id":"1025"},"x_range":{"id":"1003"},"x_scale":{"id":"1007"},"y_range":{"id":"1005"},"y_scale":{"id":"1009"}},"id":"1002","subtype":"Figure","type":"Plot"},{"attributes":{"label":{"field":"columns"},"renderers":[{"id":"1035"}]},"id":"1047","type":"LegendItem"},{"attributes":{},"id":"1005","type":"DataRange1d"},{"attributes":{},"id":"1007","type":"CategoricalScale"},{"attributes":{"data_source":{"id":"1001"},"glyph":{"id":"1033"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1034"},"selection_glyph":null,"view":{"id":"1036"}},"id":"1035","type":"GlyphRenderer"},{"attributes":{"line_alpha":{"value":0.1},"line_color":{"field":"color"},"line_width":{"value":3},"xs":{"field":"years"},"ys":{"field":"values"}},"id":"1034","type":"MultiLine"},{"attributes":{"line_color":{"field":"color"},"line_width":{"value":3},"xs":{"field":"years"},"ys":{"field":"values"}},"id":"1033","type":"MultiLine"},{"attributes":{},"id":"1012","type":"CategoricalTicker"},{"attributes":{"factors":["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"]},"id":"1003","type":"FactorRange"},{"attributes":{},"id":"1018","type":"PanTool"},{"attributes":{"source":{"id":"1001"}},"id":"1036","type":"CDSView"},{"attributes":{},"id":"1009","type":"LinearScale"},{"attributes":{},"id":"1019","type":"WheelZoomTool"},{"attributes":{"text":""},"id":"1037","type":"Title"},{"attributes":{"formatter":{"id":"1039"},"ticker":{"id":"1012"}},"id":"1011","type":"CategoricalAxis"},{"attributes":{"overlay":{"id":"1024"}},"id":"1020","type":"BoxZoomTool"},{"attributes":{"axis":{"id":"1011"},"ticker":null},"id":"1013","type":"Grid"},{"attributes":{},"id":"1044","type":"UnionRenderers"},{"attributes":{"axis":{"id":"1014"},"dimension":1,"ticker":null},"id":"1017","type":"Grid"},{"attributes":{"data":{"color":["#1f77b4","#aec7e8","#ff7f0e","#ffbb78","#2ca02c","#98df8a","#d62728","#ff9896","#9467bd","#c5b0d5"],"columns":["DEIMOS","ESI","HIRES","KCWI","LRIS","MOSFIRE","NIRC2","NIRES","NIRSPEC","OSIRIS"],"values":[[0,0,0,0,0,0,0,0,0,4,18,20,44,70,48,55,51,65,81,63,70,71,59,58,45,42,45],[0,0,0,0,0,0,2,13,26,38,16,21,33,26,21,11,18,11,16,11,12,23,19,16,20,18,8],[5,9,21,32,22,51,51,50,46,50,48,57,61,66,51,76,78,87,101,93,73,81,83,73,87,82,73],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,11,11],[1,20,24,31,65,58,70,83,69,76,70,76,98,85,90,73,97,86,107,84,77,71,56,85,65,73,66],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,15,29,37,31,22,36,34],[0,0,0,0,0,0,0,0,3,6,11,24,23,29,32,29,33,41,54,60,63,54,65,64,60,59,45],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,8],[0,0,0,0,0,0,8,13,30,35,40,23,34,49,38,29,28,35,40,40,23,21,24,24,21,21,23],[0,0,0,0,0,0,0,0,0,0,0,0,4,6,2,14,10,13,9,22,11,13,11,15,17,13,11]],"years":[["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"],["1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"]]},"selected":{"id":"1043"},"selection_policy":{"id":"1044"}},"id":"1001","type":"ColumnDataSource"},{"attributes":{"formatter":{"id":"1041"},"ticker":{"id":"1015"}},"id":"1014","type":"LinearAxis"},{"attributes":{"items":[{"id":"1047"}],"location":"top_left"},"id":"1046","type":"Legend"},{"attributes":{},"id":"1022","type":"ResetTool"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto","tools":[{"id":"1018"},{"id":"1019"},{"id":"1020"},{"id":"1021"},{"id":"1022"},{"id":"1023"}]},"id":"1025","type":"Toolbar"},{"attributes":{},"id":"1041","type":"BasicTickFormatter"},{"attributes":{"bottom_units":"screen","fill_alpha":0.5,"fill_color":"lightgrey","left_units":"screen","level":"overlay","line_alpha":1.0,"line_color":"black","line_dash":[4,4],"line_width":2,"right_units":"screen","top_units":"screen"},"id":"1024","type":"BoxAnnotation"},{"attributes":{"text":"by instrument","text_font_style":"italic"},"id":"1048","type":"Title"},{"attributes":{},"id":"1023","type":"HelpTool"}],"root_ids":["1002"]},"title":"Bokeh Application","version":"2.2.3"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('1140').textContent;
+                  var render_items = [{"docid":"1586157e-d7a6-4708-9fd0-67a3d9c8be77","root_ids":["1002"],"roots":{"1002":"d16b1e11-8fac-4d65-86c7-e9e7b412b731"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        clearInterval(timer);
+                        embed_document(root);
+                      } else {
+                        attempts++;
+                        if (attempts > 100) {
+                          clearInterval(timer);
+                          console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        }
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>
