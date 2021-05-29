@@ -1020,7 +1020,7 @@ def kpub(args=None):
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     title = config.get('prepend', '').capitalize()
 
-    db = PublicationDB(args.f)
+    db = PublicationDB(args.f, config)
 
     if args.save:
         for bymonth in [True, False]:
@@ -1031,32 +1031,36 @@ def kpub(args=None):
                 suffix = ""
                 title_suffix = ""
 
-            output_fn = f'kpub{suffix}.md'
+            output_fn = f"kpub-{config['prepend']}{suffix}.md"
             db.save_markdown(output_fn,
                              group_by_month=bymonth,
                              title=f"{title} publications{title_suffix}")
 
-            sciences = self.config.get('sciences', [])
-            for science in sciences:
-                output_fn = f'kpub-{science}{suffix}.md'
-                db.save_markdown(output_fn,
-                                 group_by_month=bymonth,
-                                 science=science,
-                                 title=f"{title} {science} publications{title_suffix}")
+            sciences = config.get('sciences', [])
+            if len(sciences) > 1:
+                for science in sciences:
+                    output_fn = f"kpub-{config['prepend']}-{science}{suffix}.md"
+                    db.save_markdown(output_fn,
+                                     group_by_month=bymonth,
+                                     science=science,
+                                     title=f"{title} {science} publications{title_suffix}")
 
-            missions = self.config.get('missions', [])
-            for mission in missions:
-                output_fn = f'kpub-{mission}{suffix}.md'
-                db.save_markdown(output_fn,
-                                 group_by_month=bymonth,
-                                 mission=mission,
-                                 title=f"{mission.capitalize()} publications{title_suffix}")
+            missions = config.get('missions', [])
+            if len(missions) > 1:
+                for mission in missions:
+                    output_fn = f"kpub-{config['prepend']}-{mission}{suffix}.md"
+                    db.save_markdown(output_fn,
+                                     group_by_month=bymonth,
+                                     mission=mission,
+                                     title=f"{mission.capitalize()} publications{title_suffix}")
 
         # Finally, produce an overview page
         templatedir = os.path.join(PACKAGEDIR, 'templates')
+        templatedir = 'templates'
         env = jinja2.Environment(loader=jinja2.FileSystemLoader(templatedir))
         template = env.get_template('template-overview.md')
-        markdown = template.render(metrics=db.get_metrics(),
+        markdown = template.render(institution=title,
+                                   metrics=db.get_metrics(),
                                    most_cited=db.get_most_cited(top=20),
                                    most_active_first_authors=db.get_most_active_first_authors(),
                                    now=datetime.datetime.now())
