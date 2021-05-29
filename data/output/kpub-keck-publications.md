@@ -1,5 +1,5 @@
 Title: Keck publications
-Save_as: data/output/kpub-keck-publications.html
+Save_as: /Users/joshriley/dev/keck/kpub/src/../data/output/kpub-keck-publications.html
 
 [TOC]
 

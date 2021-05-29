@@ -1,5 +1,5 @@
 Title: Keck publications by month
-Save_as: data/output/kpub-keck-publications-by-month.html
+Save_as: /Users/joshriley/dev/keck/kpub/src/../data/output/kpub-keck-publications-by-month.html
 
 [TOC]
 

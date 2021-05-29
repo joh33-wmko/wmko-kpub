@@ -1202,7 +1202,7 @@ def kpub_export(args=None):
     args = parser.parse_args(args)
 
     q = "SELECT bibcode, mission, science, instruments, archive "
-    q += " FROM pubs WHERE 1"
+    q += " FROM pubs WHERE mission != 'unrelated' "
     if args.archive: 
         q += " AND archive='1' "
     q += " ORDER BY bibcode asc;"
