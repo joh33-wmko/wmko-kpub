@@ -43,7 +43,7 @@ The list below shows the most-cited publications, based on the citation count ob
 
 ## Most-active authors
 
-Below we list the most-active authors, defined as those with six or more first-author publications in our database.
+Below we list the most-active authors, defined as those with 10 or more first-author publications in our database.
 
 {% for author in most_active_first_authors %}
  * {{author[0]}} ({{ "%.0f"|format(author[1]) }} publications)

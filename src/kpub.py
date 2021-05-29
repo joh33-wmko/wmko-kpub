@@ -36,6 +36,7 @@ PLOTDIR = f"{PACKAGEDIR}/../data/plots"
 MDDIR   = f"{PACKAGEDIR}/../data/output"
 
 #init logging
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger('KPUB')
 log.setLevel(logging.INFO)
 
@@ -557,7 +558,7 @@ class PublicationDB(object):
         idx_top = np.argsort(citations)[::-1][0:top]
         return [json.loads(articles[idx][2]) for idx in idx_top]
 
-    def get_most_active_first_authors(self, min_papers=6):
+    def get_most_active_first_authors(self, min_papers=10):
         """Returns names and paper counts of the most active first authors."""
         articles = self.query()
         authors = {}

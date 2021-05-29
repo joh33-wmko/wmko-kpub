@@ -11,7 +11,6 @@ if [ "$CONDA_PREFIX" != "" ]; then
         conda activate KPUB
     fi
 fi
-echo $python
 
 #script dir
 root=`dirname $0`
