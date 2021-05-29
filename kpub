@@ -1,42 +1,50 @@
-#!/bin/csh
-
+#!/bin/bash
 
 #TODO: Add git pull to some of these?
 
-#cd to script dir
-set rootdir = `dirname $0`
-cd $rootdir
+# Using KPUB env?
+python="python3"
+if [ "$CONDA_PREFIX" != "" ]; then
+    if [ -e $CONDA_PREFIX/envs/KPUB/bin/python3 ]; then
+        python="$CONDA_PREFIX/envs/KPUB/bin/python3"
+        source $CONDA_PREFIX/etc/profile.d/conda.sh
+        conda activate KPUB
+    fi
+fi
+echo $python
 
-#parse command
-set a1 = $argv[1]
+#script dir
+root=`dirname $0`
 
 #regular singular kpub commands
-if (   $a1 == 'update' \
-	|| $a1 == 'plot' \
-	|| $a1 == 'markdown' \
-	|| $a1 == 'add' \
-	|| $a1 == 'delete' \
-	|| $a1 == 'import' \
-	|| $a1 == 'export') then
-	python3 src/kpub.py $argv
+a1=$1
+if [ $a1 == 'update' ] \
+    || [ $a1 == 'plot' ] \
+    || [ $a1 == 'markdown' ] \
+    || [ $a1 == 'add' ] \
+    || [ $a1 == 'delete' ] \
+    || [ $a1 == 'import' ] \
+    || [ $a1 == 'export' ] \
+    || [ $a1 == 'spreadsheet' ]; then
+    $python $root/src/kpub.py "$@"
 
 #Do various exports and update github repo
-else if ($a1 == 'push') then
-	python src/kpub.py export > data/kpub-export.csv
-	python src/kpub.py export --bibcodes > data/kpub-export-bibcodes.csv
-	python src/kpub.py export --bibcodes --archive > data/kpub-export-bibcodes-archive.csv
-	git add data/kpub.db 
-	git add data/kpub-export.csv
-	git add data/kpub-export-bibcodes.csv
-	git add data/kpub-export-bibcodes-archive.csv
-	git commit -m "Regular db update"
-	git push
+elif [ $a1 == 'push' ]; then
+    $python $root/src/kpub.py export > $root/data/kpub-export.csv
+    $python $root/src/kpub.py export --bibcodes > $root/data/kpub-export-bibcodes.csv
+    $python $root/src/kpub.py export --bibcodes --archive > $root/data/kpub-export-bibcodes-archive.csv
+    git add data/kpub.db 
+    git add data/kpub-export.csv
+    git add data/kpub-export-bibcodes.csv
+    git add data/kpub-export-bibcodes-archive.csv
+    git commit -m "Regular db update"
+    git push
 
 # Update the metadata by re-fetching all entries from the ADS API
 # this will e.g. update the citation counts and bibcodes
-else if ($a1 == 'refresh') then
-	python src/kpub.py export > data/kpub-export.csv
-	rm data/kpub.db
-	python src/kpub.py import data/kpub-export.csv
+elif [ $a1 == 'refresh' ]; then
+    $python $root/src/kpub.py export > $root/data/kpub-export.csv
+    rm $root/data/kpub.db
+    $python $root/src/kpub.py import $root/data/kpub-export.csv
 
-endif
+fi

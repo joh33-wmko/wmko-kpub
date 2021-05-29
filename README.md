@@ -6,35 +6,52 @@
 
 This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version of [kpub](https://github.com/KeplerGO/kpub) for Kepler/K2.  The major changes here are:
 
-- Code is now config file driven so it can be used by any mission or facility.
+- Code is now config-file driven so it can be used by any facility or institution.
 - Added optional tracking of instrument assocations and associated new plots.
 - Added optional tracking of archive references and associated new plots.
 - Added affiliations mapping and plotting.
 - Added automated PDF download, view, and search for highlight snippets.
 - Removed reliance on 'ads' third-party module (due to some limitations).
-- Replaced installation and Makefile with simple run script (due to some limitations).
+- Replaced installation script and Makefile with run script (due to some limitations).
 
 
 ## Installation and Configuration
 
-First, download the source code to a directory of your choice:
+1) Download the source code (assuming $HOME for examples below):
 ```
+cd $HOME
 git clone https://github.com/KeckObservatory/kpub.git
 ```
 
-Next, edit the `config.live.yaml` file.  Read the config file and edit sections as needed.  At a minimum, you will need to add the `ADS_API_KEY` value.  There are two example config files pre-configuraed for Keck and Kepler as well.
+2) Create an account at https://ui.adsabs.harvard.edu/, generate an ADS API key (https://ui.adsabs.harvard.edu/user/settings/token) and copy it for use in step 3 below.
+
+3) Edit the `config.live.yaml` file.  Read the config file and edit sections as needed.  At a minimum, you will need to add the `ADS_API_KEY` value.  There are two example config files pre-configured for Keck and Kepler as well.
 ```
-cd kpub/src/config
+cd $HOME/kpub/src/config
 cp config.yaml config.live.yaml
 ```
 
-Finally, add `kpub` start script to path (optional):
-
-export PATH=/home/observer/kpub:$PATH
-
-Note that the `kpub` tools will use `~/.kpub.db` as the default database file. This repository contains a recent version of the database file (`data/kpub.db`), which you may want to link to the default file as follows:
+4) Add `kpub` start script to path (optional):
 ```
-ln -s /path/to/git/repo/data/kpub.db ~/.kpub.db
+export PATH=/home/observer/kpub:$PATH
+```
+
+5) Install dependencies:
+
+Option 1: Install them manually:
+```
+pip install textract pyyaml requests jinja2 matplotlib bokeh
+```
+
+Option 2: Or, create a conda environment using the provided environment.yaml file:
+```
+cd $HOME/kpub
+conda env create -f environment.yaml
+````
+
+6) Note that the `kpub` tools will use `~/.kpub.db` as the default database file. This repository contains a recent version of the database file (`data/kpub.db`), which you may want to link to the default file as follows:
+```
+ln -s $HOME/kpub/data/kpub.db ~/.kpub.db
 ```
 
 
@@ -51,7 +68,7 @@ Add `--help` to any command below to get full usage instructions
 * `kpub spreadsheet` exports the publications to an Excel spreadsheet
 * `kpub update` to search for new publications with pubdate of current month;
 * `kpub push` to push the updated database to the git repo;
-* `kpub refresh` to export and import all publications (this is slow and necessary only if you want to remove duplicates and fetch fresh citation statistics)
+* `kpub refresh` to export and re-import all publications (this is slow and necessary only if you want to remove duplicates and fetch fresh citation statistics)
 
 
 ## Example use

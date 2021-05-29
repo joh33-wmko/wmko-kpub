@@ -1,9 +1,9 @@
 """Creates beautiful visualizations of the publication database."""
 import datetime
 import numpy as np
-from astropy import log
 from pprint import pprint
 import sys
+import logging
 
 from matplotlib import pyplot as pl
 import matplotlib.patheffects as path_effects
@@ -13,6 +13,11 @@ from bokeh.palettes import Category20, Category10
 from bokeh.plotting import figure, show, output_file, save
 from bokeh.models import Legend, ColumnDataSource, Title
 from bokeh.io import export_png
+
+
+#init logging
+log = logging.getLogger('KPUB')
+log.setLevel(logging.INFO)
 
 
 # Configure the aesthetics

@@ -19,22 +19,25 @@ import requests
 import readline
 import webbrowser
 from pprint import pprint
-
+import logging
+import jinja2
 try:    
     import textract
 except: 
     textract = None
 
-# External dependencies
-import jinja2
-from six.moves import input  # needed to support Python 2
-from astropy import log
-from astropy.utils.console import ProgressBar
-
 #todo: temp hack until we figure out packaging stuff
 #from . import plot
 import plot
+
+#misc globals
 PACKAGEDIR = os.path.abspath(os.path.dirname(__file__))
+PLOTDIR = f"{PACKAGEDIR}/../data/plots"
+MDDIR   = f"{PACKAGEDIR}/../data/output"
+
+#init logging
+log = logging.getLogger('KPUB')
+log.setLevel(logging.INFO)
 
 #ADS API URL
 ADS_API = 'https://api.adsabs.harvard.edu/v1/search/query?'
@@ -64,10 +67,6 @@ HIGHLIGHTS = {
     "CYAN"   : "\033[4;36m",
     "END"    : '\033[0m',
 }
-
-#misc globals
-PLOTDIR = "data/plots"
-MDDIR   = "data/output"
 
 
 class PublicationDB(object):
@@ -1170,7 +1169,7 @@ def kpub_import(args=None):
 
     db = PublicationDB(args.f, config)
     import time
-    for line in ProgressBar(open(args.csvfile, 'r').readlines()):
+    for line in open(args.csvfile, 'r').readlines():
         line = line.strip()
         if not line:
             continue
