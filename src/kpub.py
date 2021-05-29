@@ -215,7 +215,7 @@ class PublicationDB(object):
             counts = get_word_match_counts_by_pdf(bibcode, words, ads_api_key)
         except Exception as e:
             print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
-            counts = get_word_match_counts_by_query(bibcode, words)
+            counts = get_word_match_counts_by_query(bibcode, words, ads_api_key)
 
         #print snippets
         print("\nSNIPPETS FOUND:")
@@ -235,13 +235,14 @@ class PublicationDB(object):
         if not archive:
             return ''
 
+
         #try two methods for finding matches
+        ads_api_key = self.config.get('ADS_API_KEY')
         try:
-            ads_api_key = self.config.get('ADS_API_KEY')
             counts = get_word_match_counts_by_pdf(bibcode, archive, ads_api_key)
         except Exception as e:
             print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
-            counts = get_word_match_counts_by_query(bibcode, archive)
+            counts = get_word_match_counts_by_query(bibcode, archive, ads_api_key)
 
         #print snippets
         # print("ARCHIVE SNIPPETS FOUND:")
@@ -267,12 +268,12 @@ class PublicationDB(object):
             return ''
 
         #try two methods for finding matches
+        ads_api_key = self.config.get('ADS_API_KEY')
         try:
-            ads_api_key = self.config.get('ADS_API_KEY')
             counts = get_word_match_counts_by_pdf(bibcode, instruments, ads_api_key)
         except Exception as e:
             print("WARN: Could not parse PDF file.  Using alternate ADS query method...")
-            counts = get_word_match_counts_by_query(bibcode, instruments)
+            counts = get_word_match_counts_by_query(bibcode, instruments, ads_api_key)
 
         #print snippets
         print("\nINSTRUMENT SNIPPETS FOUND:")
@@ -878,7 +879,7 @@ def display_abstract(article_dict, colors, highlights=None):
     print('')
 
 
-def get_word_match_counts_by_query(bibcode, words):
+def get_word_match_counts_by_query(bibcode, words, ads_api_key):
 
     bibcode = bibcode.replace('&', '%26')
 
@@ -895,7 +896,7 @@ def get_word_match_counts_by_query(bibcode, words):
             "&hl.fragsize=100"
             "&hl.maxAnalyzedChars=500000"
         )
-        headers = {'Authorization': 'Bearer kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU'}
+        headers = {'Authorization': f'Bearer {ads_api_key}'}
         r = requests.get(url, headers=headers)
         data = r.json()
         counts[word] = {'count': 0, 'snippets': []}
@@ -958,12 +959,16 @@ def get_pdf_file(bibcode, ads_api_key):
 
 def get_pdf_text(outfile):
     assert textract, "No textract module found."
-    try:
-        text = textract.process(outfile, method='pdfminer')
-    except Exception as e:
-        print("textract: pdfminer method failed.  Trying pdftotext method...")
-        text = textract.process(outfile, method='pdftotext')
-    text = text.decode("utf-8")
+    methods = ['pdftotext', 'pdfminer']
+    text = ''
+    for method in methods:
+        try:
+            text = textract.process(outfile, method=method)
+            text = text.decode("utf-8")
+        except Exception as e:
+            print(f"textract: {method} method failed.  Trying another method...")
+    if not text:
+        raise Exception("Could not extract PDF text")
     return text
 
 
