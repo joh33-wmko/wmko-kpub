@@ -59,7 +59,8 @@
   #NOTE: You will not be prompted to confirm this.
   "archive": [
     'KOA', 
-    'Keck Observatory Archive'
+    'Keck Observatory Archive',
+    'Keck data archive'
   ],
 
   #plot configs
