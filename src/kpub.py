@@ -105,18 +105,16 @@ class PublicationDB(object):
         #insert to db
         try:
             q = ("insert into pubs set"
-                f" id={article['id']}, "
-                f" bibcode='{article['bibcode']}', "
-                f" year={article['year']}, "
-                f" month={month}, "
-                f" date='{article['pubdate']}', "
-                f" mission='{mission}', "
-                f" science='{science}', "
-                f" instruments='{instruments}', "
-                f" archive={archive}, "
-                f" metrics='{json.dumps(article)}' "
+                f" id=%s, bibcode=%s, year=%s, month=%s, date=%s, "
+                f" mission=%s, science=%s, instruments=%s, archive=%s, "
+                f" metrics=%s "
                 )
-            res = self.db.query('kpub', q)
+            vals = (
+                article['id'], article['bibcode'], article['year'],
+                month, article['pubdate'], mission, science,
+                instruments, archive, json.dumps(article)
+                )
+            res = self.db.query('kpub', q, vals)
             if not res:
                 log.error(f'Could not insert bibcode {bibcode}')
             else:
