@@ -2,7 +2,7 @@
 
   #ADS API Key 
   #NOTE: Create an account at https://ui.adsabs.harvard.edu/, generate an ADS API key and copy it here.
-  "ADS_API_KEY": "kKZEcC7UXr11ITa3Kh34RPZvFJHHCEXXbDITGDDU",
+  "ADS_API_KEY": "",
 
   #Unique identifier for this mission/facility. Used for labeling and prepending to output filenames, etc.
   "prepend": "keck",
