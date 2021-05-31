@@ -12,7 +12,6 @@ import json
 import datetime
 import argparse
 import collections
-import sqlite3 as sql
 import numpy as np
 import yaml
 import requests
@@ -26,6 +25,7 @@ try:
 except: 
     textract = None
 
+import db_conn
 #todo: temp hack until we figure out packaging stuff
 #from . import plot
 import plot
@@ -78,30 +78,10 @@ class PublicationDB(object):
     filename : str
         Path to the SQLite database file.
     """
-    def __init__(self, filename=DEFAULT_DB, config=None):
-        self.filename = filename
+    def __init__(self, config=None):
         self.config = config
-        self.con = sql.connect(filename)
-        pubs_table_exists = self.con.execute(
-                                """
-                                   SELECT COUNT(*) FROM sqlite_master
-                                   WHERE type='table' AND name='pubs';
-                                """).fetchone()[0]
-        if not pubs_table_exists:
-            self.create_table()    
+        self.db = db_conn.db_conn(self.config['DATABASE'], persist=True)
 
-    def create_table(self):
-        self.con.execute("""CREATE TABLE pubs(
-                                id UNIQUE,
-                                bibcode UNIQUE,
-                                year,
-                                month,
-                                date,
-                                mission,
-                                science,
-                                instruments,
-                                archive,
-                                metrics)""")
 
     def add(self, article, mission="", science="", instruments="", archive=""):
         """Adds a single article object to the database.
@@ -116,7 +96,7 @@ class PublicationDB(object):
         log.debug('Ingesting {}'.format(article['bibcode']))
 
         # Store the extra metadata in the json string
-        month = article['pubdate'][0:7]
+        month = int(article['pubdate'][5:7])
         article['mission'] = mission
         article['science'] = science
         article['instruments'] = instruments
@@ -124,15 +104,25 @@ class PublicationDB(object):
 
         #insert to db
         try:
-            cur = self.con.execute("INSERT INTO pubs "
-                "(id, bibcode, year, month, date, mission, science, instruments, archive, metrics) "
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                [article['id'], article['bibcode'], article['year'], month, article['pubdate'],
-                mission, science, instruments, archive, json.dumps(article)])
-            log.info('Inserted {} row(s).'.format(cur.rowcount))
-            self.con.commit()
-        except sql.IntegrityError:
-            log.warning('{} was already ingested.'.format(article['bibcode']))
+            q = ("insert into pubs set"
+                f" id={article['id']}, "
+                f" bibcode='{article['bibcode']}', "
+                f" year={article['year']}, "
+                f" month={month}, "
+                f" date='{article['pubdate']}', "
+                f" mission='{mission}', "
+                f" science='{science}', "
+                f" instruments='{instruments}', "
+                f" archive={archive}, "
+                f" metrics='{json.dumps(article)}' "
+                )
+            res = self.db.query('kpub', q)
+            if not res:
+                log.error(f'Could not insert bibcode {bibcode}')
+            else:
+                log.info(f'Inserted {res} row(s).')
+        except Exception as e:
+            log.error(str(e))
 
     def add_interactively(self, article, statusmsg="", highlights=None):
         """Adds an article by prompting the user for the classification.
@@ -291,9 +281,14 @@ class PublicationDB(object):
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
         #TODO: NOTE: Without querying for 'keck' in full text, highlights will not be returned.
+        bibcode = bibcode.replace('&', '%26')
         q = f"identifier:{bibcode}"
         data = self.query_ads(q)
         articles = data['response']['docs'] 
+
+        if not articles:
+            log.error(f"No ADS record found for bibcode {bibcode}")
+
         for article in articles:
             # Print useful warnings
             if bibcode != article['bibcode']:
@@ -310,14 +305,19 @@ class PublicationDB(object):
                     self.add(article, **kwargs)
 
     def delete_by_bibcode(self, bibcode):
-        cur = self.con.execute("DELETE FROM pubs WHERE bibcode = ?;", [bibcode])
-        log.info('Deleted {} row(s).'.format(cur.rowcount))
-        self.con.commit()
+        q = f"DELETE FROM pubs WHERE bibcode='{bibcode}'"
+        res = self.db.query('kpub', q)
+        if not res:
+            log.error(f'Could not delete bibcode {bibcode}')
+        else:
+            log.info(f'Deleted {res} row(s).')
 
     def article_exists(self, article):
-        count = self.con.execute("SELECT COUNT(*) FROM pubs WHERE id = ? OR bibcode = ?;",
-                                 [article['id'], article['bibcode']]).fetchone()[0]
-        return bool(count)
+        q = (f"SELECT COUNT(*) as cnt FROM pubs WHERE "
+             f" id = {article['id']} OR bibcode = '{article['bibcode']}'")
+        data = self.db.query('kpub', q, getOne=True)
+        if data and data['cnt'] > 0: return 1
+        else:                        return 0
 
     def query(self, mission=None, science=None, year=None):
         """Query the database by mission and/or science and/or year.
@@ -352,25 +352,24 @@ class PublicationDB(object):
             else:
                 where += " AND year = '{}' ".format(year)
 
-        cur = self.con.execute("SELECT year, month, metrics, bibcode "
-                               "FROM pubs "
-                               "WHERE {} "
-                               "ORDER BY date DESC; ".format(where))
-        return cur.fetchall()
+        q = (f"SELECT * FROM pubs where {where} ORDER BY date DESC ")
+        data = self.db.query('kpub', q)
+        return data
 
     def get_metadata(self, bibcode):
         """Returns a dictionary of the raw metadata given a bibcode."""
-        cur = self.con.execute("SELECT metrics FROM pubs WHERE bibcode = ?;", [bibcode])
-        return json.loads(cur.fetchone()[0])
+        q = f"SELECT metrics FROM pubs WHERE bibcode = '{bibcode}'"
+        data = self.db.query('kpub', q, getOne=True)
+        return data['metrics']
 
     def to_markdown(self, title="Publications",
                     group_by_month=False, save_as=None, **kwargs):
         """Returns the publication list in markdown format.
         """
         if group_by_month:
-            group_idx = 1
+            group_idx = 'month'
         else:
-            group_idx = 0  # by year
+            group_idx = 'year'
 
         articles = collections.OrderedDict({})
         for row in self.query(**kwargs):
@@ -379,7 +378,7 @@ class PublicationDB(object):
                 group = group[:-3] + "-01"
             if group not in articles:
                 articles[group] = []
-            art = json.loads(row[2])
+            art = json.loads(row['metrics'])
             # The markdown template depends on "property" being iterable
             if art["property"] is None:
                 art["property"] = []
@@ -472,8 +471,8 @@ class PublicationDB(object):
             first_authors[mission] = []
 
         for article in self.query(year=year):
-            api_response = article[2]
-            js = json.loads(api_response)
+            row = article['metrics']
+            js = json.loads(row)
 
             #general count
             metrics["publication_count"] += 1
@@ -530,41 +529,41 @@ class PublicationDB(object):
     def get_all(self, mission=None, science=None):
         """Returns a list of dictionaries, one entry per publication."""
         articles = self.query(mission=mission, science=science)
-        return [json.loads(art[2]) for art in articles]
+        return [json.loads(art['metrics']) for art in articles]
 
     def get_most_cited(self, mission=None, science=None, top=10):
         """Returns the most-cited publications."""
         bibcodes, citations = [], []
         articles = self.query(mission=mission, science=science)
         for article in articles:
-            api_response = article[2]
+            api_response = article['metrics']
             js = json.loads(api_response)
-            bibcodes.append(article[3])
+            bibcodes.append(article['bibcode'])
             if js["citation_count"] is None:
                 citations.append(0)
             else:
                 citations.append(js["citation_count"])
         idx_top = np.argsort(citations)[::-1][0:top]
-        return [json.loads(articles[idx][2]) for idx in idx_top]
+        return [json.loads(articles[idx]['metrics']) for idx in idx_top]
 
     def get_most_read(self, mission=None, science=None, top=10):
         """Returns the most-cited publications."""
         bibcodes, citations = [], []
         articles = self.query(mission=mission, science=science)
         for article in articles:
-            api_response = article[2]
+            api_response = article['metrics']
             js = json.loads(api_response)
-            bibcodes.append(article[3])
+            bibcodes.append(article['bibcode'])
             citations.append(js["read_count"])
         idx_top = np.argsort(citations)[::-1][0:top]
-        return [json.loads(articles[idx][2]) for idx in idx_top]
+        return [json.loads(articles[idx]['metrics']) for idx in idx_top]
 
     def get_most_active_first_authors(self, min_papers=10):
         """Returns names and paper counts of the most active first authors."""
         articles = self.query()
         authors = {}
         for article in articles:
-            api_response = article[2]
+            api_response = article['metrics']
             js = json.loads(api_response)
             first_author = js["first_author_norm"]
             try:
@@ -581,7 +580,7 @@ class PublicationDB(object):
         articles = self.query()
         authors = {}
         for article in articles:
-            api_response = article[2]
+            api_response = article['metrics']
             js = json.loads(api_response)
             for auth in js["author_norm"]:
                 try:
@@ -606,17 +605,17 @@ class PublicationDB(object):
                 counts['top3 authors '+affdef['type']][year] = 0
 
         #query
-        cur = self.con.execute("select year, metrics from pubs "
-                               f" where mission='{mission}' "
-                               f" and year >= '{year_begin}'"
-                               f" and year <= '{year_end}'"
-                               )
-        articles = cur.fetchall()
+        q = ("select year, metrics from pubs "
+            f" where mission='{mission}' "
+            f" and year >= {year_begin} "
+            f" and year <= {year_end} "
+            )
+        articles = self.db.query('kpub', q)
 
         #for each article, get affiliations for first 3 authors for each article
         for article in articles:
-            year = int(article[0])
-            metrics = json.loads(article[1])
+            year = article['year']
+            metrics = json.loads(article['metrics'])
             num_affs = len(metrics['aff'])
             affs = []
             for i in range(0,3):
@@ -678,17 +677,16 @@ class PublicationDB(object):
             result[mission] = {}
             for year in range(year_begin, year_end + 1):
                 result[mission][year] = 0
-            q = "SELECT year, COUNT(*) FROM pubs "
+            q = "SELECT year, COUNT(*) as cnt FROM pubs "
             q += f" WHERE mission = '{mission}' "
             q += f" AND year >= '{year_begin}' "
             if instrument: 
                 q += f" AND instruments like '%{instrument}%' "
             q += " GROUP BY year;"
-            cur = self.con.execute(q)
-            rows = list(cur.fetchall())
+            rows = self.db.query('kpub', q)
             for row in rows:
-                if int(row[0]) <= year_end:
-                    result[mission][int(row[0])] = row[1]
+                if row['year'] <= year_end:
+                    result[mission][row['year']] = row['cnt']
         # Also combine counts
         result['both'] = {}
         for year in range(year_begin, year_end + 1):
@@ -712,11 +710,10 @@ class PublicationDB(object):
         for mission in missions:
             result[mission] = {}
             for year in range(year_begin, year_end + 1):
-                cur = self.con.execute("SELECT COUNT(*) FROM pubs "
-                                       "WHERE mission = ? "
-                                       "AND year <= ?;",
-                                       [mission, str(year)])
-                result[mission][year] = cur.fetchone()[0]
+                q = (f"SELECT COUNT(*) as cnt FROM pubs where "
+                     f" mission = '{mission}' and year <= {year} ")
+                row = self.db.query('kpub', q, getOne=True)
+                result[mission][year] = row['cnt']
         # Also combine counts
         result['both'] = {}
         for year in range(year_begin, year_end + 1):
@@ -1013,8 +1010,6 @@ def kpub_stats(args=None):
 
     parser = argparse.ArgumentParser(
         description="Save the publication stats in markdown format.")
-    parser.add_argument('-f', metavar='dbfile', type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('--science', dest="science", type=str, default=None,
                         help="Only show a particular science. Defaults to all.")
     parser.add_argument('--mission', dest="mission", type=str, default=None,
@@ -1026,7 +1021,7 @@ def kpub_stats(args=None):
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     title = config.get('prepend', '').capitalize()
 
-    db = PublicationDB(args.f, config)
+    db = PublicationDB(config)
 
     for bymonth in [True, False]:
         if bymonth:
@@ -1081,46 +1076,34 @@ def kpub_stats(args=None):
 
 def kpub_plot(args=None):
     """Creates beautiful plots of the database."""
-    parser = argparse.ArgumentParser(description="Creates beautiful plots of the database.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
-    args = parser.parse_args(args)
-
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
-    PublicationDB(args.f, config).plot()
+    PublicationDB(config).plot()
 
 
 def kpub_update(args=None):
     """Interactively query ADS for new publications."""
     parser = argparse.ArgumentParser(
         description="Interactively query ADS for new publications.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('month', nargs='?', default=None,
                         help='Month to query, YYYY-MM or YYYY. e.g. "2015-06" or "2020"')
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
-    PublicationDB(args.f, config).update(month=args.month)
+    PublicationDB(config).update(month=args.month)
 
 
 def kpub_add(args=None):
     """Add a publication with a known ADS bibcode."""
     parser = argparse.ArgumentParser(
         description="Add a paper to the publication list.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('bibcode', nargs='+',
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
-    db = PublicationDB(args.f, config)
+    db = PublicationDB(config)
     for bibcode in args.bibcode:
         db.add_by_bibcode(bibcode, interactive=True)
 
@@ -1129,16 +1112,13 @@ def kpub_delete(args=None):
     """Deletes a publication using its ADS bibcode."""
     parser = argparse.ArgumentParser(
         description="Deletes a paper from the publication list.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('bibcode', nargs='+',
                         help='ADS bibcode that identifies the publication.')
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
-    db = PublicationDB(args.f, config)
+    db = PublicationDB(config)
     for bibcode in args.bibcode:
         db.delete_by_bibcode(bibcode)
 
@@ -1155,16 +1135,13 @@ def kpub_import(args=None):
                     "from a CSV file. The CSV file must have three columns "
                     "(bibcode,mission,science) separated by commas. "
                     "For example: '2004ApJ...610.1199G,kepler,astrophysics'.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('csvfile',
                         help="Filename of the csv file to ingest.")
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
-    db = PublicationDB(args.f, config)
+    db = PublicationDB(config)
     import time
     for line in open(args.csvfile, 'r').readlines():
         line = line.strip()
@@ -1179,7 +1156,7 @@ def kpub_import(args=None):
                 instrs  = col[3]
                 archive = col[4]
                 db.add_by_bibcode(bibcode, mission=mission, science=science,
-                    instruments=instrs, archive=archive)
+                                  instruments=instrs, archive=archive)
                 time.sleep(0.1)
                 break
             except Exception as e:
@@ -1189,8 +1166,6 @@ def kpub_import(args=None):
 def kpub_export(args=None):
     """Export the bibcodes and classifications in CSV format."""
     parser = argparse.ArgumentParser(description="Export the publication list in CSV format.")
-    parser.add_argument('-f', metavar='dbfile', type=str, default=DEFAULT_DB,
-        help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument("--archive", default=False, action="store_true",
         help="Only export records marked as archived.")
     parser.add_argument("--bibcodes", default=False, action="store_true",
@@ -1204,12 +1179,11 @@ def kpub_export(args=None):
     q += " ORDER BY bibcode asc;"
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
-    db = PublicationDB(args.f, config)
-    cur = db.con.execute(q)
-
-    for row in cur.fetchall():
-        if args.bibcodes: print(f'{row[0]}')
-        else:             print(f'{row[0]},{row[1]},{row[2]},{row[3]},{row[4]}')
+    pubdb = PublicationDB(config)
+    rows = pubdb.db.query(q)
+    for row in rows:
+        if args.bibcodes: print(f"{row['bibcode']}")
+        else:             print(f"{row['bibcode']},{row['mission']},{row['science']},{row['instruments']},{row['archive']}")
 
 
 def kpub_spreadsheet(args=None):
@@ -1219,21 +1193,14 @@ def kpub_spreadsheet(args=None):
     except ImportError:
         print('ERROR: pandas needs to be installed for this feature.')
 
-    parser = argparse.ArgumentParser(
-        description="Export the publication list in XLS format.")
-    parser.add_argument('-f', metavar='dbfile',
-                        type=str, default=DEFAULT_DB,
-                        help="Location of the publication list db. Defaults to ~/.kpub.db.")
-    args = parser.parse_args(args)
-
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
 
-    db = PublicationDB(args.f, config)
+    pubdb = PublicationDB(config)
     spreadsheet = []
-    cur = db.con.execute("SELECT bibcode, year, month, date, mission, science, metrics "
-                         "FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
+    rows = pubdb.db.query("SELECT bibcode, year, month, date, mission, science, metrics "
+                          "FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
     for row in cur.fetchall():
-        metrics = json.loads(row[6])
+        metrics = json.loads(row['metrics'])
         try:
             if 'REFEREED' in metrics['property']:
                 refereed = 'REFEREED'
@@ -1245,9 +1212,9 @@ def kpub_spreadsheet(args=None):
             refereed = ''
         # Compute citations per year
         try:
-            dateobj = datetime.datetime.strptime(row[3], '%Y-%m-00')
+            dateobj = datetime.datetime.strptime(row['date'], '%Y-%m-00')
         except ValueError:
-            dateobj = datetime.datetime.strptime(row[3], '%Y-00-00')
+            dateobj = datetime.datetime.strptime(row['date'], '%Y-00-00')
         publication_age = datetime.datetime.now() - dateobj
         try:
             citations_per_year = metrics['citation_count'] / (publication_age.days / 365)
@@ -1255,11 +1222,11 @@ def kpub_spreadsheet(args=None):
             citations_per_year = 0
 
         myrow = collections.OrderedDict([
-                    ('bibcode', row[0]),
-                    ('year', row[1]),
-                    ('date', row[3]),
-                    ('mission', row[4]),
-                    ('science', row[5]),
+                    ('bibcode', row['bibcode']),
+                    ('year', row['year']),
+                    ('date', row['date']),
+                    ('mission', row['mission']),
+                    ('science', row['science']),
                     ('refereed', refereed),
                     ('citation_count', metrics['citation_count']),
                     ('citations_per_year', round(citations_per_year, 2)),

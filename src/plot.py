@@ -155,12 +155,12 @@ def plot_by_year(db,
     pl.close()
 
 
-def plot_science_piechart(db, output_fn="kpub-piechart.pdf", dpi=200, sciences=[]):
+def plot_science_piechart(pubdb, output_fn="kpub-piechart.pdf", dpi=200, sciences=[]):
     """Plots a piechart showing science category publications.
 
     Parameters
     ----------
-    db : `PublicationDB` object
+    pubdb : `PublicationDB` object
         Data to plot.
 
     output_fn : str
@@ -177,10 +177,9 @@ def plot_science_piechart(db, output_fn="kpub-piechart.pdf", dpi=200, sciences=[
 
     count = []
     for science in sciences:
-        cur = db.con.execute("SELECT COUNT(*) FROM pubs "
-                             "WHERE science = ?;", [science])
-        rows = list(cur.fetchall())
-        count.append(rows[0][0])
+        rows = pubdb.db.query("SELECT COUNT(*) as cnt FROM pubs "
+                             f" WHERE science = '{science}'")
+        count.append(rows[0]['cnt'])
 
     # Plot the pie chart
     patches, texts, autotexts = pl.pie(count,
@@ -211,7 +210,7 @@ def plot_science_piechart(db, output_fn="kpub-piechart.pdf", dpi=200, sciences=[
     pl.close()
 
 
-def plot_author_count(db,
+def plot_author_count(pubdb,
                       output_fn='kpub-author-count.pdf',
                       first_year=2008,
                       dpi=200,
@@ -220,7 +219,7 @@ def plot_author_count(db,
 
     Parameters
     ----------
-    db : `PublicationDB` object
+    pubdb : `PublicationDB` object
         Data to plot.
 
     output_fn : str
@@ -247,7 +246,7 @@ def plot_author_count(db,
     author_counts, first_author_counts = [], []
     for year in range(first_year - 1, current_year + 1):
         cumulative_years.append(year)
-        metrics = db.get_metrics(cumulative_years)
+        metrics = pubdb.get_metrics(cumulative_years)
         paper_counts.append(metrics['publication_count'])
         author_counts.append(metrics['author_count'])
         first_author_counts.append(metrics['first_author_count'])
@@ -286,7 +285,7 @@ def plot_author_count(db,
     pl.close()
 
 
-def plot_instruments(db,
+def plot_instruments(pubdb,
                      output_fn='kpub-publications-by-instrument',
                      year_begin=2000,
                      missions=[],
@@ -295,7 +294,7 @@ def plot_instruments(db,
 
     Parameters
     ----------
-    db : `PublicationDB` object
+    pubdb : `PublicationDB` object
         Data to plot.
 
     output_fn : str
@@ -313,9 +312,9 @@ def plot_instruments(db,
         data = {}
         for instr in instruments:    
             year_end = datetime.datetime.now().year -1
-            counts = db.get_annual_publication_count(year_begin=year_begin, 
-                                                     year_end=year_end,
-                                                     instrument=instr)
+            counts = pubdb.get_annual_publication_count(year_begin=year_begin, 
+                                                        year_end=year_end,
+                                                        instrument=instr)
             data[instr] = counts[mission]
 
         years = list(np.arange(year_begin, year_end+1))
@@ -351,10 +350,10 @@ def plot_instruments(db,
         #show(p)
 
 
-def plot_affiliations(db,
-                     output_fn='kpub-affiliations',
-                     year_begin=2000,
-                     missions=[]):
+def plot_affiliations(pubdb,
+                      output_fn='kpub-affiliations',
+                      year_begin=2000,
+                      missions=[]):
     """Plots a bar graph showing counts for different affiliation types.
 
     Parameters:
@@ -367,9 +366,9 @@ def plot_affiliations(db,
     for i, mission in enumerate(missions):
 
         year_end = datetime.datetime.now().year -1
-        data = db.get_affiliation_counts(year_begin=year_begin, 
-                                           year_end=year_end,
-                                           mission=mission)
+        data = pubdb.get_affiliation_counts(year_begin=year_begin, 
+                                            year_end=year_end,
+                                            mission=mission)
 
         years = list(np.arange(year_begin, year_end+1))
         years = [str(year) for year in years]

@@ -1,5 +1,16 @@
 {
 
+  "DATABASE": {
+    "kpub": {
+      "server" : "localhost",
+      "db"     : "kpub",
+      "user"   : "",
+      "pwd"    : "",
+      "port"   : 0,
+      "type"   : "mysql"
+    }
+  },
+
   #ADS API Key 
   #NOTE: Create an account at https://ui.adsabs.harvard.edu/, generate an ADS API key and copy it here.
   "ADS_API_KEY": "",
