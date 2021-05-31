@@ -291,9 +291,13 @@ class PublicationDB(object):
 
     def add_by_bibcode(self, bibcode, interactive=False, **kwargs):
         #TODO: NOTE: Without querying for 'keck' in full text, highlights will not be returned.
+        bibcode = bibcode.replace('&', '%26')
         q = f"identifier:{bibcode}"
         data = self.query_ads(q)
         articles = data['response']['docs'] 
+
+        if not articles:
+            log.error(f"No ADS record found for bibcode {bibcode}")
         for article in articles:
             # Print useful warnings
             if bibcode != article['bibcode']:

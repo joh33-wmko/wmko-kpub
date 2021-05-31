@@ -46,4 +46,7 @@ elif [ $a1 == 'refresh' ]; then
     rm $root/data/kpub.db
     $python $root/src/kpub.py import $root/data/kpub-export.csv
 
+else
+    echo "ERROR: Invalid kpub command"
+    
 fi
