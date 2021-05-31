@@ -11,7 +11,7 @@ This tool is made possible thanks to the efforts of Geert Barentsen who wrote th
 - Added optional tracking of archive references and associated new plots.
 - Added affiliations mapping and plotting.
 - Added automated PDF download, view, and search for highlight snippets.
-- Removed reliance on 'ads' third-party module (due to some limitations).
+- Removed reliance on 'andycasey/ads' third-party module (due to some limitations).
 - Replaced installation script and Makefile with run script (due to some limitations).
 
 
@@ -64,7 +64,7 @@ Add `--help` to any command below to get full usage instructions
 * `kpub import` imports bibcodes from a csv file;
 * `kpub export` exports bibcodes to a csv file;
 * `kpub plot` creates a visualization of the database;
-* `kpub markdown` prints the list of publications in markdown format;
+* `kpub stats` saves publications stats in markdown format;
 * `kpub spreadsheet` exports the publications to an Excel spreadsheet
 * `kpub update` to search for new publications with pubdate of current month;
 * `kpub push` to push the updated database to the git repo;

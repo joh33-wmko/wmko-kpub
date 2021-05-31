@@ -1008,11 +1008,11 @@ def prompt_grouping(valmap, type):
 # Command-line interfaces
 #########################
 
-def kpub_markdown(args=None):
-    """Lists the publications in the database in Markdown format."""
+def kpub_stats(args=None):
+    """Save the publication stats in Markdown format."""
 
     parser = argparse.ArgumentParser(
-        description="View the publication list in markdown format.")
+        description="Save the publication stats in markdown format.")
     parser.add_argument('-f', metavar='dbfile', type=str, default=DEFAULT_DB,
                         help="Location of the publication list db. Defaults to ~/.kpub.db.")
     parser.add_argument('--science', dest="science", type=str, default=None,
@@ -1021,8 +1021,6 @@ def kpub_markdown(args=None):
                         help="Only show a particular mission. Defaults to all.")
     parser.add_argument('-m', '--month', action='store_true',
                         help='Group the papers by month rather than year.')
-    parser.add_argument('-s', '--save', action='store_true',
-                        help='Save the output and plots in the current directory.')
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
@@ -1030,62 +1028,55 @@ def kpub_markdown(args=None):
 
     db = PublicationDB(args.f, config)
 
-    if args.save:
-        for bymonth in [True, False]:
-            if bymonth:
-                suffix = "-by-month"
-                title_suffix = " by month"
-            else:
-                suffix = ""
-                title_suffix = ""
-
-            output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications{suffix}.md"
-            db.save_markdown(output_fn,
-                             group_by_month=bymonth,
-                             title=f"{title} publications{title_suffix}")
-
-            sciences = config.get('sciences', [])
-            if len(sciences) > 1:
-                for science in sciences:
-                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{science}{suffix}.md"
-                    db.save_markdown(output_fn,
-                                     group_by_month=bymonth,
-                                     science=science,
-                                     title=f"{title} {science} publications{title_suffix}")
-
-            missions = config.get('missions', [])
-            if len(missions) > 1:
-                for mission in missions:
-                    output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{mission}{suffix}.md"
-                    db.save_markdown(output_fn,
-                                     group_by_month=bymonth,
-                                     mission=mission,
-                                     title=f"{mission.capitalize()} publications{title_suffix}")
-
-        # Finally, produce an overview page
-        templatedir = os.path.join(PACKAGEDIR, 'templates')
-        env = jinja2.Environment(loader=jinja2.FileSystemLoader(templatedir))
-        template = env.get_template('template-overview.md')
-        markdown = template.render(institution=title,
-                                   metrics=db.get_metrics(),
-                                   most_cited=db.get_most_cited(top=20),
-                                   most_active_first_authors=db.get_most_active_first_authors(),
-                                   now=datetime.datetime.now())
-        # most_read=db.get_most_read(20),
-        filename = f'{MDDIR}/publications-overview.md'
-        log.info('Writing {}'.format(filename))
-        f = open(filename, 'w')
-        if sys.version_info >= (3, 0):
-            f.write(markdown)  # Python 3
+    for bymonth in [True, False]:
+        if bymonth:
+            suffix = "-by-month"
+            title_suffix = " by month"
         else:
-            f.write(markdown.encode("utf-8"))  # Legacy Python
-        f.close()
+            suffix = ""
+            title_suffix = ""
 
+        output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications{suffix}.md"
+        db.save_markdown(output_fn,
+                         group_by_month=bymonth,
+                         title=f"{title} publications{title_suffix}")
+
+        sciences = config.get('sciences', [])
+        if len(sciences) > 1:
+            for science in sciences:
+                output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{science}{suffix}.md"
+                db.save_markdown(output_fn,
+                                 group_by_month=bymonth,
+                                 science=science,
+                                 title=f"{title} {science} publications{title_suffix}")
+
+        missions = config.get('missions', [])
+        if len(missions) > 1:
+            for mission in missions:
+                output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{mission}{suffix}.md"
+                db.save_markdown(output_fn,
+                                 group_by_month=bymonth,
+                                 mission=mission,
+                                 title=f"{mission.capitalize()} publications{title_suffix}")
+
+    # Finally, produce an overview page
+    templatedir = os.path.join(PACKAGEDIR, 'templates')
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(templatedir))
+    template = env.get_template('template-overview.md')
+    markdown = template.render(institution=title,
+                               metrics=db.get_metrics(),
+                               most_cited=db.get_most_cited(top=20),
+                               most_active_first_authors=db.get_most_active_first_authors(),
+                               now=datetime.datetime.now())
+    # most_read=db.get_most_read(20),
+    filename = f'{MDDIR}/publications-overview.md'
+    log.info('Writing {}'.format(filename))
+    f = open(filename, 'w')
+    if sys.version_info >= (3, 0):
+        f.write(markdown)  # Python 3
     else:
-        output = db.to_markdown(group_by_month=args.month, mission=args.mission, science=args.science)
-        from signal import signal, SIGPIPE, SIG_DFL
-        signal(SIGPIPE, SIG_DFL)
-        print(output)
+        f.write(markdown.encode("utf-8"))  # Legacy Python
+    f.close()
 
 
 def kpub_plot(args=None):
@@ -1295,7 +1286,7 @@ if __name__ == '__main__':
     elif cmd == 'delete':      kpub_delete(sys.argv[2:])
     elif cmd == 'import':      kpub_import(sys.argv[2:])
     elif cmd == 'export':      kpub_export(sys.argv[2:])
-    elif cmd == 'markdown':    kpub_markdown(sys.argv[2:])
+    elif cmd == 'stats':       kpub_stats(sys.argv[2:])
     elif cmd == 'spreadsheet': kpub_spreadsheet(sys.argv[2:])
     else: print("ERROR: Unknown kpub command")
 
