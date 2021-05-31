@@ -19,7 +19,7 @@ root=`dirname $0`
 a1=$1
 if [ $a1 == 'update' ] \
     || [ $a1 == 'plot' ] \
-    || [ $a1 == 'markdown' ] \
+    || [ $a1 == 'stats' ] \
     || [ $a1 == 'add' ] \
     || [ $a1 == 'delete' ] \
     || [ $a1 == 'import' ] \
