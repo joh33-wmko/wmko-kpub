@@ -9,14 +9,14 @@ This database contains a list of scientific publications pertaining to Keck.
 The database contains 6100 publications, of which 6100 are peer-reviewed.
 It demonstrates the important impact of Keck data on astronomical research.
 
-Last update: 28 May 2021.
+Last update: 01 Jun 2021.
 
 <hr/>
 
 ## Number of authors
 
 The entries in the publication database have been authored and co-authored
-by a total of 12006 unique author names.
+by a total of 12008 unique author names.
 We define the author name at "last name, first initial".
 Slight variations in the spelling may increase the number of unique names,
 while common names with the same first initial may result in undercounting.
@@ -28,7 +28,7 @@ while common names with the same first initial may result in undercounting.
 ## Most-cited publications
 
 Keck publications have cumulatively 
-been cited 481501 times.
+been cited 481502 times.
 The list below shows the most-cited publications, based on the citation count obtained from NASA ADS.
 
 
@@ -136,7 +136,7 @@ Marois, Christian, Macintosh, Bruce, Barman, Travis, et al.
 
 ## Most-active authors
 
-Below we list the most-active authors, defined as those with six or more first-author publications in our database.
+Below we list the most-active authors, defined as those with 10 or more first-author publications in our database.
 
 
  * Cohen, J (43 publications)
@@ -145,9 +145,9 @@ Below we list the most-active authors, defined as those with six or more first-a
 
  * de Pater, I (26 publications)
 
- * Kirby, E (24 publications)
-
  * Johnson, J (24 publications)
+
+ * Kirby, E (24 publications)
 
  * van Dokkum, P (22 publications)
 
@@ -155,9 +155,9 @@ Below we list the most-active authors, defined as those with six or more first-a
 
  * Boesgaard, A (20 publications)
 
- * Cowie, L (19 publications)
-
  * Jewitt, D (19 publications)
+
+ * Cowie, L (19 publications)
 
  * Brown, M (18 publications)
 
@@ -177,396 +177,134 @@ Below we list the most-active authors, defined as those with six or more first-a
 
  * Stern, D (15 publications)
 
- * Bowler, B (14 publications)
-
- * Songaila, A (14 publications)
-
- * Foley, R (14 publications)
-
- * Torres, G (14 publications)
+ * Forbes, D (14 publications)
 
  * Treu, T (14 publications)
 
- * Forbes, D (14 publications)
+ * Winn, J (14 publications)
 
  * Fischer, D (14 publications)
 
- * Winn, J (14 publications)
+ * Bowler, B (14 publications)
 
  * Barger, A (14 publications)
 
+ * Torres, G (14 publications)
+
+ * Foley, R (14 publications)
+
+ * Songaila, A (14 publications)
+
  * Dupuy, T (14 publications)
-
- * Liu, M (13 publications)
-
- * Riess, A (13 publications)
 
  * Larsen, S (13 publications)
 
- * Kirkpatrick, J (13 publications)
+ * Herbig, G (13 publications)
+
+ * Riess, A (13 publications)
+
+ * Liu, M (13 publications)
+
+ * Reid, I (13 publications)
+
+ * Reiners, A (13 publications)
 
  * Stockton, A (13 publications)
 
  * Cooke, J (13 publications)
 
- * Reiners, A (13 publications)
-
  * Martin, C (13 publications)
 
  * Reddy, N (13 publications)
 
- * Herbig, G (13 publications)
-
  * Erb, D (13 publications)
 
- * Reid, I (13 publications)
-
- * Marcy, G (12 publications)
-
- * Slanger, T (12 publications)
-
- * Wright, J (12 publications)
-
- * Wang, J (12 publications)
-
- * Soifer, B (12 publications)
-
- * Zapatero Osorio, M (12 publications)
-
- * Barth, A (12 publications)
-
- * Yan, L (12 publications)
-
- * Cooke, R (12 publications)
-
- * Graham, M (12 publications)
+ * Kirkpatrick, J (13 publications)
 
  * Kraus, A (12 publications)
 
+ * Cooke, R (12 publications)
+
+ * Barth, A (12 publications)
+
+ * Soifer, B (12 publications)
+
+ * Slanger, T (12 publications)
+
+ * Wang, J (12 publications)
+
  * Kaplan, D (12 publications)
+
+ * Marcy, G (12 publications)
+
+ * Yan, L (12 publications)
+
+ * Zapatero Osorio, M (12 publications)
+
+ * Graham, M (12 publications)
 
  * Shapley, A (11 publications)
 
+ * Dello Russo, N (11 publications)
+
  * Smith, G (11 publications)
+
+ * Gal-Yam, A (11 publications)
+
+ * Churchill, C (11 publications)
+
+ * Zuckerman, B (11 publications)
+
+ * Hsieh, H (11 publications)
+
+ * Leonard, D (11 publications)
+
+ * Bloom, J (11 publications)
+
+ * Wright, J (11 publications)
+
+ * Sromovsky, L (11 publications)
 
  * Fu, H (11 publications)
 
  * Vogt, S (11 publications)
 
- * Churchill, C (11 publications)
+ * Kalirai, J (10 publications)
 
- * Bloom, J (11 publications)
-
- * Zuckerman, B (11 publications)
-
- * Leonard, D (11 publications)
-
- * Gal-Yam, A (11 publications)
-
- * Hsieh, H (11 publications)
-
- * Dello Russo, N (11 publications)
-
- * Sromovsky, L (11 publications)
+ * Howard, A (10 publications)
 
  * Tran, K (10 publications)
 
- * Petigura, E (10 publications)
-
  * Monnier, J (10 publications)
 
- * Howard, A (10 publications)
+ * Rubin, K (10 publications)
+
+ * Melbourne, J (10 publications)
+
+ * Marchis, F (10 publications)
 
  * Djorgovski, S (10 publications)
 
  * Eisner, J (10 publications)
 
- * Butler, R (10 publications)
-
- * Currie, T (10 publications)
-
- * Adelberger, K (10 publications)
-
- * Coil, A (10 publications)
-
  * Koch, A (10 publications)
-
- * Fan, X (10 publications)
-
- * Melbourne, J (10 publications)
-
- * Villanueva, G (10 publications)
-
- * Marchis, F (10 publications)
-
- * Rubin, K (10 publications)
-
- * Kalirai, J (10 publications)
 
  * Canalizo, G (10 publications)
 
- * Stark, D (10 publications)
+ * Villanueva, G (10 publications)
+
+ * Petigura, E (10 publications)
 
  * Tuthill, P (10 publications)
 
- * Pettini, M (9 publications)
+ * Adelberger, K (10 publications)
 
- * Newman, A (9 publications)
+ * Fan, X (10 publications)
 
- * Paganini, L (9 publications)
+ * Coil, A (10 publications)
 
- * Gizis, J (9 publications)
+ * Currie, T (10 publications)
 
- * Roederer, I (9 publications)
+ * Butler, R (10 publications)
 
- * Strader, J (9 publications)
-
- * Ly, C (9 publications)
-
- * Becker, G (9 publications)
-
- * Murphy, M (9 publications)
-
- * Farihi, J (9 publications)
-
- * Rauch, M (9 publications)
-
- * Dahm, S (9 publications)
-
- * Kobulnicky, H (9 publications)
-
- * Bakos, G (9 publications)
-
- * Williams, K (9 publications)
-
- * Dey, A (9 publications)
-
- * Harrison, T (9 publications)
-
- * Jayawardhana, R (9 publications)
-
- * Glikman, E (9 publications)
-
- * Melendez, J (9 publications)
-
- * Ebeling, H (9 publications)
-
- * Hartman, J (9 publications)
-
- * Hu, E (9 publications)
-
- * David, T (9 publications)
-
- * Law, D (9 publications)
-
- * Roe, H (9 publications)
-
- * Gilbert, K (9 publications)
-
- * Origlia, L (8 publications)
-
- * Wolfe, A (8 publications)
-
- * de Kleer, K (8 publications)
-
- * Metchev, S (8 publications)
-
- * Adamkovics, M (8 publications)
-
- * Rupke, D (8 publications)
-
- * Gibb, E (8 publications)
-
- * Duchene, G (8 publications)
-
- * Crossfield, I (8 publications)
-
- * Kasliwal, M (8 publications)
-
- * Tran, H (8 publications)
-
- * Bonev, B (8 publications)
-
- * Fumagalli, M (7 publications)
-
- * Sozzetti, A (7 publications)
-
- * Cenko, S (7 publications)
-
- * van Kerkwijk, M (7 publications)
-
- * Miller, A (7 publications)
-
- * Brittain, S (7 publications)
-
- * Brotherton, M (7 publications)
-
- * Ghez, A (7 publications)
-
- * Hammel, H (7 publications)
-
- * Jones, T (7 publications)
-
- * Collins, M (7 publications)
-
- * Stauffer, J (7 publications)
-
- * Ofek, E (7 publications)
-
- * Melis, C (7 publications)
-
- * White, R (7 publications)
-
- * Inada, N (7 publications)
-
- * Gaidos, E (7 publications)
-
- * Brodie, J (7 publications)
-
- * Conroy, C (7 publications)
-
- * Schaefer, G (7 publications)
-
- * Lubin, L (7 publications)
-
- * Sneden, C (7 publications)
-
- * Yuan, T (7 publications)
-
- * Do, T (7 publications)
-
- * Crepp, J (7 publications)
-
- * Jura, M (7 publications)
-
- * Stanford, S (7 publications)
-
- * Shivaei, I (7 publications)
-
- * Sullivan, M (7 publications)
-
- * Buchhave, L (7 publications)
-
- * Kane, S (7 publications)
-
- * Holden, B (7 publications)
-
- * Luhman, K (7 publications)
-
- * King, J (7 publications)
-
- * Konacki, M (7 publications)
-
- * Hodapp, K (7 publications)
-
- * Basri, G (7 publications)
-
- * Geha, M (7 publications)
-
- * Lemaux, B (7 publications)
-
- * Hennawi, J (7 publications)
-
- * Taddia, F (7 publications)
-
- * Lee, K (6 publications)
-
- * Figer, D (6 publications)
-
- * Gibbard, S (6 publications)
-
- * Shkolnik, E (6 publications)
-
- * Konopacky, Q (6 publications)
-
- * Sanders, R (6 publications)
-
- * Poznanski, D (6 publications)
-
- * Foster, C (6 publications)
-
- * Mauerhan, J (6 publications)
-
- * Lai, D (6 publications)
-
- * Martin, N (6 publications)
-
- * Mohanty, S (6 publications)
-
- * Filippenko, A (6 publications)
-
- * Boogert, A (6 publications)
-
- * Hogg, D (6 publications)
-
- * Hamann, F (6 publications)
-
- * Mumma, M (6 publications)
-
- * Liu, F (6 publications)
-
- * Kelson, D (6 publications)
-
- * Fox, O (6 publications)
-
- * Richard, J (6 publications)
-
- * Simon, J (6 publications)
-
- * Fassnacht, C (6 publications)
-
- * Teplitz, H (6 publications)
-
- * Jorgenson, R (6 publications)
-
- * Georgakakis, A (6 publications)
-
- * Humphrey, A (6 publications)
-
- * Kulkarni, S (6 publications)
-
- * Tanner, A (6 publications)
-
- * Ellison, S (6 publications)
-
- * Brewer, J (6 publications)
-
- * Hillenbrand, L (6 publications)
-
- * Shivvers, I (6 publications)
-
- * Xu, S (6 publications)
-
- * Alabi, A (6 publications)
-
- * O'Meara, J (6 publications)
-
- * Lehner, N (6 publications)
-
- * Shetrone, M (6 publications)
-
- * Bryan, M (6 publications)
-
- * Berger, E (6 publications)
-
- * Kishimoto, M (6 publications)
-
- * Cooper, M (6 publications)
-
- * Romani, R (6 publications)
-
- * Koo, D (6 publications)
-
- * Howell, S (6 publications)
-
- * Prato, L (6 publications)
-
- * Cote, P (6 publications)
-
- * Belli, S (6 publications)
-
- * Gonzalez Hernandez, J (6 publications)
-
- * Salyk, C (6 publications)
-
- * Casey, C (6 publications)
+ * Stark, D (10 publications)
