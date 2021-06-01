@@ -969,11 +969,11 @@ def get_pdf_text(outfile):
         try:
             text = textract.process(outfile, method=method)
             text = text.decode("utf-8")
+            if text: return text
         except Exception as e:
             print(f"textract: {method} method failed.  Trying another method...")
     if not text:
         raise Exception("Could not extract PDF text")
-    return text
 
 
 def input_with_prefill(prompt, text):
