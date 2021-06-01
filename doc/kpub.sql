@@ -1,4 +1,4 @@
-create database kpub
+create database kpub;
 
 CREATE TABLE `pubs` (
   id              integer       not null unique,
@@ -18,4 +18,4 @@ CREATE TABLE `pubs` (
 
 
 CREATE USER 'kpub'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON kpub.* TO 'kpub'@'localhost';
+GRANT ALL PRIVILEGES ON kpub.* TO 'kpub'@'localhost' indentified by 'password';
