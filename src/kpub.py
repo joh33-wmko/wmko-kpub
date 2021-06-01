@@ -371,7 +371,7 @@ class PublicationDB(object):
 
         articles = collections.OrderedDict({})
         for row in self.query(**kwargs):
-            group = row[group_idx]
+            group = str(row[group_idx])
             if group.endswith("-00"):
                 group = group[:-3] + "-01"
             if group not in articles:
@@ -469,8 +469,8 @@ class PublicationDB(object):
             first_authors[mission] = []
 
         for article in self.query(year=year):
-            row = article['metrics']
-            js = json.loads(row)
+            met = article['metrics']
+            js = json.loads(met)
 
             #general count
             metrics["publication_count"] += 1
