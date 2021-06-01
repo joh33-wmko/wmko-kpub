@@ -1,0 +1,11 @@
+name: KPUB
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7
+  - pyyaml
+  - requests
+  - jinja2
+  - textract
+  - matplotlib
+  - bokeh

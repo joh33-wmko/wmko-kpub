@@ -1,0 +1,132 @@
+{
+
+  #ADS API Key 
+  #NOTE: Create an account at https://ui.adsabs.harvard.edu/, generate an ADS API key and copy it here.
+  "ADS_API_KEY": "",
+
+  #Unique identifier for this mission/facility. Used for labeling and prepending to output filenames, etc.
+  "prepend": "keck",
+
+  #Missions and sciences groupings.  You will be prompted to confirm which mission and science each article belongs to.
+  #This is used to categorize plots as well.
+  #NOTE: missions is the main grouping and is required. Sciences is optional.
+  "missions": ['keck'],
+  "sciences": [],
+
+  #Sets of queries to run.  
+  #"query" string is exactly what is entered into the ADS web gui. See ADS website for query string nuances.
+  #The suggested strategy is that the first group should be mostly good matches and needs less scrutiny, 
+  #while subsequent groups may contain more false positives and needs more scrutiny.
+  #NOTE: ALL CAPS search terms will match case-sensitive. 
+  "ads_queries": [
+    {
+      'name': "Ackn/Abstract",  
+      "query": '(ack:keck OR abs:keck) 
+                database:astronomy property:refereed NOT property:nonarticle 
+                NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'
+    },
+    {
+      'name': "Full text",      
+      "query": '(=full:"keck observatory" OR =full:"keck DEIMOS" OR =full:"keck ESI" 
+                OR =full:"keck HIRES" OR =full:"keck KCWI" OR =full:"keck LRIS" OR =full:"keck MOSFIRE" 
+                OR =full:"keck NIRC2" OR =full:"keck NIRES" OR =full:"keck NIRSPEC" OR =full:"keck OSIRIS" 
+                ) 
+                database:astronomy property:refereed NOT property:nonarticle 
+                NOT =full:"BICEP" NOT =full:"BICEP2" NOT =full:"NUANCE" NOT =full:"keck array"'
+    },
+  ],
+
+  #Specific instrument assocations to look for.  The code assumes any of these strings found will 
+  #constitute the instrument list.  If this is defined, you will be prompted to confirm the 
+  #instrument associations list for each article.  
+  "instruments": [
+    'DEIMOS',
+    'ESI',
+    'HIRES',
+    'KCWI',
+    'LRIS',
+    'MOSFIRE',
+    'NIRC2',
+    'NIRES',
+    'NIRSPEC',
+    'OSIRIS',
+    'AO',
+    'LGS',
+    'NGS',
+  ],
+
+  #Archives strings to look for to indicate archiving was referenced.
+  #NOTE: You will not be prompted to confirm this.
+  "archive": [
+    'KOA', 
+    'Keck Observatory Archive'
+  ],
+
+  # Dict of keywords to highlight in text hi (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
+  "colors": {
+    'KECK': "GREEN",
+    'DEIMOS': "CYAN",
+    'ESI': "CYAN",
+    'HIRES': "CYAN",
+    'KCWI': "CYAN",
+    'LRIS': "CYAN",
+    'MOSFIRE': "CYAN",
+    'NIRC2': "CYAN",
+    'NIRES': "CYAN",
+    'NIRSPEC': "CYAN",
+    'OSIRIS': "CYAN",
+    'LGS': "CYAN",
+    'NGS': "CYAN",
+    'AO': "CYAN",
+    'KOA': "YELLOW",
+    'Archive': "YELLOW"  
+  },
+
+  #Affiliation category types with search strings to identify.  "other" is default type category.
+  #NOTE: If all caps, then search is case-sensitive.
+  "aff_defs": [
+    {
+      "type": "keck",
+      "strings": [
+        "keck",
+        "WMKO",
+        "California Institute of Technology",
+        "Caltech",
+        "CIT",
+        "University of California",
+        #"UCB", #This matches UCB (U Colorado at Boulder)
+        "UCD",
+        "UCI",
+        "UCLA",
+        "UCR",
+        "UCSB",
+        "UCSC",
+        "UCSD",
+        "USRA",
+        "University of Hawaii",
+        "University of Hawai'i",
+        "University of Hawai`i",
+        "University of Hawai‘i",
+        "Manoa",
+        "ANU",
+        "Australian National University",
+        "Northwestern",
+        "Swinburne",
+        "Yale",
+        "JPL",
+        "Jet Propulsion Laboratory",
+      ]
+    },
+    {
+      "type": "usa",
+      "strings": [
+        "USA",
+        "United States of America",
+        "NASA",
+        "National Aeronautics and Space Administration",
+      ]
+    },
+  ],
+ 
+}
+

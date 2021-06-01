@@ -1,202 +1,104 @@
-# kpub: Kepler/K2 publication database
+# kpub: Publication database
 
-***A database of scientific publications related to NASA's Kepler/K2 mission.***
+***A database of scientific publications related to a mission.***
 
-`kpub` is a mission-specific tool that enables NASA's Kepler/K2 Guest Observer 
-Office to keep track of its mission's scientific publications in an easy way. 
-It leverages SQLite and the [ADS API](https://github.com/adsabs/adsabs-dev-api)
-(using Andy Casey's [awesome Python client](https://github.com/andycasey/ads)) 
-to create and curate a database that contains the metadata 
-of mission-related articles.
+`kpub` is a generic tool that enables an institution to keep track of it's scientific publications in an easy way. It leverages SQLite and the [ADS API](https://github.com/adsabs/adsabs-dev-api) to create and curate a database that contains the metadata of mission-related articles.
+
+This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version of [kpub](https://github.com/KeplerGO/kpub) for Kepler/K2.  The major changes here are:
+
+- Code is now config-file driven so it can be used by any facility or institution.
+- Added optional tracking of instrument assocations and associated new plots.
+- Added optional tracking of archive references and associated new plots.
+- Added affiliations mapping and plotting.
+- Added automated PDF download, view, and search for highlight snippets.
+- Removed reliance on 'andycasey/ads' third-party module (due to some limitations).
+- Replaced installation script and Makefile with run script (due to some limitations).
+
+
+## Installation and Configuration
+
+1) Download the source code (assuming $HOME for examples below):
+```
+cd $HOME
+git clone https://github.com/KeckObservatory/kpub.git
+```
+
+2) Create an account at https://ui.adsabs.harvard.edu/, generate an ADS API key (https://ui.adsabs.harvard.edu/user/settings/token) and copy it for use in step 3 below.
+
+3) Edit the `config.live.yaml` file.  Read the config file and edit sections as needed.  At a minimum, you will need to add the `ADS_API_KEY` value.  There are two example config files pre-configured for Keck and Kepler as well.
+```
+cd $HOME/kpub/src/config
+cp config.yaml config.live.yaml
+```
+
+4) Add `kpub` start script to path (optional):
+```
+export PATH=/home/observer/kpub:$PATH
+```
+
+5) Install dependencies:
+
+Option 1: Install them manually:
+```
+pip install textract pyyaml requests jinja2 matplotlib bokeh
+```
+
+Option 2: Or, create a conda environment using the provided environment.yaml file:
+```
+cd $HOME/kpub
+conda env create -f environment.yaml
+````
+
+6) Note that the `kpub` tools will use `~/.kpub.db` as the default database file. This repository contains a recent version of the database file (`data/kpub.db`), which you may want to link to the default file as follows:
+```
+ln -s $HOME/kpub/data/kpub.db ~/.kpub.db
+```
+
+
+## Usage
+Add `--help` to any command below to get full usage instructions
+
+* `kpub update` adds new publications by searching ADS (interactive);
+* `kpub add` adds a publication using its ADS bibcode;
+* `kpub delete` deletes a publication using its ADS bibcode;
+* `kpub import` imports bibcodes from a csv file;
+* `kpub export` exports bibcodes to a csv file;
+* `kpub plot` creates a visualization of the database;
+* `kpub stats` saves publications stats in markdown format;
+* `kpub spreadsheet` exports the publications to an Excel spreadsheet
+* `kpub update` to search for new publications with pubdate of current month;
+* `kpub push` to push the updated database to the git repo;
+* `kpub refresh` to export and re-import all publications (this is slow and necessary only if you want to remove duplicates and fetch fresh citation statistics)
+
 
 ## Example use
 
-Print a nicely-formatted list of Kepler-related exoplanet publications in markdown format:
+Search ADS by pubdate month or year for new articles and try to add them interactively:
 ```
-kpub --exoplanets
+kpub update 2015-07
+kpub update 2015
 ```
 
-Add a new article to the database using its bibcode.
-This command will display the article's metadata and ask the user to
-classify the science:
+Add a new article to the database interactively using its bibcode:
 ```
-kpub-add 2015arXiv150204715F
+kpub add 2015arXiv150204715F
 ```
 
 Remove an article using its bibcode:
 ```
-kpub-delete 2015ApJ...800...46B
-```
-
-Search ADS interactively for new Kepler-related articles and try to add them:
-```
-kpub-update 2015-07
+kpub delete 2015ApJ...800...46B
 ```
 
 For example output, see the `data/output/` sub-directory in this repository.
 
-## Installation
 
-To install the latest version from source:
-```
-git clone https://github.com/KeplerGO/kpub.git
-cd kpub
-python setup.py install
-```
+## Authors
+This new configurable version created by Josh Riley (jriley at keck.hawaii.edu).
 
-Note that the `kpub` tools will use `~/.kpub.db` as the default database file.
-This repository contains a recent version
-of the database file (`data/kpub.db`),
-which you may want to link to the default file as follows:
-```
-ln -s /path/to/git/repo/data/kpub.db ~/.kpub.db
-```
+Original Kepler/K2-specific version created by Geert Barentsen (geert.barentsen at nasa.gov).
 
-The `kpub-add`and `kpub-update` tools that come with this package require
-an api key from NASA ADS labs to retrieve publication meta-data.
-You need to follow the installation instructions of the [ads client](https://github.com/andycasey/ads) by @andycasey to make this work.
 
-## Usage
-
-`kpub` adds a number of tools to the command line (described below).
-
-There is a `Makefile` which makes your life easy if you work
-for the GO office and are updating the database. 
-Simply type:
-* `make update` to search for new publications;
-* `make push` to push the updated database to the git repo;
-* `make refresh` to export and import all publications, this is slow and necessary only if you want to remove duplicates and fetch fresh citation statistics.
-
-## Command-line tools
-
-After installation, this package adds the following command-line tools to your path:
-* `kpub` prints the list of publications in markdown format;
-* `kpub-update` adds new publications by searching ADS (interactive);
-* `kpub-add` adds a publication using its ADS bibcode;
-* `kpub-delete` deletes a publication using its ADS bibcode;
-* `kpub-import` imports bibcodes from a csv file;
-* `kpub-export` exports bibcodes to a csv file;
-* `kpub-plot` creates a visualization of the database;
-* `kpub-spreadsheet` exports the publications to an Excel spreadsheet.
-
-Listed below are the usage instructions for each command:
-
-*kpub*
-```
-$ kpub --help
-usage: kpub [-h] [-f dbfile] [-e] [-a] [-k] [-2] [-m]
-
-View the Kepler/K2 publication list in markdown format.
-
-optional arguments:
-  -h, --help          show this help message and exit
-  -f dbfile           Location of the Kepler/K2 publication list db. Defaults 
-                      to ~/.kpub.db.
-  -e, --exoplanets    Only show exoplanet publications.
-  -a, --astrophysics  Only show astrophysics publications.
-  -k, --kepler        Only show Kepler publications.
-  -2, --k2            Only show K2 publications.
-  -m, --month         Group the papers by month rather than year.
-```
-
-*kpub-update*
-```
-$ kpub-update --help
-usage: kpub-update [-h] [-f dbfile] [month]
-
-Interactively query ADS for new publications.
-
-positional arguments:
-  month       Month to query, e.g. 2015-06.
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -f dbfile   Location of the Kepler/K2 publication list db. Defaults to
-              ~/.kpub.db.
-```
-
-*kpub-add*
-```
-$ kpub-add --help
-usage: kpub-add [-h] [-f dbfile] bibcode [bibcode ...]
-
-Add a paper to the Kepler/K2 publication list.
-
-positional arguments:
-  bibcode     ADS bibcode that identifies the publication.
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -f dbfile   Location of the Kepler/K2 publication list db. Defaults to
-              ~/.kpub.db.
-```
-
-*kpub-delete*
-```
-$ kpub-delete --help
-usage: kpub-delete [-h] [-f dbfile] bibcode [bibcode ...]
-
-Deletes a paper from the Kepler/K2 publication list.
-
-positional arguments:
-  bibcode     ADS bibcode that identifies the publication.
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -f dbfile   Location of the Kepler/K2 publication list db. Defaults to
-              ~/.kpub.db.
-```
-
-*kpub-import*
-```
-$ kpub-import --help 
-usage: kpub-import [-h] [-f dbfile] csvfile
-
-Batch-import papers into the Kepler/K2 publication list from a CSV file. The
-CSV file must have three columns (bibcode,mission,science) separated by
-commas. For example: '2004ApJ...610.1199G,kepler,astrophysics'.
-
-positional arguments:
-  csvfile     Filename of the csv file to ingest.
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -f dbfile   Location of the Kepler/K2 publication list db. Defaults to
-              ~/.kpub.db.
-```
-
-*kpub-export*
-```
-$ kpub-export --help
-usage: kpub-export [-h] [-f dbfile]
-
-Export the Kepler/K2 publication list in CSV format.
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -f dbfile   Location of the Kepler/K2 publication list db. Defaults to
-              ~/.kpub.db.
-```
-
-*kpub-spreadsheet*
-```
-$ kpub-spreadsheet --help
-usage: kpub-spreadsheet [-h] [-f dbfile]
-
-Export the Kepler/K2 publication list in XLS format.
-
-optional arguments:
-  -h, --help  show this help message and exit
-  -f dbfile   Location of the Kepler/K2 publication list db. Defaults to
-              ~/.kpub.db.
-```
-
-## Author
-Created by Geert Barentsen (geert.barentsen at nasa.gov)
-on behalf of the Kepler/K2 Guest Observer Office.
 
 ## Acknowledgements
-This tool is made possible thanks to the efforts made by NASA ADS to
-provide a web API, and thanks to the excellent Python client that Andy Casey
-(@andycasey) wrote to use the API. Thanks ADS, thanks Andy!
+This tool is made possible thanks to the efforts of Geert Barentsen who wrote the original version of [kpub](https://github.com/KeplerGO/kpub) for Kepler/K2.  Thanks also to NASA ADS for providing a web API to their database.
 
