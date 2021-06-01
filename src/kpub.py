@@ -136,7 +136,7 @@ class PublicationDB(object):
             return
 
         # Print paper information to stdout
-        print(chr(27) + "[2J")  # Clear screen
+#        print(chr(27) + "[2J")  # Clear screen
         print(statusmsg)
         display_abstract(article, self.config['colors'], highlights)
 
@@ -764,7 +764,9 @@ class PublicationDB(object):
                     continue
 
                 # Propose to the user
-                statusmsg = f"Showing article {idx+1} out of {len(articles)} ({query['name']} query)\n\n"
+                statusmsg = (f"\n\n\n\n\n********** "
+                            f"Showing article {idx+1} out of {len(articles)} ({query['name']} query)"
+                            " **********\n")
                 highlights = data['highlighting'][article['id']]
                 self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
@@ -960,11 +962,11 @@ def get_pdf_text(outfile):
         try:
             text = textract.process(outfile, method=method)
             text = text.decode("utf-8")
+            if text: return text
         except Exception as e:
             print(f"textract: {method} method failed.  Trying another method...")
     if not text:
         raise Exception("Could not extract PDF text")
-    return text
 
 
 def input_with_prefill(prompt, text):
