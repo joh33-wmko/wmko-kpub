@@ -1,4 +1,4 @@
-# KPUB User Guide
+# KPUB User Guide for Keck
 Author: Josh Riley
 
 
@@ -11,6 +11,7 @@ The solution was to modify Kepler's "kpub" python script to work as a general pu
 
 ## Installation
 The code can be installed by following the instructions at https://github.com/KeckObservatory/kpub
+
 There is a Keck-specific config file checked in at src/config.config.keck.yaml that should be used during the installation step when creating your config.live.yaml file.  The only change to make is to add your ADS API key.
 
 
@@ -20,24 +21,28 @@ There are two important things to know about updating the kpub database:
 - kpub uses the github repo as a database, so only one person should update the database at a time.
 
 To update a particular year or month:
-    git pull
+
     kpub update [YYYY]
     kpub update [YYYY-MM]
 
 To update the repo/database after an update:
+
     kpub push
 
 
 ## Plotting and Stats
 Plots files are written to png/pdf/html files in kpub/data/plots/
+
     kpub plot
 
 Stats are written to markdown files in kpub/data/output/
+
     kpub stats
 
 
 ## Citation Refresh
 Once a year or before doing an annual report, you can run a full requery of all records to refresh their metadata, such as citations.  This can take a while, up to an hour or more.  After running the refresh, you can then rerun plotting and stats:
+
     kpub refresh
     kpub stats
     kpub plot
@@ -45,15 +50,14 @@ Once a year or before doing an annual report, you can run a full requery of all 
 
 ## Add and Delete
 To add or delete a single record by bibcode:
+
     kpub add [BIBCODE] 
     kpub delete [BIBCODE] 
 
-NOTE: The ADS highlighting doesn't work at first when adding by bibcode, so use [m] to view more context to see the full highlighting.
-
 
 ## Important notes:
-- Only one person should update the database at a time.  The code uses the github repo to store the database files. So, multiple users cannot update the data at once or they will clobber each other's work.  And as such, a 'git pull' should first be performed anytime data updates are performed.
-- When doing a 'kpub update', the code will first query for "keck" in the acknowledgement or abstract (minus some exclusion terms).  This first group should hopefully mostly be good matches.  A second query is done of "Keck Observatory" and "Keck/[instrument]" in the full text.  Searching only for "keck" in the full text produces too many false matches.  This second group will still have many false matches, but depending on how much time and resources you have to put towards searching, this could produce a few more papers.  This is inline with the manual search technique done prior.
+- Only one person should update the database at a time.  The code uses the github repo to store the database files. So, multiple users cannot update the data at once or they will clobber each other's work.  And as such, a `git pull` should first be performed anytime data updates are performed.  The git pull is built in to the `kpub` executable script.
+- When doing a `kpub update`, the code will first query for "keck" in the acknowledgement or abstract (minus some exclusion terms).  This first group should hopefully mostly be good matches.  A second query is done of "Keck Observatory" and "Keck/[instrument]" in the full text.  Searching only for "keck" in the full text produces too many false matches.  This second group will still have many false matches, but depending on how much time and resources you have to put towards searching, this could produce a few more papers.  This is inline with the manual search technique done prior.
 - The code attempts to download the PDF to identify context snippets and other things.  This is successful most of the time. If it cannot, it will use a series of inefficient ADS queries to try and get this info using the ADS "highlights" query option, which purposefully limits the number of context results.
 - Since retrieving the PDF can take up to a minute, it is not retrieved by default right away; instead relying on ADS's limited highlights query feature.  If desired, use the 'm' option to download the PDF and show more context snippets.  Use the 'p' option to open the PDF in your browser.
 - Context matching is brainless, so when confirming the instrument list, the code may pick up references to other instruments, AO, etc and so the instrument list needs to be confirmed with context if possible.
@@ -76,11 +80,4 @@ Here is a summary of the main modifications made to the original Kepler-specific
 - Replaced installation script and Makefile with run script (due to some limitations).
 
 
-## Reference
-- Peggi's shared folder:
-https://keckhawaii-my.sharepoint.com/:f:/g/personal/kamisato_keck_hawaii_edu/EgactX9ejEVMtvpoGXEFBQQB5jJJyx5oF5zWxyPoh_SS-w?e=5%3aAWoDuH&at=9
-- ADS API:
-https://github.com/adsabs/adsabs-dev-api
-- Kepler publications retrieval tool: 
-https://github.com/KeplerGO/kpub
 
