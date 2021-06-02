@@ -733,14 +733,14 @@ class PublicationDB(object):
         Parameters:
             month (str): Used for ADS pubdate param. Format "YYYY-MM" or "YYYY".
         """
-        # git pull reminder
-        print(HIGHLIGHTS['YELLOW'] +
-              "Reminder: did you `git pull` kpub before running "
-              "this command? [y/n] " +
-              HIGHLIGHTS['END'],
-              end='')
-        if input() == 'n':
-            return
+        # # git pull reminder
+        # print(HIGHLIGHTS['YELLOW'] +
+        #       "Reminder: did you `git pull` kpub before running "
+        #       "this command? [y/n] " +
+        #       HIGHLIGHTS['END'],
+        #       end='')
+        # if input() == 'n':
+        #     return
 
         #Assume current month if not supplied.
         #NOTE: We use the term "month" but user can supply just the year to do a whole year.
