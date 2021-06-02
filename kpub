@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #TODO: Add git pull to some of these?
 
 # Using KPUB env?
@@ -11,9 +10,12 @@ if [ "$CONDA_PREFIX" != "" ]; then
         conda activate KPUB
     fi
 fi
+python="/home/kcron/.conda/envs/KPUB/bin/python"
 
 #script dir
 root=`dirname $0`
+mydir=`pwd`
+cd $root
 
 #regular singular kpub commands
 a1=$1
@@ -25,14 +27,14 @@ if [ $a1 == 'update' ] \
     || [ $a1 == 'import' ] \
     || [ $a1 == 'export' ] \
     || [ $a1 == 'spreadsheet' ]; then
-    $python $root/src/kpub.py "$@"
+    $python src/kpub.py "$@"
 
 #Do various exports and update github repo
 elif [ $a1 == 'push' ]; then
-    $python $root/src/kpub.py export > $root/data/kpub-export.csv
-    $python $root/src/kpub.py export --bibcodes > $root/data/kpub-export-bibcodes.csv
-    $python $root/src/kpub.py export --bibcodes --archive > $root/data/kpub-export-bibcodes-archive.csv
-    git add data/kpub.db 
+
+    $python src/kpub.py export > data/kpub-export.csv
+    $python src/kpub.py export --bibcodes > data/kpub-export-bibcodes.csv
+    $python src/kpub.py export --bibcodes --archive > data/kpub-export-bibcodes-archive.csv
     git add data/kpub-export.csv
     git add data/kpub-export-bibcodes.csv
     git add data/kpub-export-bibcodes-archive.csv
@@ -42,11 +44,13 @@ elif [ $a1 == 'push' ]; then
 # Update the metadata by re-fetching all entries from the ADS API
 # this will e.g. update the citation counts and bibcodes
 elif [ $a1 == 'refresh' ]; then
-    $python $root/src/kpub.py export > $root/data/kpub-export.csv
-    rm $root/data/kpub.db
-    $python $root/src/kpub.py import $root/data/kpub-export.csv
+    $python src/kpub.py export > data/kpub-export.csv
+    rm data/kpub.db
+    $python src/kpub.py import data/kpub-export.csv
 
 else
     echo "ERROR: Unknown kpub command"
     
 fi
+
+cd $mydir
