@@ -25,6 +25,7 @@ try:
     import textract
 except: 
     textract = None
+    print("ERROR: Could not import textract!")
 
 #todo: temp hack until we figure out packaging stuff
 #from . import plot
@@ -733,14 +734,14 @@ class PublicationDB(object):
         Parameters:
             month (str): Used for ADS pubdate param. Format "YYYY-MM" or "YYYY".
         """
-        # git pull reminder
-        print(HIGHLIGHTS['YELLOW'] +
-              "Reminder: did you `git pull` kpub before running "
-              "this command? [y/n] " +
-              HIGHLIGHTS['END'],
-              end='')
-        if input() == 'n':
-            return
+        # # git pull reminder
+        # print(HIGHLIGHTS['YELLOW'] +
+        #       "Reminder: did you `git pull` kpub before running "
+        #       "this command? [y/n] " +
+        #       HIGHLIGHTS['END'],
+        #       end='')
+        # if input() == 'n':
+        #     return
 
         #Assume current month if not supplied.
         #NOTE: We use the term "month" but user can supply just the year to do a whole year.
@@ -792,8 +793,8 @@ class PublicationDB(object):
         outfile = get_pdf_file(bibcode, key)
         if os.path.isfile(outfile):
             print(f"Opening {outfile}...")
-            #webbrowser.open('file://' + os.path.realpath(outfile))
-            webbrowser.get('firefox').open_new_tab('file://' + os.path.realpath(outfile))
+            webbrowser.open('file://' + os.path.realpath(outfile))
+            #webbrowser.get('firefox').open_new_tab('file://' + os.path.realpath(outfile))
 
     def query_ads(self, query, pubdate=None):
         '''

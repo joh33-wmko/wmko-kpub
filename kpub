@@ -2,16 +2,13 @@
 
 #TODO: Add git pull to some of these?
 
-# Using KPUB env?
+
 python="python3"
 if [ "$CONDA_PREFIX" != "" ]; then
-    if [ -e $CONDA_PREFIX/envs/KPUB/bin/python3 ]; then
-        python="$CONDA_PREFIX/envs/KPUB/bin/python3"
-        source $CONDA_PREFIX/etc/profile.d/conda.sh
-        conda activate KPUB
-    fi
+    #todo: should see if this conda.sh exists and if not then look for python3 in envs/KPUB/bin/ folder?
+    source $CONDA_PREFIX/etc/profile.d/conda.sh
+    conda activate KPUB
 fi
-echo $python
 
 
 #script dir
@@ -29,11 +26,13 @@ if [ $a1 == 'update' ] \
     || [ $a1 == 'import' ] \
     || [ $a1 == 'export' ] \
     || [ $a1 == 'spreadsheet' ]; then
+    git pull
     $python src/kpub.py "$@"
 
 #Do various exports and update github repo
 elif [ $a1 == 'push' ]; then
 
+    git pull 
     $python src/kpub.py export > data/kpub-export.csv
     $python src/kpub.py export --bibcodes > data/kpub-export-bibcodes.csv
     $python src/kpub.py export --bibcodes --archive > data/kpub-export-bibcodes-archive.csv
@@ -46,6 +45,7 @@ elif [ $a1 == 'push' ]; then
 # Update the metadata by re-fetching all entries from the ADS API
 # this will e.g. update the citation counts and bibcodes
 elif [ $a1 == 'refresh' ]; then
+    git pull 
     $python src/kpub.py export > data/kpub-export.csv
     rm data/kpub.db
     $python src/kpub.py import data/kpub-export.csv
