@@ -148,7 +148,7 @@ class PublicationDB(object):
             return
 
         # Print paper information to stdout
-        print(chr(27) + "[2J")  # Clear screen
+        #print(chr(27) + "[2J")  # Clear screen
         print(statusmsg)
         display_abstract(article, self.config['colors'], highlights)
 
@@ -773,7 +773,9 @@ class PublicationDB(object):
                     continue
 
                 # Propose to the user
-                statusmsg = f"Showing article {idx+1} out of {len(articles)} ({query['name']} query)\n\n"
+                statusmsg = ("\n\n\n\n\n\n********** "
+                    f"Showing article {idx+1} out of {len(articles)} ({query['name']} query)"
+                    " **********\n")
                 highlights = data['highlighting'][article['id']]
                 self.add_interactively(article, statusmsg=statusmsg, highlights=highlights)
 
@@ -790,8 +792,8 @@ class PublicationDB(object):
         outfile = get_pdf_file(bibcode, key)
         if os.path.isfile(outfile):
             print(f"Opening {outfile}...")
-            webbrowser.open('file://' + os.path.realpath(outfile))
-
+            #webbrowser.open('file://' + os.path.realpath(outfile))
+            webbrowser.get('firefox').open_new_tab('file://' + os.path.realpath(outfile))
 
     def query_ads(self, query, pubdate=None):
         '''
@@ -945,6 +947,7 @@ def get_word_match_counts_by_pdf(bibcode, words, ads_api_key):
 def get_pdf_file(bibcode, ads_api_key):
 
     outfile = f'/tmp/{bibcode}.pdf'
+    #outfile = f'/home/jriley/temp/{bibcode}.pdf'
     if os.path.isfile(outfile):
         return outfile
 
