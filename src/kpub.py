@@ -1180,7 +1180,7 @@ def kpub_export(args=None):
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     pubdb = PublicationDB(config)
-    rows = pubdb.db.query(q)
+    rows = pubdb.db.query('kpub', q)
     for row in rows:
         if args.bibcodes: print(f"{row['bibcode']}")
         else:             print(f"{row['bibcode']},{row['mission']},{row['science']},{row['instruments']},{row['archive']}")
@@ -1197,8 +1197,9 @@ def kpub_spreadsheet(args=None):
 
     pubdb = PublicationDB(config)
     spreadsheet = []
-    rows = pubdb.db.query("SELECT bibcode, year, month, date, mission, science, metrics "
-                          "FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
+    q = ("SELECT bibcode, year, month, date, mission, science, metrics "
+         " FROM pubs WHERE mission != 'unrelated' ORDER BY bibcode;")
+    rows = pubdb.db.query('kpub', q)
     for row in cur.fetchall():
         metrics = json.loads(row['metrics'])
         try:
