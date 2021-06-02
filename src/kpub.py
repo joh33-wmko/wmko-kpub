@@ -25,7 +25,7 @@ try:
     import textract
 except: 
     textract = None
-    print("ERROR: Could not import textract!")
+    print("ERROR: Could not import textract!  Will not be able to parse PDF text.")
 
 #todo: temp hack until we figure out packaging stuff
 #from . import plot
@@ -45,7 +45,8 @@ log.setLevel(logging.INFO)
 ADS_API = 'https://api.adsabs.harvard.edu/v1/search/query?'
 
 # Where is the default location of the SQLite database?
-DEFAULT_DB = os.path.expanduser("~/.kpub.db")
+#DEFAULT_DB = os.path.expanduser("~/.kpub.db")
+DEFAULT_DB = "data/kpub.db"
 
 # Which metadata fields do we want to retrieve from the ADS API?
 # (basically everything apart from 'body' to reduce data volume)
