@@ -422,12 +422,15 @@ class PublicationDB(object):
         sciences = self.config.get('sciences', [])
         plots_cfg = self.config.get('plots', [])
         for ext in ['pdf', 'png']:
-            plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate.{ext}", missions=missions)
-            plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-no-extrapolation.{ext}", missions=missions, extrapolate=False)
+            plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate.{ext}", 
+                              first_year=plots_cfg['year_begin'], missions=missions)
+            plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-no-extrapolation.{ext}", 
+                              first_year=plots_cfg['year_begin'], missions=missions, extrapolate=False)
             for mission in missions:
-                plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-{mission}.{ext}", missions=[mission])
+                plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-{mission}.{ext}", 
+                                 first_year=plots_cfg['year_begin'], missions=[mission])
             plot.plot_science_piechart(self, f"{PLOTDIR}/kpub-piechart.{ext}", sciences=sciences)
-            plot.plot_author_count(self, f"{PLOTDIR}/kpub-author-count.{ext}")
+            plot.plot_author_count(self, f"{PLOTDIR}/kpub-author-count.{ext}", first_year=plots_cfg['year_begin'])
 
         #bokeh plots
         if plots_cfg['instruments']:
@@ -1039,7 +1042,7 @@ def kpub_stats(args=None):
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     title = config.get('prepend', '').capitalize()
 
-    db = PublicationDB(args.f, config)
+    pubdb = PublicationDB(args.f, config)
 
     for bymonth in [True, False]:
         if bymonth:
