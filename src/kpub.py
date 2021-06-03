@@ -415,7 +415,6 @@ class PublicationDB(object):
         f = open(output_fn, 'w')
         f.write(markdown)
         f.close()
-        self.push_reminder()
 
     def plot(self):
         """Saves beautiful plot of the database."""
@@ -440,8 +439,6 @@ class PublicationDB(object):
             plot.plot_affiliations(self, f"{PLOTDIR}/kpub-affiliations", 
                                   year_begin=plots_cfg['year_begin'],
                                   missions=missions)
-
-        self.push_reminder()
 
 
     def get_metrics(self, year=None):
@@ -1094,6 +1091,8 @@ def kpub_stats(args=None):
         f.write(markdown.encode("utf-8"))  # Legacy Python
     f.close()
 
+    self.push_reminder()
+
 
 def kpub_plot(args=None):
     """Creates beautiful plots of the database."""
@@ -1105,6 +1104,8 @@ def kpub_plot(args=None):
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     PublicationDB(args.f, config).plot()
+
+    self.push_reminder()
 
 
 def kpub_update(args=None):
