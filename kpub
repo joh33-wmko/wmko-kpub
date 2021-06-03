@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#TODO: Add git pull to some of these?
-
-
 # Using KPUB env?
 python="python3"
 if [ "$CONDA_PREFIX" != "" ]; then
