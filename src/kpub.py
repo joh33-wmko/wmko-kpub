@@ -131,7 +131,7 @@ class PublicationDB(object):
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [article['id'], article['bibcode'], article['year'], month, article['pubdate'],
                 mission, science, instruments, archive, json.dumps(article)])
-            log.info('Inserted {} row(s).'.format(cur.rowcount))
+            log.info(f"Inserted {article['bibcode']}")
             self.con.commit()
         except sql.IntegrityError:
             log.warning('{} was already ingested.'.format(article['bibcode']))
@@ -415,6 +415,7 @@ class PublicationDB(object):
         f = open(output_fn, 'w')
         f.write(markdown)
         f.close()
+        self.push_reminder()
 
     def plot(self):
         """Saves beautiful plot of the database."""
@@ -439,6 +440,8 @@ class PublicationDB(object):
             plot.plot_affiliations(self, f"{PLOTDIR}/kpub-affiliations", 
                                   year_begin=plots_cfg['year_begin'],
                                   missions=missions)
+
+        self.push_reminder()
 
 
     def get_metrics(self, year=None):
@@ -783,7 +786,11 @@ class PublicationDB(object):
 
         #all done
         log.info(f'\nFinished reviewing all articles for {month}.')
-        print(HIGHLIGHTS['YELLOW'] +
+        self.push_reminder()
+
+
+    def push_reminder(self):
+        print(HIGHLIGHTS['RED'] +
               "\nREMINDER: Do a `make push` to update the data files in github!" +
               HIGHLIGHTS['END'])
 
@@ -1193,6 +1200,12 @@ def kpub_import(args=None):
                 break
             except Exception as e:
                 print("Warning: attempt #{} for {}: error '{}'".format(attempt, col[0], e))
+
+    #all done
+    log.info(f'\nFinished importing.')
+    print(HIGHLIGHTS['YELLOW'] +
+          "\nREMINDER: Do a `kpub push` to update the data files in github!" +
+          HIGHLIGHTS['END'])
 
 
 def kpub_export(args=None):
