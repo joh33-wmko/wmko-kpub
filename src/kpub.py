@@ -1050,7 +1050,7 @@ def kpub_stats(args=None):
             title_suffix = ""
 
         output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications{suffix}.md"
-        db.save_markdown(output_fn,
+        pubdb.save_markdown(output_fn,
                          group_by_month=bymonth,
                          title=f"{title} publications{title_suffix}")
 
@@ -1058,7 +1058,7 @@ def kpub_stats(args=None):
         if len(sciences) > 1:
             for science in sciences:
                 output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{science}{suffix}.md"
-                db.save_markdown(output_fn,
+                pubdb.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  science=science,
                                  title=f"{title} {science} publications{title_suffix}")
@@ -1067,7 +1067,7 @@ def kpub_stats(args=None):
         if len(missions) > 1:
             for mission in missions:
                 output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{mission}{suffix}.md"
-                db.save_markdown(output_fn,
+                pubdb.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  mission=mission,
                                  title=f"{mission.capitalize()} publications{title_suffix}")
@@ -1077,11 +1077,11 @@ def kpub_stats(args=None):
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(templatedir))
     template = env.get_template('template-overview.md')
     markdown = template.render(institution=title,
-                               metrics=db.get_metrics(),
-                               most_cited=db.get_most_cited(top=20),
-                               most_active_first_authors=db.get_most_active_first_authors(),
+                               metrics=pubdb.get_metrics(),
+                               most_cited=pubdb.get_most_cited(top=20),
+                               most_active_first_authors=pubdb.get_most_active_first_authors(),
                                now=datetime.datetime.now())
-    # most_read=db.get_most_read(20),
+    # most_read=pubdb.get_most_read(20),
     filename = f'{MDDIR}/publications-overview.md'
     log.info('Writing {}'.format(filename))
     f = open(filename, 'w')
@@ -1091,7 +1091,7 @@ def kpub_stats(args=None):
         f.write(markdown.encode("utf-8"))  # Legacy Python
     f.close()
 
-    self.push_reminder()
+    pubdb.push_reminder()
 
 
 def kpub_plot(args=None):
@@ -1103,9 +1103,9 @@ def kpub_plot(args=None):
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
-    PublicationDB(args.f, config).plot()
-
-    self.push_reminder()
+    pubdb = PublicationDB(args.f, config)
+    pubdb.plot()
+    pubdb.push_reminder()
 
 
 def kpub_update(args=None):
