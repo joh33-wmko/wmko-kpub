@@ -43,6 +43,8 @@ elif [ $a1 == 'push' ]; then
     git add data/kpub-export-bibcodes.csv
     git add data/kpub-export-bibcodes-archive.csv
     git add data/kpub.db
+    git add data/plots/*
+    git add data/output/*
     git commit -m "Regular db update"
     git push
 
