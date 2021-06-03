@@ -31,28 +31,25 @@ cd $HOME/kpub/src/config
 cp config.yaml config.live.yaml
 ```
 
-4) Add `kpub` start script to path (optional):
-```
-export PATH=/home/observer/kpub:$PATH
-```
+4) Install dependencies:
 
-5) Install dependencies:
-
-Option 1: Install them manually:
-```
-pip install textract pyyaml requests jinja2 matplotlib bokeh
-```
-
-Option 2: Or, create a conda environment using the provided environment.yaml file:
+Option 1: Create a conda environment using the provided environment.yaml file:
 ```
 cd $HOME/kpub
 conda env create -f environment.yaml
 ````
 
-6) Note that the `kpub` tools will use `~/.kpub.db` as the default database file. This repository contains a recent version of the database file (`data/kpub.db`), which you may want to link to the default file as follows:
+Option 2: Or, install them manually:
 ```
-ln -s $HOME/kpub/data/kpub.db ~/.kpub.db
+pip install textract pyyaml requests jinja2 matplotlib bokeh
 ```
+
+5) (optional) Add kpub install directory to PATH so you can run `kpub` from anywhere:
+```
+export PATH=/home/observer/kpub:$PATH
+```
+
+6) (optional) `kpub` uses `data/kpub.db` as the database file. This repository contains the most recent version of that file.  If you want to start completely over, delete this file before starting kpub.
 
 
 ## Usage

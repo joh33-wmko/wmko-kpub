@@ -337,7 +337,7 @@ def plot_instruments(db,
         p.multi_line(xs = 'years',
                      ys = 'values',
                      color = 'color',
-                     legend_label = 'columns',
+                     legend = 'columns',
                      line_width = 3,
                      source = source)
         p.add_layout(Title(text="by instrument", text_font_style="italic"), 'above')
@@ -390,7 +390,7 @@ def plot_affiliations(db,
         p.multi_line(xs = 'years',
                      ys = 'values',
                      color = 'color',
-                     legend_label = 'columns',
+                     legend = 'columns',
                      line_width = 3,
                      source = source)
         p.add_layout(Title(text=f"{mission.upper()} affiliations per year", text_font_size="16pt"), 'above')

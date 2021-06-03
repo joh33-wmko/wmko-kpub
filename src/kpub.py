@@ -25,7 +25,7 @@ try:
     import textract
 except: 
     textract = None
-    print("ERROR: Could not import textract!")
+    print("ERROR: Could not import textract!  Will not be able to parse PDF text.")
 
 #todo: temp hack until we figure out packaging stuff
 #from . import plot
@@ -45,7 +45,8 @@ log.setLevel(logging.INFO)
 ADS_API = 'https://api.adsabs.harvard.edu/v1/search/query?'
 
 # Where is the default location of the SQLite database?
-DEFAULT_DB = os.path.expanduser("~/.kpub.db")
+#DEFAULT_DB = os.path.expanduser("~/.kpub.db")
+DEFAULT_DB = "data/kpub.db"
 
 # Which metadata fields do we want to retrieve from the ADS API?
 # (basically everything apart from 'body' to reduce data volume)
@@ -130,7 +131,7 @@ class PublicationDB(object):
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 [article['id'], article['bibcode'], article['year'], month, article['pubdate'],
                 mission, science, instruments, archive, json.dumps(article)])
-            log.info('Inserted {} row(s).'.format(cur.rowcount))
+            log.info(f"Inserted {article['bibcode']}")
             self.con.commit()
         except sql.IntegrityError:
             log.warning('{} was already ingested.'.format(article['bibcode']))
@@ -782,7 +783,11 @@ class PublicationDB(object):
 
         #all done
         log.info(f'\nFinished reviewing all articles for {month}.')
-        print(HIGHLIGHTS['YELLOW'] +
+        self.push_reminder()
+
+
+    def push_reminder(self):
+        print(HIGHLIGHTS['RED'] +
               "\nREMINDER: Do a `make push` to update the data files in github!" +
               HIGHLIGHTS['END'])
 
@@ -1045,7 +1050,7 @@ def kpub_stats(args=None):
             title_suffix = ""
 
         output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications{suffix}.md"
-        db.save_markdown(output_fn,
+        pubdb.save_markdown(output_fn,
                          group_by_month=bymonth,
                          title=f"{title} publications{title_suffix}")
 
@@ -1053,7 +1058,7 @@ def kpub_stats(args=None):
         if len(sciences) > 1:
             for science in sciences:
                 output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{science}{suffix}.md"
-                db.save_markdown(output_fn,
+                pubdb.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  science=science,
                                  title=f"{title} {science} publications{title_suffix}")
@@ -1062,7 +1067,7 @@ def kpub_stats(args=None):
         if len(missions) > 1:
             for mission in missions:
                 output_fn = f"{MDDIR}/kpub-{config['prepend']}-publications-{mission}{suffix}.md"
-                db.save_markdown(output_fn,
+                pubdb.save_markdown(output_fn,
                                  group_by_month=bymonth,
                                  mission=mission,
                                  title=f"{mission.capitalize()} publications{title_suffix}")
@@ -1072,11 +1077,11 @@ def kpub_stats(args=None):
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(templatedir))
     template = env.get_template('template-overview.md')
     markdown = template.render(institution=title,
-                               metrics=db.get_metrics(),
-                               most_cited=db.get_most_cited(top=20),
-                               most_active_first_authors=db.get_most_active_first_authors(),
+                               metrics=pubdb.get_metrics(),
+                               most_cited=pubdb.get_most_cited(top=20),
+                               most_active_first_authors=pubdb.get_most_active_first_authors(),
                                now=datetime.datetime.now())
-    # most_read=db.get_most_read(20),
+    # most_read=pubdb.get_most_read(20),
     filename = f'{MDDIR}/publications-overview.md'
     log.info('Writing {}'.format(filename))
     f = open(filename, 'w')
@@ -1085,6 +1090,8 @@ def kpub_stats(args=None):
     else:
         f.write(markdown.encode("utf-8"))  # Legacy Python
     f.close()
+
+    pubdb.push_reminder()
 
 
 def kpub_plot(args=None):
@@ -1096,7 +1103,9 @@ def kpub_plot(args=None):
     args = parser.parse_args(args)
 
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
-    PublicationDB(args.f, config).plot()
+    pubdb = PublicationDB(args.f, config)
+    pubdb.plot()
+    pubdb.push_reminder()
 
 
 def kpub_update(args=None):
@@ -1192,6 +1201,12 @@ def kpub_import(args=None):
                 break
             except Exception as e:
                 print("Warning: attempt #{} for {}: error '{}'".format(attempt, col[0], e))
+
+    #all done
+    log.info(f'\nFinished importing.')
+    print(HIGHLIGHTS['YELLOW'] +
+          "\nREMINDER: Do a `kpub push` to update the data files in github!" +
+          HIGHLIGHTS['END'])
 
 
 def kpub_export(args=None):
