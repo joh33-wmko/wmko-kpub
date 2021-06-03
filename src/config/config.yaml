@@ -59,8 +59,15 @@
   #NOTE: You will not be prompted to confirm this.
   "archive": [
     'KOA', 
-    'Keck Observatory Archive'
+    'Keck Observatory Archive',
+    'Keck data archive'
   ],
+
+  #plot configs
+  "plots": {
+    "year_begin": 1994,
+    "instruments": ['DEIMOS','ESI','HIRES','KCWI','LRIS','MOSFIRE','NIRC2','NIRES','NIRSPEC','OSIRIS'],
+  },
 
   # Dict of keywords to highlight in text hi (color options: RED, GREEN, YELLOW, CYAN, PURPLE, CYAN)
   "colors": {
@@ -82,7 +89,8 @@
     'Archive': "YELLOW"  
   },
 
-  #Affiliation category types with search strings to identify.  "other" is default type category.
+  #Affiliation category types with search strings to identify.  Used for affiliation plot. 
+  #Leave blank to skip. Types are searched in order. Default type category is last one w/out strings.
   #NOTE: If all caps, then search is case-sensitive.
   "aff_defs": [
     {
@@ -91,9 +99,12 @@
         "keck",
         "WMKO",
         "California Institute of Technology",
+        "California Inst. of Technology",
         "Caltech",
         "CIT",
+        "Palomar",
         "University of California",
+        "California, Univ",
         #"UCB", #This matches UCB (U Colorado at Boulder)
         "UCD",
         "UCI",
@@ -107,6 +118,7 @@
         "University of Hawai'i",
         "University of Hawai`i",
         "University of Hawai‘i",
+        "Hawaii, Univ",
         "Manoa",
         "ANU",
         "Australian National University",
@@ -120,12 +132,68 @@
     {
       "type": "usa",
       "strings": [
-        "USA",
-        "United States of America",
         "NASA",
         "National Aeronautics and Space Administration",
-      ]
-    },
+        "Lawrence Berkeley",
+        ", US",
+        "USA",
+        "United States of America",
+        ", AL ", " AL,", ", Alabama",
+        ", AK ", " AK,", ", Alaska",
+        ", AZ ", " AZ,", ", Arizona",
+        ", AR ", " AR,", ", Arkansas",
+        ", CA ", " CA,", ", California",
+        ", CO ", " CO,", ", Colorado",
+        ", CT ", " CT,", ", Connecticut",
+        ", DE ", " DE,", ", Delaware",
+        ", FL ", " FL,", ", Florida",
+        ", GA ", " GA,", ", Georgia",
+        ", HI ", " HI,", ", Hawaii",
+        ", ID ", " ID,", ", Idaho",
+        ", IL ", " IL,", ", Illinois",
+        ", IN ", " IN,", ", Indiana",
+        ", IA ", " IA,", ", Iowa",
+        ", KS ", " KS,", ", Kansas",
+        ", KY ", " KY,", ", Kentucky",
+        ", LA ", " LA,", ", Louisiana",
+        ", ME ", " ME,", ", Maine",
+        ", MD ", " MD,", ", Maryland",
+        ", MA ", " MA,", ", Massachusetts",
+        ", MI ", " MI,", ", Michigan",
+        ", MN ", " MN,", ", Minnesota",
+        ", MS ", " MS,", ", Mississippi",
+        ", MO ", " MO,", ", Missouri",
+        ", MT ", " MT,", ", Montana",
+        ", NE ", " NE,", ", Nebraska",
+        ", NV ", " NV,", ", Nevada",
+        ", NH ", " NH,", ", New Hampshire",
+        ", NJ ", " NJ,", ", New Jersey",
+        ", NM ", " NM,", ", New Mexico",
+        ", NY ", " NY,", ", New York",
+        ", NC ", " NC,", ", North Carolina",
+        ", ND ", " ND,", ", North Dakota",
+        ", OH ", " OH,", ", Ohio",
+        ", OK ", " OK,", ", Oklahoma",
+        ", OR ", " OR,", ", Oregon",
+        ", PA ", " PA,", ", Pennsylvania",
+        ", RI ", " RI,", ", Rhode Island",
+        ", SC ", " SC,", ", South Carolina",
+        ", SD ", " SD,", ", South Dakota",
+        ", TN ", " TN,", ", Tennessee",
+        ", TX ", " TX,", ", Texas",
+        ", UT ", " UT,", ", Utah",
+        ", VT ", " VT,", ", Vermont",
+        ", VA ", " VA,", ", Virginia",
+        ", WA ", " WA,", ", Washington",
+        ", WV ", " WV,", ", West Virginia",
+        ", WI ", " WI,", ", Wisconsin",
+        ", WY ", " WY,", ", Wyoming",
+      ], 
+    }, 
+    {
+      "type": "intl",
+      "strings": []
+    }
   ],
  
 }
