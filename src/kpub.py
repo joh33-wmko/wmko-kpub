@@ -424,24 +424,24 @@ class PublicationDB(object):
         for ext in ['pdf', 'png']:
             plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate.{ext}", 
                               first_year=plots_cfg['year_begin'], missions=missions)
-        #     plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-no-extrapolation.{ext}", 
-        #                       first_year=plots_cfg['year_begin'], missions=missions, extrapolate=False)
-        #     for mission in missions:
-        #         plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-{mission}.{ext}", 
-        #                          first_year=plots_cfg['year_begin'], missions=[mission])
-        #     plot.plot_science_piechart(self, f"{PLOTDIR}/kpub-piechart.{ext}", sciences=sciences)
-        #     plot.plot_author_count(self, f"{PLOTDIR}/kpub-author-count.{ext}", first_year=plots_cfg['year_begin'])
+            plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-no-extrapolation.{ext}", 
+                              first_year=plots_cfg['year_begin'], missions=missions, extrapolate=False)
+            for mission in missions:
+                plot.plot_by_year(self, f"{PLOTDIR}/kpub-publication-rate-{mission}.{ext}", 
+                                 first_year=plots_cfg['year_begin'], missions=[mission])
+            plot.plot_science_piechart(self, f"{PLOTDIR}/kpub-piechart.{ext}", sciences=sciences)
+            plot.plot_author_count(self, f"{PLOTDIR}/kpub-author-count.{ext}", first_year=plots_cfg['year_begin'])
 
-        # #bokeh plots
-        # if plots_cfg['instruments']:
-        #     plot.plot_instruments(self, f"{PLOTDIR}/kpub-publications-by-instrument", 
-        #                           year_begin=plots_cfg['year_begin'],
-        #                           missions=missions, 
-        #                           instruments=plots_cfg['instruments'])
-        # if self.config['aff_defs']:
-        #     plot.plot_affiliations(self, f"{PLOTDIR}/kpub-affiliations", 
-        #                           year_begin=plots_cfg['year_begin'],
-        #                           missions=missions)
+        #bokeh plots
+        if plots_cfg['instruments']:
+            plot.plot_instruments(self, f"{PLOTDIR}/kpub-publications-by-instrument", 
+                                  year_begin=plots_cfg['year_begin'],
+                                  missions=missions, 
+                                  instruments=plots_cfg['instruments'])
+        if self.config['aff_defs']:
+            plot.plot_affiliations(self, f"{PLOTDIR}/kpub-affiliations", 
+                                  year_begin=plots_cfg['year_begin'],
+                                  missions=missions)
 
 
     def get_metrics(self, year=None):
