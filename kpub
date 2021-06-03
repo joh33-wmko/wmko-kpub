@@ -9,6 +9,7 @@ if [ "$CONDA_PREFIX" != "" ]; then
             echo "Found KPUB conda environment"
             source $CONDA_PREFIX/etc/profile.d/conda.sh
             conda activate KPUB
+            break
         fi
     done
 fi
@@ -41,6 +42,7 @@ elif [ $a1 == 'push' ]; then
     git add data/kpub-export.csv
     git add data/kpub-export-bibcodes.csv
     git add data/kpub-export-bibcodes-archive.csv
+    git add data/kpub.db
     git commit -m "Regular db update"
     git push
 
@@ -53,8 +55,17 @@ elif [ $a1 == 'refresh' ]; then
     $python src/kpub.py import data/kpub-export.csv
 
 else
-    echo "ERROR: Unknown kpub command"
-    
+    echo "ERROR: Unknown kpub command: $a1"
+    echo "    kpub update adds new publications by searching ADS (interactive)"
+    echo "    kpub add adds a publication using its ADS bibcode"
+    echo "    kpub delete deletes a publication using its ADS bibcode"
+    echo "    kpub import imports bibcodes from a csv file"
+    echo "    kpub export exports bibcodes to a csv file"
+    echo "    kpub plot creates a visualization of the database"
+    echo "    kpub stats saves publications stats in markdown format"
+    echo "    kpub spreadsheet exports the publications to an Excel spreadsheet"
+    echo "    kpub push to push the updated database to the git repo"
+    echo "    kpub refresh to export and re-import all publications (this is slow and necessary only if you want to remove duplicates and fetch fresh citation statistics)"    
 fi
 
 cd $mydir
