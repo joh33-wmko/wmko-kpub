@@ -3,13 +3,18 @@
 #TODO: Add git pull to some of these?
 
 
+# Using KPUB env?
 python="python3"
 if [ "$CONDA_PREFIX" != "" ]; then
-    #todo: should see if this conda.sh exists and if not then look for python3 in envs/KPUB/bin/ folder?
-    source $CONDA_PREFIX/etc/profile.d/conda.sh
-    conda activate KPUB
+    ENVS=($(conda env list | awk '{print $1}'))
+    for env in "${ENVS[@]}"; do
+        if [[ $env == *"KPUB"* ]]; then
+            echo "Found KPUB conda environment"
+            source $CONDA_PREFIX/etc/profile.d/conda.sh
+            conda activate KPUB
+        fi
+    done
 fi
-
 
 #script dir
 root=`dirname $0`
