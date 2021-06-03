@@ -1042,7 +1042,7 @@ def kpub_stats(args=None):
     config = yaml.load(open(f'{PACKAGEDIR}/config/config.live.yaml'), Loader=yaml.FullLoader)
     title = config.get('prepend', '').capitalize()
 
-    db = PublicationDB(args.f, config)
+    pubdb = PublicationDB(args.f, config)
 
     for bymonth in [True, False]:
         if bymonth:
