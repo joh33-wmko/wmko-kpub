@@ -28,7 +28,7 @@ git clone https://github.com/KeckObservatory/kpub.git
 3) Edit the `config.live.yaml` file.  Read the config file and edit sections as needed.  At a minimum, you will need to add the `ADS_API_KEY` value.  There are two example config files pre-configured for Keck and Kepler as well.
 ```
 cd $HOME/kpub/src/config
-cp config.yaml config.live.yaml
+cp config.keck.yaml config.live.yaml
 ```
 
 4) Install dependencies:
@@ -56,24 +56,31 @@ export PATH=/home/observer/kpub:$PATH
 Add `--help` to any command below to get full usage instructions
 
 * `kpub update` adds new publications by searching ADS (interactive);
+* `kpub push` to push the updated database and other data files to the git repo;
 * `kpub add` adds a publication using its ADS bibcode;
 * `kpub delete` deletes a publication using its ADS bibcode;
 * `kpub import` imports bibcodes from a csv file;
-* `kpub export` exports bibcodes to a csv file;
-* `kpub plot` creates a visualization of the database;
-* `kpub stats` saves publications stats in markdown format;
+* `kpub export` exports bibcodes to a csv file and saves to data/ dir
+* `kpub plot` creates a visualization of the database and saves to data/plots/ dir here;
+* `kpub stats` creates publications stats in markdown format and saves to data/output dir here;
 * `kpub spreadsheet` exports the publications to an Excel spreadsheet
-* `kpub update` to search for new publications with pubdate of current month;
-* `kpub push` to push the updated database to the git repo;
 * `kpub refresh` to export and re-import all publications (this is slow and necessary only if you want to remove duplicates and fetch fresh citation statistics)
 
 
 ## Example use
 
-Search ADS by pubdate month or year for new articles and try to add them interactively:
+Search ADS by pubdate month or year for new articles and add them interactively (and push to repo):
 ```
 kpub update 2015-07
 kpub update 2015
+kpub push
+```
+
+Update plots and stats files (and push to repo):
+```
+kpub plot
+kpub stats
+kpub push
 ```
 
 Add a new article to the database interactively using its bibcode:
