@@ -20,32 +20,23 @@ There are two important things to know about updating the kpub database:
 - kpub does not replace having a person look at the article context to confirm it is Keck-related.  
 - kpub uses the github repo as a database, so only one person should update the database at a time.
 
-To update a particular year or month:
+A typical update session will involve updating the database file, updating the plots, updating the stats docs, and pushing all updated files to the repo:
 
     kpub update [YYYY]
-    kpub update [YYYY-MM]
-
-To update the repo/database after an update:
-
+    kpub plot
+    kpub stats
     kpub push
 
-
-## Plotting and Stats
-Plots files are written to png/pdf/html files in kpub/data/plots/
-
-    kpub plot
-
-Stats are written to markdown files in kpub/data/output/
-
-    kpub stats
+Plots and stats files are written to kpub/data/plots/ and kpub/data/output/
 
 
 ## Citation Refresh
 Once a year or before doing an annual report, you can run a full requery of all records to refresh their metadata, such as citations.  This can take a while, up to an hour or more.  After running the refresh, you can then rerun plotting and stats:
 
     kpub refresh
-    kpub stats
     kpub plot
+    kpub stats
+    kpub push
 
 
 ## Add and Delete

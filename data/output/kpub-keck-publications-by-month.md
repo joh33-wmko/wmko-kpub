@@ -195,6 +195,22 @@ Melbourne, Katherine, Youngblood, Allison, France, Kevin, et al.
 Takarada, Takuya, Sato, Bun'ei, Omiya, Masashi, et al.    
 2020, refereed ([2020PASJ...72..104T](http://adsabs.harvard.edu/abs/2020PASJ...72..104T))  
 
+32. [CONSTRAINING THE GRAVITATIONAL LENSING OF Z ≳ 6 QUASARS FROM THEIR PROXIMITY ZONES](http://adsabs.harvard.edu/abs/2020ApJ...904L..32D)  
+Davies, Frederick B., Wang, Feige, Eilers, Anna-Christina, et al.    
+2020, refereed ([2020ApJ...904L..32D](http://adsabs.harvard.edu/abs/2020ApJ...904L..32D))  
+
+33. [CONSTRAINING THE KILONOVA RATE WITH ZWICKY TRANSIENT FACILITY SEARCHES INDEPENDENT OF GRAVITATIONAL WAVE AND SHORT GAMMA-RAY BURST TRIGGERS](http://adsabs.harvard.edu/abs/2020ApJ...904..155A)  
+Andreoni, Igor, Kool, Erik C., Sagués Carracedo, Ana, et al.    
+2020, refereed ([2020ApJ...904..155A](http://adsabs.harvard.edu/abs/2020ApJ...904..155A))  
+
+34. [KILONOVA LUMINOSITY FUNCTION CONSTRAINTS BASED ON ZWICKY TRANSIENT FACILITY SEARCHES FOR 13 NEUTRON STAR MERGER TRIGGERS DURING O3](http://adsabs.harvard.edu/abs/2020ApJ...905..145K)  
+Kasliwal, Mansi M., Anand, Shreya, Ahumada, Tomás, et al.    
+2020, refereed ([2020ApJ...905..145K](http://adsabs.harvard.edu/abs/2020ApJ...905..145K))  
+
+35. [THE CARMENES SEARCH FOR EXOPLANETS AROUND M DWARFS. LP 714-47 B (TOI 442.01): POPULATING THE NEPTUNE DESERT](http://adsabs.harvard.edu/abs/2020A&A...644A.127D)  
+Dreizler, S., Crossfield, I. J. M., Kossakowski, D., et al.    
+2020, refereed ([2020A&A...644A.127D](http://adsabs.harvard.edu/abs/2020A&A...644A.127D))  
+
 
 2020-11
 -------
@@ -547,6 +563,14 @@ Carleo, Ilaria, Gandolfi, Davide, Barragán, Oscar, et al.
 Girardi, Léo, Boyer, Martha L., Johnson, L. Clifton, et al.    
 2020, refereed ([2020ApJ...901...19G](http://adsabs.harvard.edu/abs/2020ApJ...901...19G))  
 
+28. [EVIDENCE FOR A HIGH MUTUAL INCLINATION BETWEEN THE COLD JUPITER AND TRANSITING SUPER EARTH ORBITING Π MEN](http://adsabs.harvard.edu/abs/2020MNRAS.497.2096X)  
+Xuan, Jerry W., Wyatt, Mark C.    
+2020, refereed ([2020MNRAS.497.2096X](http://adsabs.harvard.edu/abs/2020MNRAS.497.2096X))  
+
+29. [A CENSUS OF SUB-KILOPARSEC RESOLUTION METALLICITY GRADIENTS IN STAR-FORMING GALAXIES AT COSMIC NOON FROM HST SLITLESS SPECTROSCOPY](http://adsabs.harvard.edu/abs/2020ApJ...900..183W)  
+Wang, Xin, Jones, Tucker A., Treu, Tommaso, et al.    
+2020, refereed ([2020ApJ...900..183W](http://adsabs.harvard.edu/abs/2020ApJ...900..183W))  
+
 
 2020-08
 -------
@@ -650,6 +674,14 @@ de Jaeger, T., Stahl, B. E., Zheng, W., et al.
 25. [UNCOVERING THE ORBIT OF THE HERCULES DWARF GALAXY](http://adsabs.harvard.edu/abs/2020MNRAS.496.1092G)  
 Gregory, Alexandra L., Collins, Michelle L. M., Erkal, Denis, et al.    
 2020, refereed ([2020MNRAS.496.1092G](http://adsabs.harvard.edu/abs/2020MNRAS.496.1092G))  
+
+26. [TESTING THE RELATIVISTIC DOPPLER BOOST HYPOTHESIS FOR THE BINARY CANDIDATE QUASAR PG1302-102 WITH MULTIBAND SWIFT DATA](http://adsabs.harvard.edu/abs/2020MNRAS.496.1683X)  
+Xin, Chengcheng, Charisi, Maria, Haiman, Zoltán, et al.    
+2020, refereed ([2020MNRAS.496.1683X](http://adsabs.harvard.edu/abs/2020MNRAS.496.1683X))  
+
+27. [EXPRES. I. HD 3651 AS AN IDEAL RV BENCHMARK](http://adsabs.harvard.edu/abs/2020AJ....160...67B)  
+Brewer, John M., Fischer, Debra A., Blackman, Ryan T., et al.    
+2020, refereed ([2020AJ....160...67B](http://adsabs.harvard.edu/abs/2020AJ....160...67B))  
 
 
 2020-07
@@ -762,6 +794,18 @@ Liu, F., Yong, D., Asplund, M., et al.
 27. [THE LYMAN CONTINUUM ESCAPE FRACTION OF GALAXIES AND AGN IN THE GOODS FIELDS](http://adsabs.harvard.edu/abs/2020ApJ...897...41S)  
 Smith, Brent M., Windhorst, Rogier A., Cohen, Seth H., et al.    
 2020, refereed ([2020ApJ...897...41S](http://adsabs.harvard.edu/abs/2020ApJ...897...41S))  
+
+28. [PLEIADES OR NOT? RESOLVING THE STATUS OF THE LITHIUM-RICH M DWARFS HHJ 339 AND HHJ 430](http://adsabs.harvard.edu/abs/2020AJ....160...30S)  
+Stauffer, John, Barrado, David, David, Trevor, et al.    
+2020, refereed ([2020AJ....160...30S](http://adsabs.harvard.edu/abs/2020AJ....160...30S))  
+
+29. [UNRESOLVED BINARY EXOPLANET HOST STARS FIT AS SINGLE STARS: EFFECTS ON THE STELLAR PARAMETERS](http://adsabs.harvard.edu/abs/2020ApJ...898...47F)  
+Furlan, E., Howell, S. B.    
+2020, refereed ([2020ApJ...898...47F](http://adsabs.harvard.edu/abs/2020ApJ...898...47F))  
+
+30. [ORBITAL AND SPECTRAL CHARACTERIZATION OF THE BENCHMARK T-TYPE BROWN DWARF HD 19467B](http://adsabs.harvard.edu/abs/2020A&A...639A..47M)  
+Maire, A. -L., Molaverdikhani, K., Desidera, S., et al.    
+2020, refereed ([2020A&A...639A..47M](http://adsabs.harvard.edu/abs/2020A&A...639A..47M))  
 
 
 2020-06
