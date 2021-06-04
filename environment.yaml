@@ -9,3 +9,4 @@ dependencies:
   - textract
   - matplotlib
   - bokeh
+  - openpyxl

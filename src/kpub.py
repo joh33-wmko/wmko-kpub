@@ -887,7 +887,7 @@ def display_abstract(article_dict, colors, highlights=None):
     print(f"Acknowledgement highlights: {ack_hl}")
     print(f"Body highlights: {body_hl}")
     print('')
-    print('Authors: ' + ', '.join(article_dict['author']))
+    print('Authors: ' + ', '.join(article_dict.get('author', '')))
     print('Date: ' + article_dict['pubdate'])
     print('Status: ' + str(article_dict['property']))
     print('URL: http://adsabs.harvard.edu/abs/' + article_dict['bibcode'])
@@ -1241,9 +1241,11 @@ def kpub_export(args=None):
 def kpub_spreadsheet(args=None):
     """Export the publication database to an Excel spreadsheet."""
     try:
-        import pandas as pd
+        from openpyxl import Workbook
+        from openpyxl.utils.dataframe import dataframe_to_rows
     except ImportError:
-        print('ERROR: pandas needs to be installed for this feature.')
+        print('ERROR: openpyxl needs to be installed for this feature.')
+        sys.exit(1)
 
     parser = argparse.ArgumentParser(
         description="Export the publication list in XLS format.")
@@ -1289,18 +1291,30 @@ def kpub_spreadsheet(args=None):
                     ('refereed', refereed),
                     ('citation_count', metrics['citation_count']),
                     ('citations_per_year', round(citations_per_year, 2)),
-                    ('read_count', metrics['read_count']),
-                    ('first_author_norm', metrics['first_author_norm']),
+                    ('read_count', str(metrics['read_count'])),
+                    ('first_author_norm', str(metrics['first_author_norm'])),
                     ('title', metrics['title'][0]),
-                    ('keyword_norm', metrics['keyword_norm']),
+                    ('keyword_norm', str(metrics.get('keyword_norm'))),
                     ('abstract', metrics['abstract']),
-                    ('co_author_norm', metrics['author_norm']),
-                    ('affiliations', metrics['aff'])])
+                    ('co_author_norm', str(metrics['author_norm'])),
+                    ('instruments', str(metrics['instruments'])),
+                    ('archive', str(metrics['archive'])),
+                    ('affiliations', str(metrics['aff']))
+                    ])
         spreadsheet.append(myrow)
 
-    output_fn = 'kpub-publications.xls'
-    print('Writing {}'.format(output_fn))
-    pd.DataFrame(spreadsheet).to_excel(output_fn, index=False)
+    output_fn = 'kpub-publications.xlsx'
+    print('Writing to {}'.format(output_fn))
+    wb = Workbook()
+    ws = wb.active
+    fieldnames = list(spreadsheet[0].keys())
+    ws.append(fieldnames)
+    for row in spreadsheet:
+        values = [row[k] for k in fieldnames]
+        ws.append(values)
+    for cell in ws['A'] + ws[1]:
+        cell.style = 'Pandas'
+    wb.save(output_fn)
 
 
 if __name__ == '__main__':
