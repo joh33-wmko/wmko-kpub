@@ -19,657 +19,769 @@ Rowe-Gurney, Naomi, Fletcher, Leigh N., Orton, Glenn S., et al.
 Vidal-García, A., Falgarone, E., Arrigoni Battaia, F., et al.    
 2021, refereed ([2021MNRAS.506.2551V](http://adsabs.harvard.edu/abs/2021MNRAS.506.2551V))  
 
-4. [INVESTIGATION OF THE ORIGINS OF COMETS AS REVEALED THROUGH INFRARED HIGH-RESOLUTION SPECTROSCOPY I. MOLECULAR ABUNDANCES](http://adsabs.harvard.edu/abs/2021AJ....162...74L)  
+4. [THE RELATIONSHIP BETWEEN GAS AND GALAXIES AT Z &LT; 1 USING THE Q0107 QUASAR TRIPLET](http://adsabs.harvard.edu/abs/2021MNRAS.506.2574B)  
+Beckett, Alexander, Morris, Simon L., Fumagalli, Michele, et al.    
+2021, refereed ([2021MNRAS.506.2574B](http://adsabs.harvard.edu/abs/2021MNRAS.506.2574B))  
+
+5. [HAMILTON'S OBJECT - A CLUMPY GALAXY STRADDLING THE GRAVITATIONAL CAUSTIC OF A GALAXY CLUSTER: CONSTRAINTS ON DARK MATTER CLUMPING](http://adsabs.harvard.edu/abs/2021MNRAS.506.1595G)  
+Griffiths, Richard E., Rudisel, Mitchell, Wagner, Jenny, et al.    
+2021, refereed ([2021MNRAS.506.1595G](http://adsabs.harvard.edu/abs/2021MNRAS.506.1595G))  
+
+6. [THE MOSDEF SURVEY: THE MASS-METALLICITY RELATIONSHIP AND THE EXISTENCE OF THE FMR AT Z   1.5](http://adsabs.harvard.edu/abs/2021MNRAS.506.1237T)  
+Topping, Michael W., Shapley, Alice E., Sanders, Ryan L., et al.    
+2021, refereed ([2021MNRAS.506.1237T](http://adsabs.harvard.edu/abs/2021MNRAS.506.1237T))  
+
+7. [INVESTIGATION OF THE ORIGINS OF COMETS AS REVEALED THROUGH INFRARED HIGH-RESOLUTION SPECTROSCOPY I. MOLECULAR ABUNDANCES](http://adsabs.harvard.edu/abs/2021AJ....162...74L)  
 Lippi, M., Villanueva, G. L., Mumma, M. J., et al.    
 2021, refereed ([2021AJ....162...74L](http://adsabs.harvard.edu/abs/2021AJ....162...74L))  
 
-5. [ASTEROID 16 PSYCHE: SHAPE, FEATURES, AND GLOBAL MAP](http://adsabs.harvard.edu/abs/2021PSJ.....2..125S)  
+8. [ASTEROID 16 PSYCHE: SHAPE, FEATURES, AND GLOBAL MAP](http://adsabs.harvard.edu/abs/2021PSJ.....2..125S)  
 Shepard, Michael K., de Kleer, Katherine, Cambioni, Saverio, et al.    
 2021, refereed ([2021PSJ.....2..125S](http://adsabs.harvard.edu/abs/2021PSJ.....2..125S))  
 
-6. [PROBING COSMIC DAWN: AGES AND STAR FORMATION HISTORIES OF CANDIDATE Z ≥ 9 GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.505.3336L)  
+9. [PROBING COSMIC DAWN: AGES AND STAR FORMATION HISTORIES OF CANDIDATE Z ≥ 9 GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.505.3336L)  
 Laporte, N., Meyer, R. A., Ellis, R. S., et al.    
 2021, refereed ([2021MNRAS.505.3336L](http://adsabs.harvard.edu/abs/2021MNRAS.505.3336L))  
 
-7. [ELEMENTAL ABUNDANCES IN M31: GRADIENTS IN THE GIANT STELLAR STREAM](http://adsabs.harvard.edu/abs/2021AJ....162...45E)  
+10. [ELEMENTAL ABUNDANCES IN M31: GRADIENTS IN THE GIANT STELLAR STREAM](http://adsabs.harvard.edu/abs/2021AJ....162...45E)  
 Escala, Ivanna, Gilbert, Karoline M., Wojno, Jennifer, et al.    
 2021, refereed ([2021AJ....162...45E](http://adsabs.harvard.edu/abs/2021AJ....162...45E))  
 
-8. [AN UNCONTAMINATED MEASUREMENT OF THE ESCAPING LYMAN CONTINUUM AT Z   3](http://adsabs.harvard.edu/abs/2021MNRAS.505.2447P)  
+11. [AN UNCONTAMINATED MEASUREMENT OF THE ESCAPING LYMAN CONTINUUM AT Z   3](http://adsabs.harvard.edu/abs/2021MNRAS.505.2447P)  
 Pahl, Anthony J., Shapley, Alice, Steidel, Charles C., et al.    
 2021, refereed ([2021MNRAS.505.2447P](http://adsabs.harvard.edu/abs/2021MNRAS.505.2447P))  
 
-9. [SCEXAO/MEC AND CHARIS DISCOVERY OF A LOW-MASS, 6 AU SEPARATION COMPANION TO HIP 109427 USING STOCHASTIC SPECKLE DISCRIMINATION AND HIGH-CONTRAST SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021AJ....162...44S)  
+12. [SCEXAO/MEC AND CHARIS DISCOVERY OF A LOW-MASS, 6 AU SEPARATION COMPANION TO HIP 109427 USING STOCHASTIC SPECKLE DISCRIMINATION AND HIGH-CONTRAST SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021AJ....162...44S)  
 Steiger, Sarah, Currie, Thayne, Brandt, Timothy D., et al.    
 2021, refereed ([2021AJ....162...44S](http://adsabs.harvard.edu/abs/2021AJ....162...44S))  
 
-10. [MOA-2007-BLG-400 A SUPER-JUPITER-MASS PLANET ORBITING A GALACTIC BULGE K-DWARF REVEALED BY KECK ADAPTIVE OPTICS IMAGING](http://adsabs.harvard.edu/abs/2021AJ....162...60B)  
+13. [MOA-2007-BLG-400 A SUPER-JUPITER-MASS PLANET ORBITING A GALACTIC BULGE K-DWARF REVEALED BY KECK ADAPTIVE OPTICS IMAGING](http://adsabs.harvard.edu/abs/2021AJ....162...60B)  
 Bhattacharya, Aparna, Bennett, David P., Beaulieu, Jean Philippe, et al.    
 2021, refereed ([2021AJ....162...60B](http://adsabs.harvard.edu/abs/2021AJ....162...60B))  
 
-11. [SIMULTANEOUS ESTIMATION OF SEGMENTED TELESCOPE PHASING ERRORS AND NON-COMMON PATH ABERRATIONS FROM ADAPTIVE-OPTICS-CORRECTED IMAGES](http://adsabs.harvard.edu/abs/2021MNRAS.505.3347L)  
+14. [SIMULTANEOUS ESTIMATION OF SEGMENTED TELESCOPE PHASING ERRORS AND NON-COMMON PATH ABERRATIONS FROM ADAPTIVE-OPTICS-CORRECTED IMAGES](http://adsabs.harvard.edu/abs/2021MNRAS.505.3347L)  
 Lamb, Masen P., Correia, Carlos, Sivanandam, Suresh, et al.    
 2021, refereed ([2021MNRAS.505.3347L](http://adsabs.harvard.edu/abs/2021MNRAS.505.3347L))  
 
-12. [TKS X: CONFIRMATION OF TOI-1444B AND A COMPARATIVE ANALYSIS OF THE ULTRA-SHORT-PERIOD PLANETS WITH HOT NEPTUNES](http://adsabs.harvard.edu/abs/2021AJ....162...62D)  
+15. [TKS X: CONFIRMATION OF TOI-1444B AND A COMPARATIVE ANALYSIS OF THE ULTRA-SHORT-PERIOD PLANETS WITH HOT NEPTUNES](http://adsabs.harvard.edu/abs/2021AJ....162...62D)  
 Dai, Fei, Howard, Andrew W., Batalha, Natalie M., et al.    
 2021, refereed ([2021AJ....162...62D](http://adsabs.harvard.edu/abs/2021AJ....162...62D))  
 
-13. [MEASURING THE AVERAGE MOLECULAR GAS CONTENT OF STAR-FORMING GALAXIES AT Z = 3-4](http://adsabs.harvard.edu/abs/2021ApJ...916...12B)  
+16. [PROGENITOR MASS CONSTRAINTS FOR THE TYPE IB INTERMEDIATE-LUMINOSITY SN 2015AP AND THE HIGHLY EXTINGUISHED SN 2016BAU](http://adsabs.harvard.edu/abs/2021MNRAS.505.2530A)  
+Aryan, Amar, Pandey, S. B., Zheng, WeiKang, et al.    
+2021, refereed ([2021MNRAS.505.2530A](http://adsabs.harvard.edu/abs/2021MNRAS.505.2530A))  
+
+17. [ANDROMEDA XXI - A DWARF GALAXY IN A LOW-DENSITY DARK MATTER HALO](http://adsabs.harvard.edu/abs/2021MNRAS.505.5686C)  
+Collins, Michelle L. M., Read, Justin I., Ibata, Rodrigo A., et al.    
+2021, refereed ([2021MNRAS.505.5686C](http://adsabs.harvard.edu/abs/2021MNRAS.505.5686C))  
+
+18. [DATING INDIVIDUAL QUASARS WITH THE HE II PROXIMITY EFFECT](http://adsabs.harvard.edu/abs/2021MNRAS.505.5084W)  
+Worseck, Gábor, Khrykin, Ilya S., Hennawi, Joseph F., et al.    
+2021, refereed ([2021MNRAS.505.5084W](http://adsabs.harvard.edu/abs/2021MNRAS.505.5084W))  
+
+19. [A FULLY-SPECTROSCOPIC TRIPLE-SOURCE-PLANE LENS: THE JACKPOT COMPLETED](http://adsabs.harvard.edu/abs/2021MNRAS.505.2136S)  
+Smith, Russell J., Collett, Thomas E.    
+2021, refereed ([2021MNRAS.505.2136S](http://adsabs.harvard.edu/abs/2021MNRAS.505.2136S))  
+
+20. [HD MOLECULES AT HIGH REDSHIFT: COSMIC RAY IONIZATION RATE IN THE DIFFUSE INTERSTELLAR MEDIUM](http://adsabs.harvard.edu/abs/2021MNRAS.505.3810K)  
+Kosenko, D. N., Balashev, S. A., Noterdaeme, P., et al.    
+2021, refereed ([2021MNRAS.505.3810K](http://adsabs.harvard.edu/abs/2021MNRAS.505.3810K))  
+
+21. [MEASURING THE AVERAGE MOLECULAR GAS CONTENT OF STAR-FORMING GALAXIES AT Z = 3-4](http://adsabs.harvard.edu/abs/2021ApJ...916...12B)  
 Boogaard, Leindert A., Bouwens, Rychard J., Riechers, Dominik, et al.    
 2021, refereed ([2021ApJ...916...12B](http://adsabs.harvard.edu/abs/2021ApJ...916...12B))  
 
-14. [CALIFORNIA LEGACY SURVEY. II. OCCURRENCE OF GIANT PLANETS BEYOND THE ICE LINE](http://adsabs.harvard.edu/abs/2021ApJS..255...14F)  
+22. [CALIFORNIA LEGACY SURVEY. II. OCCURRENCE OF GIANT PLANETS BEYOND THE ICE LINE](http://adsabs.harvard.edu/abs/2021ApJS..255...14F)  
 Fulton, Benjamin J., Rosenthal, Lee J., Hirsch, Lea A., et al.    
 2021, refereed ([2021ApJS..255...14F](http://adsabs.harvard.edu/abs/2021ApJS..255...14F))  
 
-15. [THE EXOTIC TYPE IC BROAD-LINED SUPERNOVA SN 2018GEP: BLURRING THE LINE BETWEEN SUPERNOVAE AND FAST OPTICAL TRANSIENTS](http://adsabs.harvard.edu/abs/2021ApJ...915..121P)  
+23. [THE EXOTIC TYPE IC BROAD-LINED SUPERNOVA SN 2018GEP: BLURRING THE LINE BETWEEN SUPERNOVAE AND FAST OPTICAL TRANSIENTS](http://adsabs.harvard.edu/abs/2021ApJ...915..121P)  
 Pritchard, T. A., Bensch, Katarzyna, Modjaz, Maryam, et al.    
 2021, refereed ([2021ApJ...915..121P](http://adsabs.harvard.edu/abs/2021ApJ...915..121P))  
 
-16. [THE OTELO SURVEY: THE STAR FORMATION RATE EVOLUTION OF LOW-MASS GALAXIES](http://adsabs.harvard.edu/abs/2021ApJ...915L..17C)  
+24. [THE OTELO SURVEY: THE STAR FORMATION RATE EVOLUTION OF LOW-MASS GALAXIES](http://adsabs.harvard.edu/abs/2021ApJ...915L..17C)  
 Cedrés, Bernabé, Pérez-García, Ana María, Pérez-Martínez, Ricardo, et al.    
 2021, refereed ([2021ApJ...915L..17C](http://adsabs.harvard.edu/abs/2021ApJ...915L..17C))  
 
-17. [HAT-P-58B-HAT-P-64B: SEVEN PLANETS TRANSITING BRIGHT STARS](http://adsabs.harvard.edu/abs/2021AJ....162....7B)  
+25. [HAT-P-58B-HAT-P-64B: SEVEN PLANETS TRANSITING BRIGHT STARS](http://adsabs.harvard.edu/abs/2021AJ....162....7B)  
 Bakos, G. Á., Hartman, J. D., Bhatti, W., et al.    
 2021, refereed ([2021AJ....162....7B](http://adsabs.harvard.edu/abs/2021AJ....162....7B))  
 
-18. [THE SIZE AND PERVASIVENESS OF LY Α-UV SPATIAL OFFSETS IN STAR-FORMING GALAXIES AT Z ∼ 6](http://adsabs.harvard.edu/abs/2021MNRAS.504.3662L)  
+26. [THE SIZE AND PERVASIVENESS OF LY Α-UV SPATIAL OFFSETS IN STAR-FORMING GALAXIES AT Z ∼ 6](http://adsabs.harvard.edu/abs/2021MNRAS.504.3662L)  
 Lemaux, B. C., Fuller, S., Bradač, M., et al.    
 2021, refereed ([2021MNRAS.504.3662L](http://adsabs.harvard.edu/abs/2021MNRAS.504.3662L))  
 
-19. [NEW CANDIDATE EXTREME T SUBDWARFS FROM THE BACKYARD WORLDS: PLANET 9 CITIZEN SCIENCE PROJECT](http://adsabs.harvard.edu/abs/2021ApJ...915..120M)  
+27. [NEW CANDIDATE EXTREME T SUBDWARFS FROM THE BACKYARD WORLDS: PLANET 9 CITIZEN SCIENCE PROJECT](http://adsabs.harvard.edu/abs/2021ApJ...915..120M)  
 Meisner, Aaron M., Schneider, Adam C., Burgasser, Adam J., et al.    
 2021, refereed ([2021ApJ...915..120M](http://adsabs.harvard.edu/abs/2021ApJ...915..120M))  
 
-20. [THE ENIGMATIC BROWN DWARF WISEA J153429.75-104303.3 (A.K.A. "THE ACCIDENT")](http://adsabs.harvard.edu/abs/2021ApJ...915L...6K)  
+28. [THE ENIGMATIC BROWN DWARF WISEA J153429.75-104303.3 (A.K.A. "THE ACCIDENT")](http://adsabs.harvard.edu/abs/2021ApJ...915L...6K)  
 Kirkpatrick, J. Davy, Marocco, Federico, Caselden, Dan, et al.    
 2021, refereed ([2021ApJ...915L...6K](http://adsabs.harvard.edu/abs/2021ApJ...915L...6K))  
 
-21. [THE CALIFORNIA LEGACY SURVEY. I. A CATALOG OF 178 PLANETS FROM PRECISION RADIAL VELOCITY MONITORING OF 719 NEARBY STARS OVER THREE DECADES](http://adsabs.harvard.edu/abs/2021ApJS..255....8R)  
+29. [THE CALIFORNIA LEGACY SURVEY. I. A CATALOG OF 178 PLANETS FROM PRECISION RADIAL VELOCITY MONITORING OF 719 NEARBY STARS OVER THREE DECADES](http://adsabs.harvard.edu/abs/2021ApJS..255....8R)  
 Rosenthal, Lee J., Fulton, Benjamin J., Hirsch, Lea A., et al.    
 2021, refereed ([2021ApJS..255....8R](http://adsabs.harvard.edu/abs/2021ApJS..255....8R))  
 
-22. [SPATIAL VARIATION IN STRONG LINE RATIOS AND PHYSICAL CONDITIONS IN TWO STRONGLY LENSED GALAXIES AT Z 1.4](http://adsabs.harvard.edu/abs/2021ApJ...916...50F)  
+30. [SPATIAL VARIATION IN STRONG LINE RATIOS AND PHYSICAL CONDITIONS IN TWO STRONGLY LENSED GALAXIES AT Z 1.4](http://adsabs.harvard.edu/abs/2021ApJ...916...50F)  
 Florian, Michael K., Rigby, Jane R., Acharyya, Ayan, et al.    
 2021, refereed ([2021ApJ...916...50F](http://adsabs.harvard.edu/abs/2021ApJ...916...50F))  
 
-23. [PRIMARY VELOCITY AND ORBITAL PHASE EFFECTS ON PLANETARY DETECTABILITY FROM SMALL EPOCH NUMBER DATA SETS](http://adsabs.harvard.edu/abs/2021AJ....162...26B)  
+31. [PRIMARY VELOCITY AND ORBITAL PHASE EFFECTS ON PLANETARY DETECTABILITY FROM SMALL EPOCH NUMBER DATA SETS](http://adsabs.harvard.edu/abs/2021AJ....162...26B)  
 Buzard, Cam, Pelletier, Stefan, Piskorz, Danielle, et al.    
 2021, refereed ([2021AJ....162...26B](http://adsabs.harvard.edu/abs/2021AJ....162...26B))  
 
-24. [POWERFUL WINDS IN HIGH-REDSHIFT OBSCURED AND RED QUASARS](http://adsabs.harvard.edu/abs/2021MNRAS.504.4445V)  
+32. [POWERFUL WINDS IN HIGH-REDSHIFT OBSCURED AND RED QUASARS](http://adsabs.harvard.edu/abs/2021MNRAS.504.4445V)  
 Vayner, Andrey, Zakamska, Nadia L., Riffel, Rogemar A., et al.    
 2021, refereed ([2021MNRAS.504.4445V](http://adsabs.harvard.edu/abs/2021MNRAS.504.4445V))  
 
-25. [FOLLOW-UP AND VALIDATION OF K2 AND TESS PLANETARY SYSTEMS WITH KECK NIRC2 ADAPTIVE OPTICS IMAGING](http://adsabs.harvard.edu/abs/2021FrASS...8...63S)  
+33. [DIRECT IMAGING OF EXOPLANETS BEYOND THE RADIAL VELOCITY LIMIT: APPLICATION TO THE HD 134987 SYSTEM](http://adsabs.harvard.edu/abs/2021AJ....162....9L)  
+Li, Zhexing, Hildebrandt, Sergi R., Kane, Stephen R., et al.    
+2021, refereed ([2021AJ....162....9L](http://adsabs.harvard.edu/abs/2021AJ....162....9L))  
+
+34. [RESOLVING STAR-FORMING CLUMPS IN A Z ∼ 2 LENSED GALAXY: A PIXELATED BAYESIAN APPROACH](http://adsabs.harvard.edu/abs/2021MNRAS.505L...1S)  
+Sharma, Soniya, Richard, Johan, Yuan, Tiantian, et al.    
+2021, refereed ([2021MNRAS.505L...1S](http://adsabs.harvard.edu/abs/2021MNRAS.505L...1S))  
+
+35. [NOEMA REDSHIFT MEASUREMENTS OF EXTREMELY BRIGHT SUBMILLIMETER GALAXIES NEAR THE GOODS-N](http://adsabs.harvard.edu/abs/2021ApJ...916...46J)  
+Jones, Logan H., Rosenthal, Michael J., Barger, Amy J., et al.    
+2021, refereed ([2021ApJ...916...46J](http://adsabs.harvard.edu/abs/2021ApJ...916...46J))  
+
+36. [THE NIRVANDELS SURVEY: A ROBUST DETECTION OF Α-ENHANCEMENT IN STAR-FORMING GALAXIES AT Z ≃ 3.4](http://adsabs.harvard.edu/abs/2021MNRAS.505..903C)  
+Cullen, F., Shapley, A. E., McLure, R. J., et al.    
+2021, refereed ([2021MNRAS.505..903C](http://adsabs.harvard.edu/abs/2021MNRAS.505..903C))  
+
+37. [FOLLOW-UP AND VALIDATION OF K2 AND TESS PLANETARY SYSTEMS WITH KECK NIRC2 ADAPTIVE OPTICS IMAGING](http://adsabs.harvard.edu/abs/2021FrASS...8...63S)  
 Schlieder, Joshua E., Gonzales, Erica J., Ciardi, David R., et al.    
 2021, refereed ([2021FrASS...8...63S](http://adsabs.harvard.edu/abs/2021FrASS...8...63S))  
 
-26. [CLOUD PROPERTIES OF BROWN DWARF BINARIES ACROSS THE L/T TRANSITION](http://adsabs.harvard.edu/abs/2021ApJ...914..124B)  
+38. [CLOUD PROPERTIES OF BROWN DWARF BINARIES ACROSS THE L/T TRANSITION](http://adsabs.harvard.edu/abs/2021ApJ...914..124B)  
 Brock, Laci, Barman, Travis, Konopacky, Quinn M., et al.    
 2021, refereed ([2021ApJ...914..124B](http://adsabs.harvard.edu/abs/2021ApJ...914..124B))  
 
-27. [OPTICAL SPECTROSCOPY OF BLAZARS FOR THE CHERENKOV TELESCOPE ARRAY](http://adsabs.harvard.edu/abs/2021A&A...650A.106G)  
+39. [OPTICAL SPECTROSCOPY OF BLAZARS FOR THE CHERENKOV TELESCOPE ARRAY](http://adsabs.harvard.edu/abs/2021A&A...650A.106G)  
 Goldoni, P., Pita, S., Boisson, C., et al.    
 2021, refereed ([2021A&A...650A.106G](http://adsabs.harvard.edu/abs/2021A&A...650A.106G))  
 
-28. [LOW-MASS COMPACT ELLIPTICAL GALAXIES: SPATIALLY RESOLVED STELLAR POPULATIONS AND KINEMATICS WITH THE KECK COSMIC WEB IMAGER](http://adsabs.harvard.edu/abs/2021MNRAS.503.5455F)  
+40. [LOW-MASS COMPACT ELLIPTICAL GALAXIES: SPATIALLY RESOLVED STELLAR POPULATIONS AND KINEMATICS WITH THE KECK COSMIC WEB IMAGER](http://adsabs.harvard.edu/abs/2021MNRAS.503.5455F)  
 Ferré-Mateu, Anna, Durré, Mark, Forbes, Duncan A., et al.    
 2021, refereed ([2021MNRAS.503.5455F](http://adsabs.harvard.edu/abs/2021MNRAS.503.5455F))  
 
-29. [A COOL AND INFLATED PROGENITOR CANDIDATE FOR THE TYPE IB SUPERNOVA 2019YVR AT 2.6 YR BEFORE EXPLOSION](http://adsabs.harvard.edu/abs/2021MNRAS.504.2073K)  
+41. [A COOL AND INFLATED PROGENITOR CANDIDATE FOR THE TYPE IB SUPERNOVA 2019YVR AT 2.6 YR BEFORE EXPLOSION](http://adsabs.harvard.edu/abs/2021MNRAS.504.2073K)  
 Kilpatrick, Charles D., Drout, Maria R., Auchettl, Katie, et al.    
 2021, refereed ([2021MNRAS.504.2073K](http://adsabs.harvard.edu/abs/2021MNRAS.504.2073K))  
 
-30. [KINEMATICS OF THE CIRCUMGALACTIC MEDIUM OF A Z = 0.77 GALAXY FROM MG II TOMOGRAPHY](http://adsabs.harvard.edu/abs/2021ApJ...914...92M)  
+42. [KINEMATICS OF THE CIRCUMGALACTIC MEDIUM OF A Z = 0.77 GALAXY FROM MG II TOMOGRAPHY](http://adsabs.harvard.edu/abs/2021ApJ...914...92M)  
 Mortensen, Kris, Keerthi Vasan, G. C., Jones, Tucker, et al.    
 2021, refereed ([2021ApJ...914...92M](http://adsabs.harvard.edu/abs/2021ApJ...914...92M))  
 
-31. [WHITE DWARFS WITH PLANETARY REMNANTS IN THE ERA OF GAIA - I. SIX EMISSION LINE SYSTEMS](http://adsabs.harvard.edu/abs/2021MNRAS.504.2707G)  
+43. [WHITE DWARFS WITH PLANETARY REMNANTS IN THE ERA OF GAIA - I. SIX EMISSION LINE SYSTEMS](http://adsabs.harvard.edu/abs/2021MNRAS.504.2707G)  
 Gentile Fusillo, N. P., Manser, C. J., Gänsicke, Boris T., et al.    
 2021, refereed ([2021MNRAS.504.2707G](http://adsabs.harvard.edu/abs/2021MNRAS.504.2707G))  
 
-32. [A PROTO-HELIUM WHITE DWARF STRIPPED BY A SUBSTELLAR COMPANION VIA COMMON-ENVELOPE EJECTION. UNCOVERING THE TRUE NATURE OF A CANDIDATE HYPERVELOCITY B-TYPE STAR](http://adsabs.harvard.edu/abs/2021A&A...650A.102I)  
+44. [A PROTO-HELIUM WHITE DWARF STRIPPED BY A SUBSTELLAR COMPANION VIA COMMON-ENVELOPE EJECTION. UNCOVERING THE TRUE NATURE OF A CANDIDATE HYPERVELOCITY B-TYPE STAR](http://adsabs.harvard.edu/abs/2021A&A...650A.102I)  
 Irrgang, A., Geier, S., Heber, U., et al.    
 2021, refereed ([2021A&A...650A.102I](http://adsabs.harvard.edu/abs/2021A&A...650A.102I))  
 
-33. [THE MOSDEF SURVEY: THE EVOLUTION OF THE MASS-METALLICITY RELATION FROM Z = 0 TO Z 3.3](http://adsabs.harvard.edu/abs/2021ApJ...914...19S)  
+45. [THE MOSDEF SURVEY: THE EVOLUTION OF THE MASS-METALLICITY RELATION FROM Z = 0 TO Z 3.3](http://adsabs.harvard.edu/abs/2021ApJ...914...19S)  
 Sanders, Ryan L., Shapley, Alice E., Jones, Tucker, et al.    
 2021, refereed ([2021ApJ...914...19S](http://adsabs.harvard.edu/abs/2021ApJ...914...19S))  
 
-34. [A RECENTLY QUENCHED ISOLATED DWARF GALAXY OUTSIDE OF THE LOCAL GROUP ENVIRONMENT](http://adsabs.harvard.edu/abs/2021ApJ...914L..23P)  
+46. [A RECENTLY QUENCHED ISOLATED DWARF GALAXY OUTSIDE OF THE LOCAL GROUP ENVIRONMENT](http://adsabs.harvard.edu/abs/2021ApJ...914L..23P)  
 Polzin, Ava, van Dokkum, Pieter, Danieli, Shany, et al.    
 2021, refereed ([2021ApJ...914L..23P](http://adsabs.harvard.edu/abs/2021ApJ...914L..23P))  
 
-35. [STRONG NEAR-INFRARED CARBON ABSORPTION IN THE TRANSITIONAL TYPE IA SN 2015BP](http://adsabs.harvard.edu/abs/2021ApJ...914...57W)  
+47. [STRONG NEAR-INFRARED CARBON ABSORPTION IN THE TRANSITIONAL TYPE IA SN 2015BP](http://adsabs.harvard.edu/abs/2021ApJ...914...57W)  
 Wyatt, S. D., Sand, D. J., Hsiao, E. Y., et al.    
 2021, refereed ([2021ApJ...914...57W](http://adsabs.harvard.edu/abs/2021ApJ...914...57W))  
 
-36. [DISCOVERY OF BERYLLIUM IN WHITE DWARFS POLLUTED BY PLANETESIMAL ACCRETION](http://adsabs.harvard.edu/abs/2021ApJ...914...61K)  
+48. [DISCOVERY OF BERYLLIUM IN WHITE DWARFS POLLUTED BY PLANETESIMAL ACCRETION](http://adsabs.harvard.edu/abs/2021ApJ...914...61K)  
 Klein, Beth L., Doyle, Alexandra E., Zuckerman, B., et al.    
 2021, refereed ([2021ApJ...914...61K](http://adsabs.harvard.edu/abs/2021ApJ...914...61K))  
 
-37. [THE MCDONALD ACCELERATING STARS SURVEY (MASS): DISCOVERY OF A LONG-PERIOD SUBSTELLAR COMPANION ORBITING THE OLD SOLAR ANALOG HD 47127](http://adsabs.harvard.edu/abs/2021ApJ...913L..26B)  
+49. [THE MCDONALD ACCELERATING STARS SURVEY (MASS): DISCOVERY OF A LONG-PERIOD SUBSTELLAR COMPANION ORBITING THE OLD SOLAR ANALOG HD 47127](http://adsabs.harvard.edu/abs/2021ApJ...913L..26B)  
 Bowler, Brendan P., Endl, Michael, Cochran, William D., et al.    
 2021, refereed ([2021ApJ...913L..26B](http://adsabs.harvard.edu/abs/2021ApJ...913L..26B))  
 
-38. [OGLE-2017-BLG-1434LB: CONFIRMATION OF A COLD SUPER-EARTH USING KECK ADAPTIVE OPTICS](http://adsabs.harvard.edu/abs/2021AJ....161..279B)  
+50. [OGLE-2017-BLG-1434LB: CONFIRMATION OF A COLD SUPER-EARTH USING KECK ADAPTIVE OPTICS](http://adsabs.harvard.edu/abs/2021AJ....161..279B)  
 Blackman, J. W., Beaulieu, J. -P., Cole, A. A., et al.    
 2021, refereed ([2021AJ....161..279B](http://adsabs.harvard.edu/abs/2021AJ....161..279B))  
 
-39. [SN 2019YVQ DOES NOT CONFORM TO SN IA EXPLOSION MODELS](http://adsabs.harvard.edu/abs/2021ApJ...914...50T)  
+51. [SN 2019YVQ DOES NOT CONFORM TO SN IA EXPLOSION MODELS](http://adsabs.harvard.edu/abs/2021ApJ...914...50T)  
 Tucker, M. A., Ashall, C., Shappee, B. J., et al.    
 2021, refereed ([2021ApJ...914...50T](http://adsabs.harvard.edu/abs/2021ApJ...914...50T))  
 
-40. [THE EVOLUTION OF THE ULTRALUMINOUS LYΑ LUMINOSITY FUNCTION OVER Z = 5.7-6.6](http://adsabs.harvard.edu/abs/2021ApJ...914...79T)  
+52. [THE EVOLUTION OF THE ULTRALUMINOUS LYΑ LUMINOSITY FUNCTION OVER Z = 5.7-6.6](http://adsabs.harvard.edu/abs/2021ApJ...914...79T)  
 Taylor, A. J., Cowie, L. L., Barger, A. J., et al.    
 2021, refereed ([2021ApJ...914...79T](http://adsabs.harvard.edu/abs/2021ApJ...914...79T))  
 
-41. [THE FORMATION OF THE MILKY WAY HALO AND ITS DWARF SATELLITES: A NLTE-1D ABUNDANCE ANALYSIS. IV. SEGUE 1, TRIANGULUM II, AND COMA BERENICES UFDS](http://adsabs.harvard.edu/abs/2021MNRAS.504.1183S)  
+53. [THE FORMATION OF THE MILKY WAY HALO AND ITS DWARF SATELLITES: A NLTE-1D ABUNDANCE ANALYSIS. IV. SEGUE 1, TRIANGULUM II, AND COMA BERENICES UFDS](http://adsabs.harvard.edu/abs/2021MNRAS.504.1183S)  
 Sitnova, T. M., Mashonkina, L. I., Tatarnikov, A. M., et al.    
 2021, refereed ([2021MNRAS.504.1183S](http://adsabs.harvard.edu/abs/2021MNRAS.504.1183S))  
 
-42. [KCWI OBSERVATIONS OF THE EXTENDED NEBULAE IN MRK 273](http://adsabs.harvard.edu/abs/2021ApJ...914...17L)  
+54. [KCWI OBSERVATIONS OF THE EXTENDED NEBULAE IN MRK 273](http://adsabs.harvard.edu/abs/2021ApJ...914...17L)  
 Leung, Gene C. K., Coil, Alison L., Rupke, David S. N., et al.    
 2021, refereed ([2021ApJ...914...17L](http://adsabs.harvard.edu/abs/2021ApJ...914...17L))  
 
-43. [A UNICORN IN MONOCEROS: THE 3 M<SUB>⊙</SUB> DARK COMPANION TO THE BRIGHT, NEARBY RED GIANT V723 MON IS A NON-INTERACTING, MASS-GAP BLACK HOLE CANDIDATE](http://adsabs.harvard.edu/abs/2021MNRAS.504.2577J)  
+55. [A UNICORN IN MONOCEROS: THE 3 M<SUB>⊙</SUB> DARK COMPANION TO THE BRIGHT, NEARBY RED GIANT V723 MON IS A NON-INTERACTING, MASS-GAP BLACK HOLE CANDIDATE](http://adsabs.harvard.edu/abs/2021MNRAS.504.2577J)  
 Jayasinghe, T., Stanek, K. Z., Thompson, Todd A., et al.    
 2021, refereed ([2021MNRAS.504.2577J](http://adsabs.harvard.edu/abs/2021MNRAS.504.2577J))  
 
-44. [EVIDENCE FOR DIFFERENTIATION OF THE MOST PRIMITIVE SMALL BODIES](http://adsabs.harvard.edu/abs/2021A&A...650A.129C)  
+56. [EVIDENCE FOR DIFFERENTIATION OF THE MOST PRIMITIVE SMALL BODIES](http://adsabs.harvard.edu/abs/2021A&A...650A.129C)  
 Carry, B., Vernazza, P., Vachier, F., et al.    
 2021, refereed ([2021A&A...650A.129C](http://adsabs.harvard.edu/abs/2021A&A...650A.129C))  
 
-45. [B2 0003+38A: A CLASSICAL FLAT-SPECTRUM RADIO QUASAR HOSTED BY A ROTATION-DOMINATED GALAXY WITH A PECULIAR MASSIVE OUTFLOW](http://adsabs.harvard.edu/abs/2021ApJ...913..111Z)  
+57. [B2 0003+38A: A CLASSICAL FLAT-SPECTRUM RADIO QUASAR HOSTED BY A ROTATION-DOMINATED GALAXY WITH A PECULIAR MASSIVE OUTFLOW](http://adsabs.harvard.edu/abs/2021ApJ...913..111Z)  
 Zhao, Qinyuan, Sun, Luming, Shen, Lu, et al.    
 2021, refereed ([2021ApJ...913..111Z](http://adsabs.harvard.edu/abs/2021ApJ...913..111Z))  
 
-46. [THE NATURE OF THE EASTERN EXTENT IN THE OUTER HALO OF M31](http://adsabs.harvard.edu/abs/2021MNRAS.504.3098P)  
+58. [THE NATURE OF THE EASTERN EXTENT IN THE OUTER HALO OF M31](http://adsabs.harvard.edu/abs/2021MNRAS.504.3098P)  
 Preston, Janet, Collins, Michelle, Rich, R. Michael, et al.    
 2021, refereed ([2021MNRAS.504.3098P](http://adsabs.harvard.edu/abs/2021MNRAS.504.3098P))  
 
-47. [ENISALA. II. DISTINCT STAR FORMATION AND ACTIVE GALACTIC NUCLEUS ACTIVITY IN MERGING AND RELAXED GALAXY CLUSTERS](http://adsabs.harvard.edu/abs/2021ApJ...912...55S)  
+59. [ULTRADENSE GAS TRACKED BY UNSHIFTED BROAD ABSORPTION LINES IN A QUASAR](http://adsabs.harvard.edu/abs/2021ApJ...914...13T)  
+Tian, Qiguo, Shi, Xiheng, Hao, Lei, et al.    
+2021, refereed ([2021ApJ...914...13T](http://adsabs.harvard.edu/abs/2021ApJ...914...13T))  
+
+60. [ENISALA. II. DISTINCT STAR FORMATION AND ACTIVE GALACTIC NUCLEUS ACTIVITY IN MERGING AND RELAXED GALAXY CLUSTERS](http://adsabs.harvard.edu/abs/2021ApJ...912...55S)  
 Stroe, Andra, Sobral, David    
 2021, refereed ([2021ApJ...912...55S](http://adsabs.harvard.edu/abs/2021ApJ...912...55S))  
 
-48. [THE HST SEE CHANGE PROGRAM. I. SURVEY DESIGN, PIPELINE, AND SUPERNOVA DISCOVERIES](http://adsabs.harvard.edu/abs/2021ApJ...912...87H)  
+61. [THE HST SEE CHANGE PROGRAM. I. SURVEY DESIGN, PIPELINE, AND SUPERNOVA DISCOVERIES](http://adsabs.harvard.edu/abs/2021ApJ...912...87H)  
 Hayden, Brian, Rubin, David, Boone, Kyle, et al.    
 2021, refereed ([2021ApJ...912...87H](http://adsabs.harvard.edu/abs/2021ApJ...912...87H))  
 
-49. [THE ANATOMY OF AN UNUSUAL EDGE-ON PROTOPLANETARY DISK. I. DUST SETTLING IN A COLD DISK](http://adsabs.harvard.edu/abs/2021AJ....161..238W)  
+62. [THE ANATOMY OF AN UNUSUAL EDGE-ON PROTOPLANETARY DISK. I. DUST SETTLING IN A COLD DISK](http://adsabs.harvard.edu/abs/2021AJ....161..238W)  
 Wolff, Schuyler G., Duchêne, Gaspard, Stapelfeldt, Karl R., et al.    
 2021, refereed ([2021AJ....161..238W](http://adsabs.harvard.edu/abs/2021AJ....161..238W))  
 
-50. [IMPLICATIONS OF THE ENVIRONMENTS OF RADIO-DETECTED ACTIVE GALACTIC NUCLEI IN A COMPLEX PROTOSTRUCTURE AT Z ∼ 3.3](http://adsabs.harvard.edu/abs/2021ApJ...912...60S)  
+63. [IMPLICATIONS OF THE ENVIRONMENTS OF RADIO-DETECTED ACTIVE GALACTIC NUCLEI IN A COMPLEX PROTOSTRUCTURE AT Z ∼ 3.3](http://adsabs.harvard.edu/abs/2021ApJ...912...60S)  
 Shen, Lu, Lemaux, Brian C., Lubin, Lori M., et al.    
 2021, refereed ([2021ApJ...912...60S](http://adsabs.harvard.edu/abs/2021ApJ...912...60S))  
 
-51. [CONNECTING GALACTIC OUTFLOWS AND STAR FORMATION: INFERENCES FROM HΑ MAPS AND ABSORPTION-LINE SPECTROSCOPY AT 1 ≲ Z ≲ 1.5](http://adsabs.harvard.edu/abs/2021AJ....161..212P)  
+64. [CONNECTING GALACTIC OUTFLOWS AND STAR FORMATION: INFERENCES FROM HΑ MAPS AND ABSORPTION-LINE SPECTROSCOPY AT 1 ≲ Z ≲ 1.5](http://adsabs.harvard.edu/abs/2021AJ....161..212P)  
 Prusinski, Nikolaus Z., Erb, Dawn K., Martin, Crystal L.    
 2021, refereed ([2021AJ....161..212P](http://adsabs.harvard.edu/abs/2021AJ....161..212P))  
 
-52. [A POPULATION OF HEAVILY REDDENED, OPTICALLY MISSED NOVAE FROM PALOMAR GATTINI-IR: CONSTRAINTS ON THE GALACTIC NOVA RATE](http://adsabs.harvard.edu/abs/2021ApJ...912...19D)  
+65. [A POPULATION OF HEAVILY REDDENED, OPTICALLY MISSED NOVAE FROM PALOMAR GATTINI-IR: CONSTRAINTS ON THE GALACTIC NOVA RATE](http://adsabs.harvard.edu/abs/2021ApJ...912...19D)  
 De, Kishalay, Kasliwal, Mansi M., Hankins, Matthew J., et al.    
 2021, refereed ([2021ApJ...912...19D](http://adsabs.harvard.edu/abs/2021ApJ...912...19D))  
 
-53. [THE PRISTINE DWARF-GALAXY SURVEY - III. REVEALING THE NATURE OF THE MILKY WAY GLOBULAR CLUSTER SAGITTARIUS II](http://adsabs.harvard.edu/abs/2021MNRAS.503.2754L)  
+66. [THE PRISTINE DWARF-GALAXY SURVEY - III. REVEALING THE NATURE OF THE MILKY WAY GLOBULAR CLUSTER SAGITTARIUS II](http://adsabs.harvard.edu/abs/2021MNRAS.503.2754L)  
 Longeard, Nicolas, Martin, Nicolas, Ibata, Rodrigo A., et al.    
 2021, refereed ([2021MNRAS.503.2754L](http://adsabs.harvard.edu/abs/2021MNRAS.503.2754L))  
 
-54. [PAIR LINES OF SIGHT OBSERVATIONS OF MULTIPHASE GAS BEARING O VI IN A GALAXY ENVIRONMENT](http://adsabs.harvard.edu/abs/2021MNRAS.503.3243A)  
+67. [PAIR LINES OF SIGHT OBSERVATIONS OF MULTIPHASE GAS BEARING O VI IN A GALAXY ENVIRONMENT](http://adsabs.harvard.edu/abs/2021MNRAS.503.3243A)  
 Anshul, Pratyush, Narayanan, Anand, Muzahid, Sowgat, et al.    
 2021, refereed ([2021MNRAS.503.3243A](http://adsabs.harvard.edu/abs/2021MNRAS.503.3243A))  
 
-55. [CORE-COLLAPSE, SUPERLUMINOUS, AND GAMMA-RAY BURST SUPERNOVA HOST GALAXY POPULATIONS AT LOW REDSHIFT: THE IMPORTANCE OF DWARF AND STARBURSTING GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.503.3931T)  
+68. [CORE-COLLAPSE, SUPERLUMINOUS, AND GAMMA-RAY BURST SUPERNOVA HOST GALAXY POPULATIONS AT LOW REDSHIFT: THE IMPORTANCE OF DWARF AND STARBURSTING GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.503.3931T)  
 Taggart, K., Perley, D. A.    
 2021, refereed ([2021MNRAS.503.3931T](http://adsabs.harvard.edu/abs/2021MNRAS.503.3931T))  
 
-56. [HIGH-RESOLUTION IMAGING FOLLOW-UP OF DOUBLY IMAGED QUASARS](http://adsabs.harvard.edu/abs/2021MNRAS.503.1557S)  
+69. [HIGH-RESOLUTION IMAGING FOLLOW-UP OF DOUBLY IMAGED QUASARS](http://adsabs.harvard.edu/abs/2021MNRAS.503.1557S)  
 Shajib, Anowar J., Molina, Eden, Agnello, Adriano, et al.    
 2021, refereed ([2021MNRAS.503.1557S](http://adsabs.harvard.edu/abs/2021MNRAS.503.1557S))  
 
-57. [ASASSN-18AM/SN 2018GK: AN OVERLUMINOUS TYPE IIB SUPERNOVA FROM A MASSIVE PROGENITOR](http://adsabs.harvard.edu/abs/2021MNRAS.503.3472B)  
+70. [ASASSN-18AM/SN 2018GK: AN OVERLUMINOUS TYPE IIB SUPERNOVA FROM A MASSIVE PROGENITOR](http://adsabs.harvard.edu/abs/2021MNRAS.503.3472B)  
 Bose, Subhash, Dong, Subo, Kochanek, C. S., et al.    
 2021, refereed ([2021MNRAS.503.3472B](http://adsabs.harvard.edu/abs/2021MNRAS.503.3472B))  
 
-58. [THE LUMINOUS AND RAPIDLY EVOLVING SN 2018BCC. CLUES TOWARD THE ORIGIN OF TYPE IBN SNE FROM THE ZWICKY TRANSIENT FACILITY](http://adsabs.harvard.edu/abs/2021A&A...649A.163K)  
+71. [THE LUMINOUS AND RAPIDLY EVOLVING SN 2018BCC. CLUES TOWARD THE ORIGIN OF TYPE IBN SNE FROM THE ZWICKY TRANSIENT FACILITY](http://adsabs.harvard.edu/abs/2021A&A...649A.163K)  
 Karamehmetoglu, E., Fransson, C., Sollerman, J., et al.    
 2021, refereed ([2021A&A...649A.163K](http://adsabs.harvard.edu/abs/2021A&A...649A.163K))  
 
-59. [DETECTION OF AL II IN THE ULTRAVIOLET SPECTRA OF METAL-POOR STARS: AN EMPIRICAL LTE TEST OF NLTE ALUMINUM ABUNDANCE CALCULATIONS](http://adsabs.harvard.edu/abs/2021ApJ...912..119R)  
+72. [DETECTION OF AL II IN THE ULTRAVIOLET SPECTRA OF METAL-POOR STARS: AN EMPIRICAL LTE TEST OF NLTE ALUMINUM ABUNDANCE CALCULATIONS](http://adsabs.harvard.edu/abs/2021ApJ...912..119R)  
 Roederer, Ian U., Lawler, James E.    
 2021, refereed ([2021ApJ...912..119R](http://adsabs.harvard.edu/abs/2021ApJ...912..119R))  
 
-60. [THREE LYMAN-Α-EMITTING FILAMENTS CONVERGING TO A MASSIVE GALAXY GROUP AT Z = 2.91: DISCUSSING THE CASE FOR COLD GAS INFALL](http://adsabs.harvard.edu/abs/2021A&A...649A..78D)  
+73. [THREE LYMAN-Α-EMITTING FILAMENTS CONVERGING TO A MASSIVE GALAXY GROUP AT Z = 2.91: DISCUSSING THE CASE FOR COLD GAS INFALL](http://adsabs.harvard.edu/abs/2021A&A...649A..78D)  
 Daddi, E., Valentino, F., Rich, R. M., et al.    
 2021, refereed ([2021A&A...649A..78D](http://adsabs.harvard.edu/abs/2021A&A...649A..78D))  
 
-61. [IMPROVED CONTRAST IN IMAGES OF EXOPLANETS USING DIRECT SIGNAL-TO-NOISE RATIO OPTIMIZATION](http://adsabs.harvard.edu/abs/2021AJ....161..236T)  
+74. [IMPROVED CONTRAST IN IMAGES OF EXOPLANETS USING DIRECT SIGNAL-TO-NOISE RATIO OPTIMIZATION](http://adsabs.harvard.edu/abs/2021AJ....161..236T)  
 Thompson, William, Marois, Christian    
 2021, refereed ([2021AJ....161..236T](http://adsabs.harvard.edu/abs/2021AJ....161..236T))  
 
-62. [EMPRESS. II. HIGHLY FE-ENRICHED METAL-POOR GALAXIES WITH ∼1.0 (FE/O)<SUB>⊙</SUB> AND 0.02 (O/H)<SUB>⊙</SUB>: POSSIBLE TRACES OF SUPERMASSIVE (&GT;300 M<SUB>⊙</SUB>) STARS IN EARLY GALAXIES](http://adsabs.harvard.edu/abs/2021ApJ...913...22K)  
+75. [EMPRESS. II. HIGHLY FE-ENRICHED METAL-POOR GALAXIES WITH ∼1.0 (FE/O)<SUB>⊙</SUB> AND 0.02 (O/H)<SUB>⊙</SUB>: POSSIBLE TRACES OF SUPERMASSIVE (&GT;300 M<SUB>⊙</SUB>) STARS IN EARLY GALAXIES](http://adsabs.harvard.edu/abs/2021ApJ...913...22K)  
 Kojima, Takashi, Ouchi, Masami, Rauch, Michael, et al.    
 2021, refereed ([2021ApJ...913...22K](http://adsabs.harvard.edu/abs/2021ApJ...913...22K))  
 
-63. [ON THE POSSIBILITY OF STELLAR LENSES IN THE BLACK HOLE CANDIDATE MICROLENSING EVENTS MACHO-96-BLG-5 AND MACHO-98-BLG-6](http://adsabs.harvard.edu/abs/2021ApJ...912..146A)  
+76. [ON THE POSSIBILITY OF STELLAR LENSES IN THE BLACK HOLE CANDIDATE MICROLENSING EVENTS MACHO-96-BLG-5 AND MACHO-98-BLG-6](http://adsabs.harvard.edu/abs/2021ApJ...912..146A)  
 Abdurrahman, Fatima N., Stephens, Haynes F., Lu, Jessica R.    
 2021, refereed ([2021ApJ...912..146A](http://adsabs.harvard.edu/abs/2021ApJ...912..146A))  
 
-64. [A COMPLETE 16 ΜM SELECTED GALAXY SAMPLE AT Z ∼ 1: MID-INFRARED SPECTRAL ENERGY DISTRIBUTIONS](http://adsabs.harvard.edu/abs/2021ApJ...912..161H)  
+77. [A COMPLETE 16 ΜM SELECTED GALAXY SAMPLE AT Z ∼ 1: MID-INFRARED SPECTRAL ENERGY DISTRIBUTIONS](http://adsabs.harvard.edu/abs/2021ApJ...912..161H)  
 Huang, J. -S., Dai, Y. -S., Willner, S. P., et al.    
 2021, refereed ([2021ApJ...912..161H](http://adsabs.harvard.edu/abs/2021ApJ...912..161H))  
 
-65. [CLUMPY STAR FORMATION AND AGN ACTIVITY IN THE DWARF-DWARF GALAXY MERGER MRK 709](http://adsabs.harvard.edu/abs/2021ApJ...912...89K)  
+78. [CLUMPY STAR FORMATION AND AGN ACTIVITY IN THE DWARF-DWARF GALAXY MERGER MRK 709](http://adsabs.harvard.edu/abs/2021ApJ...912...89K)  
 Kimbro, Erin, Reines, Amy E., Molina, Mallory, et al.    
 2021, refereed ([2021ApJ...912...89K](http://adsabs.harvard.edu/abs/2021ApJ...912...89K))  
 
-66. [DISCOVERY OF AN EDGE-ON CIRCUMSTELLAR DEBRIS DISK AROUND BD+45° 598: A NEWLY IDENTIFIED MEMBER OF THE Β PICTORIS MOVING GROUP](http://adsabs.harvard.edu/abs/2021ApJ...912..115H)  
+79. [DISCOVERY OF AN EDGE-ON CIRCUMSTELLAR DEBRIS DISK AROUND BD+45° 598: A NEWLY IDENTIFIED MEMBER OF THE Β PICTORIS MOVING GROUP](http://adsabs.harvard.edu/abs/2021ApJ...912..115H)  
 Hinkley, Sasha, Matthews, Elisabeth C., Lefevre, Charlène, et al.    
 2021, refereed ([2021ApJ...912..115H](http://adsabs.harvard.edu/abs/2021ApJ...912..115H))  
 
-67. [OBSERVING THE INFLUENCE OF THE YOUNGEST SUPER STAR CLUSTERS IN NGC 1569: KECK BRACKETT Α SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021MNRAS.503.2187C)  
+80. [OBSERVING THE INFLUENCE OF THE YOUNGEST SUPER STAR CLUSTERS IN NGC 1569: KECK BRACKETT Α SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021MNRAS.503.2187C)  
 Cohen, Daniel P., Turner, Jean L., Beck, Sara C., et al.    
 2021, refereed ([2021MNRAS.503.2187C](http://adsabs.harvard.edu/abs/2021MNRAS.503.2187C))  
 
-68. [OUTBURSTING YOUNG STELLAR OBJECT PGIR 20DCI IN THE PERSEUS ARM](http://adsabs.harvard.edu/abs/2021AJ....161..220H)  
+81. [OUTBURSTING YOUNG STELLAR OBJECT PGIR 20DCI IN THE PERSEUS ARM](http://adsabs.harvard.edu/abs/2021AJ....161..220H)  
 Hillenbrand, Lynne A., De, Kishalay, Hankins, Matthew, et al.    
 2021, refereed ([2021AJ....161..220H](http://adsabs.harvard.edu/abs/2021AJ....161..220H))  
 
-69. [MRK 1239: A TYPE-2 COUNTERPART OF NARROW-LINE SEYFERT-1?](http://adsabs.harvard.edu/abs/2021ApJ...912..118P)  
+82. [MRK 1239: A TYPE-2 COUNTERPART OF NARROW-LINE SEYFERT-1?](http://adsabs.harvard.edu/abs/2021ApJ...912..118P)  
 Pan, Xiang, Zhou, Hongyan, Yang, Chenwei, et al.    
 2021, refereed ([2021ApJ...912..118P](http://adsabs.harvard.edu/abs/2021ApJ...912..118P))  
 
-70. [FIRST LIGHT OF A HOLOGRAPHIC APERTURE MASK: OBSERVATION AT THE KECK OSIRIS IMAGER](http://adsabs.harvard.edu/abs/2021A&A...649A.168D)  
+83. [FIRST LIGHT OF A HOLOGRAPHIC APERTURE MASK: OBSERVATION AT THE KECK OSIRIS IMAGER](http://adsabs.harvard.edu/abs/2021A&A...649A.168D)  
 Doelman, David S., Wardenier, Joost P., Tuthill, Peter, et al.    
 2021, refereed ([2021A&A...649A.168D](http://adsabs.harvard.edu/abs/2021A&A...649A.168D))  
 
-71. [THE OTELO SURVEY. FAINT END OF THE LUMINOSITY FUNCTION OF [O II]3727 EMITTERS AT ⟨Z⟩ = 1.43](http://adsabs.harvard.edu/abs/2021A&A...649A..73C)  
+84. [THE OTELO SURVEY. FAINT END OF THE LUMINOSITY FUNCTION OF [O II]3727 EMITTERS AT ⟨Z⟩ = 1.43](http://adsabs.harvard.edu/abs/2021A&A...649A..73C)  
 Cedrés, B., Bongiovanni, Á., Cerviño, M., et al.    
 2021, refereed ([2021A&A...649A..73C](http://adsabs.harvard.edu/abs/2021A&A...649A..73C))  
 
-72. [EVIDENCE OF WIND SIGNATURES IN THE GAS VELOCITY PROFILES OF RED GEYSERS](http://adsabs.harvard.edu/abs/2021ApJ...913...33R)  
+85. [EVIDENCE OF WIND SIGNATURES IN THE GAS VELOCITY PROFILES OF RED GEYSERS](http://adsabs.harvard.edu/abs/2021ApJ...913...33R)  
 Roy, Namrata, Bundy, Kevin, Nevin, Rebecca, et al.    
 2021, refereed ([2021ApJ...913...33R](http://adsabs.harvard.edu/abs/2021ApJ...913...33R))  
 
-73. [THE COS ABSORPTION SURVEY OF BARYON HARBORS: UNVEILING THE PHYSICAL CONDITIONS OF CIRCUMGALACTIC GAS THROUGH MULTIPHASE BAYESIAN IONIZATION MODELLING](http://adsabs.harvard.edu/abs/2021MNRAS.502.4993H)  
+86. [EXPLORING THE GALAXY'S HALO AND VERY METAL-WEAK THICK DISC WITH SKYMAPPER AND GAIA DR2](http://adsabs.harvard.edu/abs/2021MNRAS.503.2539C)  
+Cordoni, G., Da Costa, G. S., Yong, D., et al.    
+2021, refereed ([2021MNRAS.503.2539C](http://adsabs.harvard.edu/abs/2021MNRAS.503.2539C))  
+
+87. [LYMAN-ALPHA SPECTROSCOPY OF EXTREME [O III] EMITTING GALAXIES AT Z ≃ 2-3: IMPLICATIONS FOR LYΑ VISIBILITY AND LYC LEAKAGE AT Z &GT; 6](http://adsabs.harvard.edu/abs/2021MNRAS.503.4105T)  
+Tang, Mengtao, Stark, Daniel P., Chevallard, Jacopo, et al.    
+2021, refereed ([2021MNRAS.503.4105T](http://adsabs.harvard.edu/abs/2021MNRAS.503.4105T))  
+
+88. [HUBBLE SPECTROSCOPY OF LB-1: COMPARISON WITH B+BLACK-HOLE AND BE+STRIPPED-STAR MODELS](http://adsabs.harvard.edu/abs/2021A&A...649A.167L)  
+Lennon, D. J., Maíz Apellániz, J., Irrgang, A., et al.    
+2021, refereed ([2021A&A...649A.167L](http://adsabs.harvard.edu/abs/2021A&A...649A.167L))  
+
+89. [EXTREME R-PROCESS ENHANCED STARS AT HIGH METALLICITY IN FORNAX](http://adsabs.harvard.edu/abs/2021ApJ...912..157R)  
+Reichert, M., Hansen, C. J., Arcones, A.    
+2021, refereed ([2021ApJ...912..157R](http://adsabs.harvard.edu/abs/2021ApJ...912..157R))  
+
+90. [A LARGE FRACTION OF HYDROGEN-RICH SUPERNOVA PROGENITORS EXPERIENCE ELEVATED MASS LOSS SHORTLY PRIOR TO EXPLOSION](http://adsabs.harvard.edu/abs/2021ApJ...912...46B)  
+Bruch, Rachel J., Gal-Yam, Avishay, Schulze, Steve, et al.    
+2021, refereed ([2021ApJ...912...46B](http://adsabs.harvard.edu/abs/2021ApJ...912...46B))  
+
+91. [THE COS ABSORPTION SURVEY OF BARYON HARBORS: UNVEILING THE PHYSICAL CONDITIONS OF CIRCUMGALACTIC GAS THROUGH MULTIPHASE BAYESIAN IONIZATION MODELLING](http://adsabs.harvard.edu/abs/2021MNRAS.502.4993H)  
 Haislmaier, Karl J., Tripp, Todd M., Katz, Neal, et al.    
 2021, refereed ([2021MNRAS.502.4993H](http://adsabs.harvard.edu/abs/2021MNRAS.502.4993H))  
 
-74. [FIRST COMET OBSERVATIONS WITH NIRSPEC-2 AT KECK: OUTGASSING SOURCES OF PARENT VOLATILES AND ABUNDANCES BASED ON ALTERNATIVE TAXONOMIC COMPOSITIONAL BASELINES IN 46P/WIRTANEN](http://adsabs.harvard.edu/abs/2021PSJ.....2...45B)  
+92. [FIRST COMET OBSERVATIONS WITH NIRSPEC-2 AT KECK: OUTGASSING SOURCES OF PARENT VOLATILES AND ABUNDANCES BASED ON ALTERNATIVE TAXONOMIC COMPOSITIONAL BASELINES IN 46P/WIRTANEN](http://adsabs.harvard.edu/abs/2021PSJ.....2...45B)  
 Bonev, Boncho P., Dello Russo, Neil, DiSanti, Michael A., et al.    
 2021, refereed ([2021PSJ.....2...45B](http://adsabs.harvard.edu/abs/2021PSJ.....2...45B))  
 
-75. [REVISITING THE GAS KINEMATICS IN SSA22 LYMAN-Α BLOB 1 WITH RADIATIVE TRANSFER MODELLING IN A MULTIPHASE, CLUMPY MEDIUM](http://adsabs.harvard.edu/abs/2021MNRAS.502.2389L)  
+93. [REVISITING THE GAS KINEMATICS IN SSA22 LYMAN-Α BLOB 1 WITH RADIATIVE TRANSFER MODELLING IN A MULTIPHASE, CLUMPY MEDIUM](http://adsabs.harvard.edu/abs/2021MNRAS.502.2389L)  
 Li, Zhihui, Steidel, Charles C., Gronke, Max, et al.    
 2021, refereed ([2021MNRAS.502.2389L](http://adsabs.harvard.edu/abs/2021MNRAS.502.2389L))  
 
-76. [A CHARACTERIZATION OF THE CIRCUMSTELLAR GAS OF WD 1124-293 USING CLOUDY](http://adsabs.harvard.edu/abs/2021ApJ...911...25S)  
+94. [A CHARACTERIZATION OF THE CIRCUMSTELLAR GAS OF WD 1124-293 USING CLOUDY](http://adsabs.harvard.edu/abs/2021ApJ...911...25S)  
 Steele, Amy, Debes, John, Xu, Siyi, et al.    
 2021, refereed ([2021ApJ...911...25S](http://adsabs.harvard.edu/abs/2021ApJ...911...25S))  
 
-77. [THE VOLATILE COMPOSITION OF THE INNER COMA OF COMET 46P/WIRTANEN: COORDINATED OBSERVATIONS USING ISHELL AT THE NASA-IRTF AND KECK/NIRSPEC-2](http://adsabs.harvard.edu/abs/2021PSJ.....2...54R)  
+95. [THE VOLATILE COMPOSITION OF THE INNER COMA OF COMET 46P/WIRTANEN: COORDINATED OBSERVATIONS USING ISHELL AT THE NASA-IRTF AND KECK/NIRSPEC-2](http://adsabs.harvard.edu/abs/2021PSJ.....2...54R)  
 Roth, Nathan X., Bonev, Boncho P., DiSanti, Michael A., et al.    
 2021, refereed ([2021PSJ.....2...54R](http://adsabs.harvard.edu/abs/2021PSJ.....2...54R))  
 
-78. [OUTLIER PREDICTION AND TRAINING SET MODIFICATION TO REDUCE CATASTROPHIC OUTLIER REDSHIFT ESTIMATES IN LARGE-SCALE SURVEYS](http://adsabs.harvard.edu/abs/2021PASP..133d4504W)  
+96. [OUTLIER PREDICTION AND TRAINING SET MODIFICATION TO REDUCE CATASTROPHIC OUTLIER REDSHIFT ESTIMATES IN LARGE-SCALE SURVEYS](http://adsabs.harvard.edu/abs/2021PASP..133d4504W)  
 Wyatt, M., Singal, J.    
 2021, refereed ([2021PASP..133d4504W](http://adsabs.harvard.edu/abs/2021PASP..133d4504W))  
 
-79. [GLEAM: GALAXY LINE EMISSION &AMP; ABSORPTION MODELING](http://adsabs.harvard.edu/abs/2021AJ....161..158S)  
+97. [GLEAM: GALAXY LINE EMISSION &AMP; ABSORPTION MODELING](http://adsabs.harvard.edu/abs/2021AJ....161..158S)  
 Stroe, Andra, Savu, Victor-Nicolae    
 2021, refereed ([2021AJ....161..158S](http://adsabs.harvard.edu/abs/2021AJ....161..158S))  
 
-80. [MEDIUM-RESOLUTION SPECTRUM OF THE EXOPLANET HIP 65426 B](http://adsabs.harvard.edu/abs/2021A&A...648A..59P)  
+98. [MEDIUM-RESOLUTION SPECTRUM OF THE EXOPLANET HIP 65426 B](http://adsabs.harvard.edu/abs/2021A&A...648A..59P)  
 Petrus, S., Bonnefoy, M., Chauvin, G., et al.    
 2021, refereed ([2021A&A...648A..59P](http://adsabs.harvard.edu/abs/2021A&A...648A..59P))  
 
-81. [THE ORBIT OF ASTEROID (317) ROXANE'S SATELLITE OLYMPIAS FROM GEMINI, KECK, VLT AND THE SOR, AND (22) KALLIOPE'S LINUS FROM THE SOR](http://adsabs.harvard.edu/abs/2021Icar..35814275D)  
+99. [THE ORBIT OF ASTEROID (317) ROXANE'S SATELLITE OLYMPIAS FROM GEMINI, KECK, VLT AND THE SOR, AND (22) KALLIOPE'S LINUS FROM THE SOR](http://adsabs.harvard.edu/abs/2021Icar..35814275D)  
 Drummond, Jack D., Merline, W. J., Carry, B., et al.    
 2021, refereed ([2021Icar..35814275D](http://adsabs.harvard.edu/abs/2021Icar..35814275D))  
 
-82. [A PHOTOMETRIC AND KINEMATIC ANALYSIS OF UDG1137+16 (DW1137+16): PROBING ULTRADIFFUSE GALAXY FORMATION IN A GROUP ENVIRONMENT](http://adsabs.harvard.edu/abs/2021MNRAS.502.3144G)  
+100. [A PHOTOMETRIC AND KINEMATIC ANALYSIS OF UDG1137+16 (DW1137+16): PROBING ULTRADIFFUSE GALAXY FORMATION IN A GROUP ENVIRONMENT](http://adsabs.harvard.edu/abs/2021MNRAS.502.3144G)  
 Gannon, Jonah S., Dullo, Bililign T., Forbes, Duncan A., et al.    
 2021, refereed ([2021MNRAS.502.3144G](http://adsabs.harvard.edu/abs/2021MNRAS.502.3144G))  
 
-83. [HIDDEN IN PLAIN SIGHT: A DOUBLE-LINED WHITE DWARF BINARY 26 PC AWAY AND A DISTANT COUSIN](http://adsabs.harvard.edu/abs/2021MNRAS.502.4972K)  
+101. [HIDDEN IN PLAIN SIGHT: A DOUBLE-LINED WHITE DWARF BINARY 26 PC AWAY AND A DISTANT COUSIN](http://adsabs.harvard.edu/abs/2021MNRAS.502.4972K)  
 Kilic, Mukremin, Bédard, A., Bergeron, P.    
 2021, refereed ([2021MNRAS.502.4972K](http://adsabs.harvard.edu/abs/2021MNRAS.502.4972K))  
 
-84. [THE WHITE DWARFS OF THE OLD, SOLAR-METALLICITY OPEN STAR CLUSTER MESSIER 67: PROPERTIES AND PROGENITORS](http://adsabs.harvard.edu/abs/2021AJ....161..169C)  
+102. [THE WHITE DWARFS OF THE OLD, SOLAR-METALLICITY OPEN STAR CLUSTER MESSIER 67: PROPERTIES AND PROGENITORS](http://adsabs.harvard.edu/abs/2021AJ....161..169C)  
 Canton, Paul A., Williams, Kurtis A., Kilic, Mukremin, et al.    
 2021, refereed ([2021AJ....161..169C](http://adsabs.harvard.edu/abs/2021AJ....161..169C))  
 
-85. [KECK COSMIC WEB IMAGER OBSERVATIONS OF HE II EMISSION IN I ZW 18](http://adsabs.harvard.edu/abs/2021ApJ...911L..17R)  
+103. [KECK COSMIC WEB IMAGER OBSERVATIONS OF HE II EMISSION IN I ZW 18](http://adsabs.harvard.edu/abs/2021ApJ...911L..17R)  
 Rickards Vaught, Ryan J., Sandstrom, Karin M., Hunt, Leslie K.    
 2021, refereed ([2021ApJ...911L..17R](http://adsabs.harvard.edu/abs/2021ApJ...911L..17R))  
 
-86. [PERIASTRON SHIFT OF COMPACT STELLAR ORBITS FROM GENERAL RELATIVISTIC AND TIDAL DISTORTION EFFECTS NEAR SGR A*](http://adsabs.harvard.edu/abs/2021MNRAS.502.3761L)  
+104. [PERIASTRON SHIFT OF COMPACT STELLAR ORBITS FROM GENERAL RELATIVISTIC AND TIDAL DISTORTION EFFECTS NEAR SGR A*](http://adsabs.harvard.edu/abs/2021MNRAS.502.3761L)  
 Lalremruati, P. C., Kalita, Sanjeev    
 2021, refereed ([2021MNRAS.502.3761L](http://adsabs.harvard.edu/abs/2021MNRAS.502.3761L))  
 
-87. [UPPER LIMIT ON BRACKETT-Γ EMISSION FROM THE IMMEDIATE ACCRETION FLOW ONTO THE GALACTIC BLACK HOLE](http://adsabs.harvard.edu/abs/2021ApJ...910..143C)  
+105. [UPPER LIMIT ON BRACKETT-Γ EMISSION FROM THE IMMEDIATE ACCRETION FLOW ONTO THE GALACTIC BLACK HOLE](http://adsabs.harvard.edu/abs/2021ApJ...910..143C)  
 Ciurlo, Anna, Morris, Mark R., Campbell, Randall D., et al.    
 2021, refereed ([2021ApJ...910..143C](http://adsabs.harvard.edu/abs/2021ApJ...910..143C))  
 
-88. [ENHANCED X-RAY EMISSION FROM THE MOST RADIO-POWERFUL QUASAR IN THE UNIVERSE'S FIRST BILLION YEARS](http://adsabs.harvard.edu/abs/2021ApJ...911..120C)  
+106. [ENHANCED X-RAY EMISSION FROM THE MOST RADIO-POWERFUL QUASAR IN THE UNIVERSE'S FIRST BILLION YEARS](http://adsabs.harvard.edu/abs/2021ApJ...911..120C)  
 Connor, Thomas, Bañados, Eduardo, Stern, Daniel, et al.    
 2021, refereed ([2021ApJ...911..120C](http://adsabs.harvard.edu/abs/2021ApJ...911..120C))  
 
-89. [NEAR-INFRARED CORONAL LINE OBSERVATIONS OF DWARF GALAXIES HOSTING AGN-DRIVEN OUTFLOWS](http://adsabs.harvard.edu/abs/2021ApJ...911...70B)  
+107. [NEAR-INFRARED CORONAL LINE OBSERVATIONS OF DWARF GALAXIES HOSTING AGN-DRIVEN OUTFLOWS](http://adsabs.harvard.edu/abs/2021ApJ...911...70B)  
 Bohn, Thomas, Canalizo, Gabriela, Veilleux, Sylvain, et al.    
 2021, refereed ([2021ApJ...911...70B](http://adsabs.harvard.edu/abs/2021ApJ...911...70B))  
 
-90. [NO ESCAPING HELIUM FROM 55 CNC E](http://adsabs.harvard.edu/abs/2021AJ....161..181Z)  
+108. [NO ESCAPING HELIUM FROM 55 CNC E](http://adsabs.harvard.edu/abs/2021AJ....161..181Z)  
 Zhang, Michael, Knutson, Heather A., Wang, Lile, et al.    
 2021, refereed ([2021AJ....161..181Z](http://adsabs.harvard.edu/abs/2021AJ....161..181Z))  
 
-91. [THE MOSDEF SURVEY: A COMPREHENSIVE ANALYSIS OF THE REST-OPTICAL EMISSION-LINE PROPERTIES OF Z ∼ 2.3 STAR-FORMING GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.502.2600R)  
+109. [THE MOSDEF SURVEY: A COMPREHENSIVE ANALYSIS OF THE REST-OPTICAL EMISSION-LINE PROPERTIES OF Z ∼ 2.3 STAR-FORMING GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.502.2600R)  
 Runco, Jordan N., Shapley, Alice E., Sanders, Ryan L., et al.    
 2021, refereed ([2021MNRAS.502.2600R](http://adsabs.harvard.edu/abs/2021MNRAS.502.2600R))  
 
-92. [AN OPTICAL OBSERVATIONAL CLUSTER MASS FUNCTION AT Z ∼ 1 WITH THE ORELSE SURVEY](http://adsabs.harvard.edu/abs/2021MNRAS.502.3942H)  
+110. [AN OPTICAL OBSERVATIONAL CLUSTER MASS FUNCTION AT Z ∼ 1 WITH THE ORELSE SURVEY](http://adsabs.harvard.edu/abs/2021MNRAS.502.3942H)  
 Hung, D., Lemaux, B. C., Gal, R. R., et al.    
 2021, refereed ([2021MNRAS.502.3942H](http://adsabs.harvard.edu/abs/2021MNRAS.502.3942H))  
 
-93. [SN 2017GCI: A NEARBY TYPE I SUPERLUMINOUS SUPERNOVA WITH A BUMPY TAIL](http://adsabs.harvard.edu/abs/2021MNRAS.502.2120F)  
+111. [SN 2017GCI: A NEARBY TYPE I SUPERLUMINOUS SUPERNOVA WITH A BUMPY TAIL](http://adsabs.harvard.edu/abs/2021MNRAS.502.2120F)  
 Fiore, A., Chen, T. -W., Jerkstrand, A., et al.    
 2021, refereed ([2021MNRAS.502.2120F](http://adsabs.harvard.edu/abs/2021MNRAS.502.2120F))  
 
-94. [TESS DELIVERS FIVE NEW HOT GIANT PLANETS ORBITING BRIGHT STARS FROM THE FULL-FRAME IMAGES](http://adsabs.harvard.edu/abs/2021AJ....161..194R)  
+112. [TESS DELIVERS FIVE NEW HOT GIANT PLANETS ORBITING BRIGHT STARS FROM THE FULL-FRAME IMAGES](http://adsabs.harvard.edu/abs/2021AJ....161..194R)  
 Rodriguez, Joseph E., Quinn, Samuel N., Zhou, George, et al.    
 2021, refereed ([2021AJ....161..194R](http://adsabs.harvard.edu/abs/2021AJ....161..194R))  
 
-95. [INITIAL CHARACTERIZATION OF ACTIVE TRANSITIONING CENTAUR, P/2019 LD<SUB>2</SUB> (ATLAS), USING HUBBLE, SPITZER, ZTF, KECK, APACHE POINT OBSERVATORY, AND GROWTH VISIBLE AND INFRARED IMAGING AND SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021AJ....161..116B)  
+113. [A DEEP LEARNING APPROACH TO QUASAR CONTINUUM PREDICTION](http://adsabs.harvard.edu/abs/2021MNRAS.502.3510L)  
+Liu, Bin, Bordoloi, Rongmon    
+2021, refereed ([2021MNRAS.502.3510L](http://adsabs.harvard.edu/abs/2021MNRAS.502.3510L))  
+
+114. [RAMAN MAPPING OF PHOTODISSOCIATION REGIONS](http://adsabs.harvard.edu/abs/2021MNRAS.502.4597H)  
+Henney, William J.    
+2021, refereed ([2021MNRAS.502.4597H](http://adsabs.harvard.edu/abs/2021MNRAS.502.4597H))  
+
+115. [SUB-DAMPED LYMAN Α SYSTEMS IN THE XQ-100 SURVEY - II. CHEMICAL EVOLUTION AT 2.4 ≤ Z ≤ 4.3](http://adsabs.harvard.edu/abs/2021MNRAS.502.4009B)  
+Berg, Trystyn A. M., Fumagalli, Michele, D'Odorico, Valentina, et al.    
+2021, refereed ([2021MNRAS.502.4009B](http://adsabs.harvard.edu/abs/2021MNRAS.502.4009B))  
+
+116. [INITIAL CHARACTERIZATION OF ACTIVE TRANSITIONING CENTAUR, P/2019 LD<SUB>2</SUB> (ATLAS), USING HUBBLE, SPITZER, ZTF, KECK, APACHE POINT OBSERVATORY, AND GROWTH VISIBLE AND INFRARED IMAGING AND SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021AJ....161..116B)  
 Bolin, Bryce T., Fernandez, Yanga R., Lisse, Carey M., et al.    
 2021, refereed ([2021AJ....161..116B](http://adsabs.harvard.edu/abs/2021AJ....161..116B))  
 
-96. [SPECTROSCOPY OF THE FIRST RESOLVED STRONGLY LENSED TYPE IA SUPERNOVA IPTF16GEU](http://adsabs.harvard.edu/abs/2021MNRAS.502..510J)  
+117. [SPECTROSCOPY OF THE FIRST RESOLVED STRONGLY LENSED TYPE IA SUPERNOVA IPTF16GEU](http://adsabs.harvard.edu/abs/2021MNRAS.502..510J)  
 Johansson, J., Goobar, A., Price, S. H., et al.    
 2021, refereed ([2021MNRAS.502..510J](http://adsabs.harvard.edu/abs/2021MNRAS.502..510J))  
 
-97. [REST-FRAME UV SPECTROSCOPY OF EXTREME [O III] EMITTERS AT 1.3 &LT; Z &LT; 3.7: TOWARD A HIGH-REDSHIFT UV REFERENCE SAMPLE FOR JWST](http://adsabs.harvard.edu/abs/2021MNRAS.501.3238T)  
+118. [REST-FRAME UV SPECTROSCOPY OF EXTREME [O III] EMITTERS AT 1.3 &LT; Z &LT; 3.7: TOWARD A HIGH-REDSHIFT UV REFERENCE SAMPLE FOR JWST](http://adsabs.harvard.edu/abs/2021MNRAS.501.3238T)  
 Tang, Mengtao, Stark, Daniel P., Chevallard, Jacopo, et al.    
 2021, refereed ([2021MNRAS.501.3238T](http://adsabs.harvard.edu/abs/2021MNRAS.501.3238T))  
 
-98. [HAZE IN PLUTO'S ATMOSPHERE: RESULTS FROM SOFIA AND GROUND-BASED OBSERVATIONS OF THE 2015 JUNE 29 PLUTO OCCULTATION](http://adsabs.harvard.edu/abs/2021Icar..35613572P)  
+119. [HAZE IN PLUTO'S ATMOSPHERE: RESULTS FROM SOFIA AND GROUND-BASED OBSERVATIONS OF THE 2015 JUNE 29 PLUTO OCCULTATION](http://adsabs.harvard.edu/abs/2021Icar..35613572P)  
 Person, Michael J., Bosh, Amanda S., Zuluaga, Carlos A., et al.    
 2021, refereed ([2021Icar..35613572P](http://adsabs.harvard.edu/abs/2021Icar..35613572P))  
 
-99. [SEARCHING FOR SOLAR-LIKE OSCILLATIONS IN PRE-MAIN SEQUENCE STARS USING APOLLO. CAN WE FIND THE YOUNG SUN?](http://adsabs.harvard.edu/abs/2021A&A...647A.168M)  
+120. [SEARCHING FOR SOLAR-LIKE OSCILLATIONS IN PRE-MAIN SEQUENCE STARS USING APOLLO. CAN WE FIND THE YOUNG SUN?](http://adsabs.harvard.edu/abs/2021A&A...647A.168M)  
 Müllner, M., Zwintz, K., Corsaro, E., et al.    
 2021, refereed ([2021A&A...647A.168M](http://adsabs.harvard.edu/abs/2021A&A...647A.168M))  
 
-100. [THE MCDONALD ACCELERATING STARS SURVEY (MASS): WHITE DWARF COMPANIONS ACCELERATING THE SUN-LIKE STARS 12 PSC AND HD 159062](http://adsabs.harvard.edu/abs/2021AJ....161..106B)  
+121. [THE MCDONALD ACCELERATING STARS SURVEY (MASS): WHITE DWARF COMPANIONS ACCELERATING THE SUN-LIKE STARS 12 PSC AND HD 159062](http://adsabs.harvard.edu/abs/2021AJ....161..106B)  
 Bowler, Brendan P., Cochran, William D., Endl, Michael, et al.    
 2021, refereed ([2021AJ....161..106B](http://adsabs.harvard.edu/abs/2021AJ....161..106B))  
 
-101. [UNDERSTANDING THE IMPACTS OF STELLAR COMPANIONS ON PLANET FORMATION AND EVOLUTION: A SURVEY OF STELLAR AND PLANETARY COMPANIONS WITHIN 25 PC](http://adsabs.harvard.edu/abs/2021AJ....161..134H)  
+122. [UNDERSTANDING THE IMPACTS OF STELLAR COMPANIONS ON PLANET FORMATION AND EVOLUTION: A SURVEY OF STELLAR AND PLANETARY COMPANIONS WITHIN 25 PC](http://adsabs.harvard.edu/abs/2021AJ....161..134H)  
 Hirsch, Lea A., Rosenthal, Lee, Fulton, Benjamin J., et al.    
 2021, refereed ([2021AJ....161..134H](http://adsabs.harvard.edu/abs/2021AJ....161..134H))  
 
-102. [THE DISCOVERY OF A HIGHLY ACCRETING, RADIO-LOUD QUASAR AT Z = 6.82](http://adsabs.harvard.edu/abs/2021ApJ...909...80B)  
+123. [THE DISCOVERY OF A HIGHLY ACCRETING, RADIO-LOUD QUASAR AT Z = 6.82](http://adsabs.harvard.edu/abs/2021ApJ...909...80B)  
 Bañados, Eduardo, Mazzucchelli, Chiara, Momjian, Emmanuel, et al.    
 2021, refereed ([2021ApJ...909...80B](http://adsabs.harvard.edu/abs/2021ApJ...909...80B))  
 
-103. [REVEALING EFFICIENT DUST FORMATION AT LOW METALLICITY IN EXTRAGALACTIC CARBON-RICH WOLF-RAYET BINARIES](http://adsabs.harvard.edu/abs/2021ApJ...909..113L)  
+124. [REVEALING EFFICIENT DUST FORMATION AT LOW METALLICITY IN EXTRAGALACTIC CARBON-RICH WOLF-RAYET BINARIES](http://adsabs.harvard.edu/abs/2021ApJ...909..113L)  
 Lau, Ryan M., Hankins, Matthew J., Kasliwal, Mansi M., et al.    
 2021, refereed ([2021ApJ...909..113L](http://adsabs.harvard.edu/abs/2021ApJ...909..113L))  
 
-104. [A COMPLEX LUMINOSITY FUNCTION FOR THE ANOMALOUS GLOBULAR CLUSTERS IN NGC 1052-DF2 AND NGC 1052-DF4](http://adsabs.harvard.edu/abs/2021ApJ...909..179S)  
+125. [A COMPLEX LUMINOSITY FUNCTION FOR THE ANOMALOUS GLOBULAR CLUSTERS IN NGC 1052-DF2 AND NGC 1052-DF4](http://adsabs.harvard.edu/abs/2021ApJ...909..179S)  
 Shen, Zili, van Dokkum, Pieter, Danieli, Shany    
 2021, refereed ([2021ApJ...909..179S](http://adsabs.harvard.edu/abs/2021ApJ...909..179S))  
 
-105. [SPECKLE IMAGING CHARACTERIZATION OF RADIAL VELOCITY EXOPLANET SYSTEMS](http://adsabs.harvard.edu/abs/2021AJ....161..123D)  
+126. [SPECKLE IMAGING CHARACTERIZATION OF RADIAL VELOCITY EXOPLANET SYSTEMS](http://adsabs.harvard.edu/abs/2021AJ....161..123D)  
 Dalba, Paul A., Kane, Stephen R., Howell, Steve B., et al.    
 2021, refereed ([2021AJ....161..123D](http://adsabs.harvard.edu/abs/2021AJ....161..123D))  
 
-106. [A LUMINOUS X-RAY TRANSIENT IN SDSS J143359.16+400636.0: A LIKELY TIDAL DISRUPTION EVENT](http://adsabs.harvard.edu/abs/2021ApJ...909..102B)  
+127. [A LUMINOUS X-RAY TRANSIENT IN SDSS J143359.16+400636.0: A LIKELY TIDAL DISRUPTION EVENT](http://adsabs.harvard.edu/abs/2021ApJ...909..102B)  
 Brightman, Murray, Ward, Charlotte, Stern, Daniel, et al.    
 2021, refereed ([2021ApJ...909..102B](http://adsabs.harvard.edu/abs/2021ApJ...909..102B))  
 
-107. [GIANT OUTER TRANSITING EXOPLANET MASS (GOT 'EM) SURVEY. I. CONFIRMATION OF AN ECCENTRIC, COOL JUPITER WITH AN INTERIOR EARTH-SIZED PLANET ORBITING KEPLER-1514](http://adsabs.harvard.edu/abs/2021AJ....161..103D)  
+128. [GIANT OUTER TRANSITING EXOPLANET MASS (GOT 'EM) SURVEY. I. CONFIRMATION OF AN ECCENTRIC, COOL JUPITER WITH AN INTERIOR EARTH-SIZED PLANET ORBITING KEPLER-1514](http://adsabs.harvard.edu/abs/2021AJ....161..103D)  
 Dalba, Paul A., Kane, Stephen R., Isaacson, Howard, et al.    
 2021, refereed ([2021AJ....161..103D](http://adsabs.harvard.edu/abs/2021AJ....161..103D))  
 
-108. [EVIDENCE FOR GAS-PHASE METAL DEFICIENCY IN MASSIVE PROTOCLUSTER GALAXIES AT Z ∼2.2](http://adsabs.harvard.edu/abs/2021ApJ...910...57S)  
+129. [EVIDENCE FOR GAS-PHASE METAL DEFICIENCY IN MASSIVE PROTOCLUSTER GALAXIES AT Z ∼2.2](http://adsabs.harvard.edu/abs/2021ApJ...910...57S)  
 Sattari, Zahra, Mobasher, Bahram, Chartab, Nima, et al.    
 2021, refereed ([2021ApJ...910...57S](http://adsabs.harvard.edu/abs/2021ApJ...910...57S))  
 
-109. [BOYAJIAN'S STAR B: THE CO-MOVING COMPANION TO KIC 8462852 A](http://adsabs.harvard.edu/abs/2021ApJ...909..216P)  
+130. [BOYAJIAN'S STAR B: THE CO-MOVING COMPANION TO KIC 8462852 A](http://adsabs.harvard.edu/abs/2021ApJ...909..216P)  
 Pearce, Logan A., Kraus, Adam L., Dupuy, Trent J., et al.    
 2021, refereed ([2021ApJ...909..216P](http://adsabs.harvard.edu/abs/2021ApJ...909..216P))  
 
-110. [HOST STAR METALLICITY OF DIRECTLY IMAGED WIDE-ORBIT PLANETS: IMPLICATIONS FOR PLANET FORMATION](http://adsabs.harvard.edu/abs/2021AJ....161..114S)  
+131. [HOST STAR METALLICITY OF DIRECTLY IMAGED WIDE-ORBIT PLANETS: IMPLICATIONS FOR PLANET FORMATION](http://adsabs.harvard.edu/abs/2021AJ....161..114S)  
 Swastik, C., Banyal, Ravinder K., Narang, Mayank, et al.    
 2021, refereed ([2021AJ....161..114S](http://adsabs.harvard.edu/abs/2021AJ....161..114S))  
 
-111. [A SPATIALLY RESOLVED SURVEY OF DISTANT QUASAR HOST GALAXIES. II. PHOTOIONIZATION AND KINEMATICS OF THE ISM](http://adsabs.harvard.edu/abs/2021ApJ...910...44V)  
+132. [A SPATIALLY RESOLVED SURVEY OF DISTANT QUASAR HOST GALAXIES. II. PHOTOIONIZATION AND KINEMATICS OF THE ISM](http://adsabs.harvard.edu/abs/2021ApJ...910...44V)  
 Vayner, Andrey, Wright, Shelley A., Murray, Norman, et al.    
 2021, refereed ([2021ApJ...910...44V](http://adsabs.harvard.edu/abs/2021ApJ...910...44V))  
 
-112. [THE FIELD SUBSTELLAR MASS FUNCTION BASED ON THE FULL-SKY 20 PC CENSUS OF 525 L, T, AND Y DWARFS](http://adsabs.harvard.edu/abs/2021ApJS..253....7K)  
+133. [THE FIELD SUBSTELLAR MASS FUNCTION BASED ON THE FULL-SKY 20 PC CENSUS OF 525 L, T, AND Y DWARFS](http://adsabs.harvard.edu/abs/2021ApJS..253....7K)  
 Kirkpatrick, J. Davy, Gelino, Christopher R., Faherty, Jacqueline K., et al.    
 2021, refereed ([2021ApJS..253....7K](http://adsabs.harvard.edu/abs/2021ApJS..253....7K))  
 
-113. [CONTRAST AND TEMPERATURE DEPENDENCE OF MULTI-EPOCH HIGH-RESOLUTION CROSS-CORRELATION EXOPLANET SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021AJ....161..104F)  
+134. [CONTRAST AND TEMPERATURE DEPENDENCE OF MULTI-EPOCH HIGH-RESOLUTION CROSS-CORRELATION EXOPLANET SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021AJ....161..104F)  
 Finnerty, Luke, Buzard, Cam, Pelletier, Stefan, et al.    
 2021, refereed ([2021AJ....161..104F](http://adsabs.harvard.edu/abs/2021AJ....161..104F))  
 
-114. [VALIDATION OF HD 183579B USING ARCHIVAL RADIAL VELOCITIES: A WARM NEPTUNE ORBITING A BRIGHT SOLAR ANALOG](http://adsabs.harvard.edu/abs/2021ApJ...909L...6P)  
+135. [VALIDATION OF HD 183579B USING ARCHIVAL RADIAL VELOCITIES: A WARM NEPTUNE ORBITING A BRIGHT SOLAR ANALOG](http://adsabs.harvard.edu/abs/2021ApJ...909L...6P)  
 Palatnick, Skyler, Kipping, David, Yahalomi, Daniel    
 2021, refereed ([2021ApJ...909L...6P](http://adsabs.harvard.edu/abs/2021ApJ...909L...6P))  
 
-115. [THE TESS-KECK SURVEY. IV. A RETROGRADE, POLAR ORBIT FOR THE ULTRA-LOW-DENSITY, HOT SUPER-NEPTUNE WASP-107B](http://adsabs.harvard.edu/abs/2021AJ....161..119R)  
+136. [THE TESS-KECK SURVEY. IV. A RETROGRADE, POLAR ORBIT FOR THE ULTRA-LOW-DENSITY, HOT SUPER-NEPTUNE WASP-107B](http://adsabs.harvard.edu/abs/2021AJ....161..119R)  
 Rubenzahl, Ryan A., Dai, Fei, Howard, Andrew W., et al.    
 2021, refereed ([2021AJ....161..119R](http://adsabs.harvard.edu/abs/2021AJ....161..119R))  
 
-116. [PLANETS ACROSS SPACE AND TIME (PAST). I. CHARACTERIZING THE MEMBERSHIPS OF GALACTIC COMPONENTS AND STELLAR AGES: REVISITING THE KINEMATIC METHODS AND APPLYING TO PLANET HOST STARS](http://adsabs.harvard.edu/abs/2021ApJ...909..115C)  
+137. [PLANETS ACROSS SPACE AND TIME (PAST). I. CHARACTERIZING THE MEMBERSHIPS OF GALACTIC COMPONENTS AND STELLAR AGES: REVISITING THE KINEMATIC METHODS AND APPLYING TO PLANET HOST STARS](http://adsabs.harvard.edu/abs/2021ApJ...909..115C)  
 Chen, Di-Chang, Xie, Ji-Wei, Zhou, Ji-Lin, et al.    
 2021, refereed ([2021ApJ...909..115C](http://adsabs.harvard.edu/abs/2021ApJ...909..115C))  
 
-117. [THE EVOLUTION OF THE LOW-DENSITY H I&GT; INTERGALACTIC MEDIUM FROM Z = 3.6 TO 0: DATA, TRANSMITTED FLUX, AND H I&GT; COLUMN DENSITY,](http://adsabs.harvard.edu/abs/2021MNRAS.501.5811K)  
+138. [THE EVOLUTION OF THE LOW-DENSITY H I&GT; INTERGALACTIC MEDIUM FROM Z = 3.6 TO 0: DATA, TRANSMITTED FLUX, AND H I&GT; COLUMN DENSITY,](http://adsabs.harvard.edu/abs/2021MNRAS.501.5811K)  
 Kim, T. -S., Wakker, B. P., Nasir, F., et al.    
 2021, refereed ([2021MNRAS.501.5811K](http://adsabs.harvard.edu/abs/2021MNRAS.501.5811K))  
 
-118. [GD 424 - A HELIUM-ATMOSPHERE WHITE DWARF WITH A LARGE AMOUNT OF TRACE HYDROGEN IN THE PROCESS OF DIGESTING A ROCKY PLANETESIMAL](http://adsabs.harvard.edu/abs/2021MNRAS.501.4276I)  
+139. [GD 424 - A HELIUM-ATMOSPHERE WHITE DWARF WITH A LARGE AMOUNT OF TRACE HYDROGEN IN THE PROCESS OF DIGESTING A ROCKY PLANETESIMAL](http://adsabs.harvard.edu/abs/2021MNRAS.501.4276I)  
 Izquierdo, Paula, Toloza, Odette, Gänsicke, Boris T., et al.    
 2021, refereed ([2021MNRAS.501.4276I](http://adsabs.harvard.edu/abs/2021MNRAS.501.4276I))  
 
-119. [CIRCUMGALACTIC MG II EMISSION FROM AN ISOTROPIC STARBURST GALAXY OUTFLOW MAPPED BY KCWI](http://adsabs.harvard.edu/abs/2021ApJ...909..151B)  
+140. [CIRCUMGALACTIC MG II EMISSION FROM AN ISOTROPIC STARBURST GALAXY OUTFLOW MAPPED BY KCWI](http://adsabs.harvard.edu/abs/2021ApJ...909..151B)  
 Burchett, Joseph N., Rubin, Kate H. R., Prochaska, J. Xavier, et al.    
 2021, refereed ([2021ApJ...909..151B](http://adsabs.harvard.edu/abs/2021ApJ...909..151B))  
 
-120. [CONSISTENT DYNAMICAL AND STELLAR MASSES WITH POTENTIAL LIGHT IMF IN MASSIVE QUIESCENT GALAXIES AT 3 &LT; Z &LT; 4 USING VELOCITY DISPERSIONS MEASUREMENTS WITH MOSFIRE](http://adsabs.harvard.edu/abs/2021ApJ...908L..35E)  
+141. [MODELLING INTERGALACTIC LOW IONIZATION METAL ABSORPTION LINE SYSTEMS NEAR THE EPOCH OF REIONIZATION](http://adsabs.harvard.edu/abs/2021MNRAS.502..888S)  
+Suarez, Teresita, Meiksin, Avery    
+2021, refereed ([2021MNRAS.502..888S](http://adsabs.harvard.edu/abs/2021MNRAS.502..888S))  
+
+142. [CONSISTENT DYNAMICAL AND STELLAR MASSES WITH POTENTIAL LIGHT IMF IN MASSIVE QUIESCENT GALAXIES AT 3 &LT; Z &LT; 4 USING VELOCITY DISPERSIONS MEASUREMENTS WITH MOSFIRE](http://adsabs.harvard.edu/abs/2021ApJ...908L..35E)  
 Esdaile, James, Glazebrook, Karl, Labbé, Ivo, et al.    
 2021, refereed ([2021ApJ...908L..35E](http://adsabs.harvard.edu/abs/2021ApJ...908L..35E))  
 
-121. [TWO PLANETS STRADDLING THE HABITABLE ZONE OF THE NEARBY K DWARF GL 414A](http://adsabs.harvard.edu/abs/2021AJ....161...86D)  
+143. [TWO PLANETS STRADDLING THE HABITABLE ZONE OF THE NEARBY K DWARF GL 414A](http://adsabs.harvard.edu/abs/2021AJ....161...86D)  
 Dedrick, Cayla M., Fulton, Benjamin J., Knutson, Heather A., et al.    
 2021, refereed ([2021AJ....161...86D](http://adsabs.harvard.edu/abs/2021AJ....161...86D))  
 
-122. [THE TESS-KECK SURVEY. II. AN ULTRA-SHORT-PERIOD ROCKY PLANET AND ITS SIBLINGS TRANSITING THE GALACTIC THICK-DISK STAR TOI-561](http://adsabs.harvard.edu/abs/2021AJ....161...56W)  
+144. [THE TESS-KECK SURVEY. II. AN ULTRA-SHORT-PERIOD ROCKY PLANET AND ITS SIBLINGS TRANSITING THE GALACTIC THICK-DISK STAR TOI-561](http://adsabs.harvard.edu/abs/2021AJ....161...56W)  
 Weiss, Lauren M., Dai, Fei, Huber, Daniel, et al.    
 2021, refereed ([2021AJ....161...56W](http://adsabs.harvard.edu/abs/2021AJ....161...56W))  
 
-123. [BRIGHT, MONTHS-LONG STELLAR OUTBURSTS ANNOUNCE THE EXPLOSION OF INTERACTION-POWERED SUPERNOVAE](http://adsabs.harvard.edu/abs/2021ApJ...907...99S)  
+145. [BRIGHT, MONTHS-LONG STELLAR OUTBURSTS ANNOUNCE THE EXPLOSION OF INTERACTION-POWERED SUPERNOVAE](http://adsabs.harvard.edu/abs/2021ApJ...907...99S)  
 Strotjohann, Nora L., Ofek, Eran O., Gal-Yam, Avishay, et al.    
 2021, refereed ([2021ApJ...907...99S](http://adsabs.harvard.edu/abs/2021ApJ...907...99S))  
 
-124. [TESTING SHORT-TERM VARIABILITY AND SAMPLING OF PRIMARY VOLATILES IN COMET 46P/WIRTANEN](http://adsabs.harvard.edu/abs/2021PSJ.....2...20K)  
+146. [TESTING SHORT-TERM VARIABILITY AND SAMPLING OF PRIMARY VOLATILES IN COMET 46P/WIRTANEN](http://adsabs.harvard.edu/abs/2021PSJ.....2...20K)  
 Khan, Younas, Gibb, Erika L., Bonev, Boncho P., et al.    
 2021, refereed ([2021PSJ.....2...20K](http://adsabs.harvard.edu/abs/2021PSJ.....2...20K))  
 
-125. [RELICS-DP7: SPECTROSCOPIC CONFIRMATION OF A DICHROMATIC PRIMEVAL GALAXY AT Z ∼ 7](http://adsabs.harvard.edu/abs/2021ApJ...908L..30P)  
+147. [RELICS-DP7: SPECTROSCOPIC CONFIRMATION OF A DICHROMATIC PRIMEVAL GALAXY AT Z ∼ 7](http://adsabs.harvard.edu/abs/2021ApJ...908L..30P)  
 Pelliccia, Debora, Strait, Victoria, Lemaux, Brian C., et al.    
 2021, refereed ([2021ApJ...908L..30P](http://adsabs.harvard.edu/abs/2021ApJ...908L..30P))  
 
-126. [HOT STARS WITH KEPLER PLANETS HAVE HIGH OBLIQUITIES](http://adsabs.harvard.edu/abs/2021AJ....161...68L)  
+148. [HOT STARS WITH KEPLER PLANETS HAVE HIGH OBLIQUITIES](http://adsabs.harvard.edu/abs/2021AJ....161...68L)  
 Louden, Emma M., Winn, Joshua N., Petigura, Erik A., et al.    
 2021, refereed ([2021AJ....161...68L](http://adsabs.harvard.edu/abs/2021AJ....161...68L))  
 
-127. [A LONG STREAM OF METAL-POOR COOL GAS AROUND A MASSIVE STARBURST GALAXY AT Z = 2.67](http://adsabs.harvard.edu/abs/2021ApJ...908..188F)  
+149. [A LONG STREAM OF METAL-POOR COOL GAS AROUND A MASSIVE STARBURST GALAXY AT Z = 2.67](http://adsabs.harvard.edu/abs/2021ApJ...908..188F)  
 Fu, Hai, Xue, R., Prochaska, J. X., et al.    
 2021, refereed ([2021ApJ...908..188F](http://adsabs.harvard.edu/abs/2021ApJ...908..188F))  
 
-128. [WASP-107B'S DENSITY IS EVEN LOWER: A CASE STUDY FOR THE PHYSICS OF PLANETARY GAS ENVELOPE ACCRETION AND ORBITAL MIGRATION](http://adsabs.harvard.edu/abs/2021AJ....161...70P)  
+150. [WASP-107B'S DENSITY IS EVEN LOWER: A CASE STUDY FOR THE PHYSICS OF PLANETARY GAS ENVELOPE ACCRETION AND ORBITAL MIGRATION](http://adsabs.harvard.edu/abs/2021AJ....161...70P)  
 Piaulet, Caroline, Benneke, Björn, Rubenzahl, Ryan A., et al.    
 2021, refereed ([2021AJ....161...70P](http://adsabs.harvard.edu/abs/2021AJ....161...70P))  
 
-129. [MOA-2009-BLG-319LB: A SUB-SATURN PLANET INSIDE THE PREDICTED MASS DESERT](http://adsabs.harvard.edu/abs/2021AJ....161...54T)  
+151. [MOA-2009-BLG-319LB: A SUB-SATURN PLANET INSIDE THE PREDICTED MASS DESERT](http://adsabs.harvard.edu/abs/2021AJ....161...54T)  
 Terry, Sean K., Bhattacharya, Aparna, Bennett, David P., et al.    
 2021, refereed ([2021AJ....161...54T](http://adsabs.harvard.edu/abs/2021AJ....161...54T))  
 
-130. [THE RELATIVISTIC JET ORIENTATION AND HOST GALAXY OF THE PECULIAR BLAZAR PKS 1413+135](http://adsabs.harvard.edu/abs/2021ApJ...907...61R)  
+152. [THE RELATIVISTIC JET ORIENTATION AND HOST GALAXY OF THE PECULIAR BLAZAR PKS 1413+135](http://adsabs.harvard.edu/abs/2021ApJ...907...61R)  
 Readhead, A. C. S., Ravi, V., Liodakis, I., et al.    
 2021, refereed ([2021ApJ...907...61R](http://adsabs.harvard.edu/abs/2021ApJ...907...61R))  
 
-131. [ENHANCING DIRECT EXOPLANET SPECTROSCOPY WITH APODIZING AND BEAM SHAPING OPTICS](http://adsabs.harvard.edu/abs/2021PASP..133b4503C)  
+153. [ENHANCING DIRECT EXOPLANET SPECTROSCOPY WITH APODIZING AND BEAM SHAPING OPTICS](http://adsabs.harvard.edu/abs/2021PASP..133b4503C)  
 Calvin, Benjamin, Jovanovic, Nemanja, Ruane, Garreth, et al.    
 2021, refereed ([2021PASP..133b4503C](http://adsabs.harvard.edu/abs/2021PASP..133b4503C))  
 
-132. [A CATALOG OF HIGH-VELOCITY C IV MINI-BROAD ABSORPTION LINES IN THE VLT-UVES AND KECK-HIRES ARCHIVES](http://adsabs.harvard.edu/abs/2021ApJ...907...84C)  
+154. [A CATALOG OF HIGH-VELOCITY C IV MINI-BROAD ABSORPTION LINES IN THE VLT-UVES AND KECK-HIRES ARCHIVES](http://adsabs.harvard.edu/abs/2021ApJ...907...84C)  
 Chen, Chen, Hamann, Fred, Ma, Bo, et al.    
 2021, refereed ([2021ApJ...907...84C](http://adsabs.harvard.edu/abs/2021ApJ...907...84C))  
 
-133. [THE ALPINE-ALMA [C II] SURVEY. LUMINOSITY FUNCTION OF SERENDIPITOUS [C II] LINE EMITTERS AT Z ∼ 5](http://adsabs.harvard.edu/abs/2021A&A...646A..76L)  
+155. [THE ALPINE-ALMA [C II] SURVEY. LUMINOSITY FUNCTION OF SERENDIPITOUS [C II] LINE EMITTERS AT Z ∼ 5](http://adsabs.harvard.edu/abs/2021A&A...646A..76L)  
 Loiacono, Federica, Decarli, Roberto, Gruppioni, Carlotta, et al.    
 2021, refereed ([2021A&A...646A..76L](http://adsabs.harvard.edu/abs/2021A&A...646A..76L))  
 
-134. [STARSPOT EVOLUTION, DIFFERENTIAL ROTATION, AND CORRELATION BETWEEN CHROMOSPHERIC AND PHOTOSPHERIC ACTIVITIES ON KEPLER-411](http://adsabs.harvard.edu/abs/2021MNRAS.501.1878X)  
+156. [STARSPOT EVOLUTION, DIFFERENTIAL ROTATION, AND CORRELATION BETWEEN CHROMOSPHERIC AND PHOTOSPHERIC ACTIVITIES ON KEPLER-411](http://adsabs.harvard.edu/abs/2021MNRAS.501.1878X)  
 Xu, Fukun, Gu, Shenghong, Ioannidis, Panogiotis    
 2021, refereed ([2021MNRAS.501.1878X](http://adsabs.harvard.edu/abs/2021MNRAS.501.1878X))  
 
-135. [A COMPARISON OF REST-FRAME ULTRAVIOLET AND OPTICAL EMISSION-LINE DIAGNOSTICS IN THE LENSED GALAXY SDSS J1723+3411 AT REDSHIFT Z = 1.3293](http://adsabs.harvard.edu/abs/2021ApJ...908..154R)  
+157. [A COMPARISON OF REST-FRAME ULTRAVIOLET AND OPTICAL EMISSION-LINE DIAGNOSTICS IN THE LENSED GALAXY SDSS J1723+3411 AT REDSHIFT Z = 1.3293](http://adsabs.harvard.edu/abs/2021ApJ...908..154R)  
 Rigby, J. R., Florian, Michael, Acharyya, A., et al.    
 2021, refereed ([2021ApJ...908..154R](http://adsabs.harvard.edu/abs/2021ApJ...908..154R))  
 
-136. [HAT-P-68B: A TRANSITING HOT JUPITER AROUND A K5 DWARF STAR](http://adsabs.harvard.edu/abs/2021AJ....161...64L)  
+158. [HAT-P-68B: A TRANSITING HOT JUPITER AROUND A K5 DWARF STAR](http://adsabs.harvard.edu/abs/2021AJ....161...64L)  
 Lindor, Bethlee M., Hartman, Joel D., Bakos, Gáspár Á., et al.    
 2021, refereed ([2021AJ....161...64L](http://adsabs.harvard.edu/abs/2021AJ....161...64L))  
 
-137. [DUST, GAS, AND METAL CONTENT IN STAR-FORMING GALAXIES AT Z ∼ 3.3 REVEALED WITH ALMA AND NEAR-IR SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021ApJ...908...15S)  
+159. [DUST, GAS, AND METAL CONTENT IN STAR-FORMING GALAXIES AT Z ∼ 3.3 REVEALED WITH ALMA AND NEAR-IR SPECTROSCOPY](http://adsabs.harvard.edu/abs/2021ApJ...908...15S)  
 Suzuki, Tomoko L., Onodera, Masato, Kodama, Tadayuki, et al.    
 2021, refereed ([2021ApJ...908...15S](http://adsabs.harvard.edu/abs/2021ApJ...908...15S))  
 
-138. [THE METAL ABUNDANCES ACROSS COSMIC TIME (MACT) SURVEY. III - THE RELATIONSHIP BETWEEN STELLAR MASS AND STAR FORMATION RATE IN EXTREMELY LOW-MASS GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.501.2231S)  
+160. [THE METAL ABUNDANCES ACROSS COSMIC TIME (MACT) SURVEY. III - THE RELATIONSHIP BETWEEN STELLAR MASS AND STAR FORMATION RATE IN EXTREMELY LOW-MASS GALAXIES](http://adsabs.harvard.edu/abs/2021MNRAS.501.2231S)  
 Shin, Kaitlyn, Ly, Chun, Malkan, Matthew A., et al.    
 2021, refereed ([2021MNRAS.501.2231S](http://adsabs.harvard.edu/abs/2021MNRAS.501.2231S))  
 
-139. [THE MOSDEF SURVEY: ENVIRONMENTAL DEPENDENCE OF THE GAS-PHASE METALLICITY OF GALAXIES AT 1.4 ≤ Z ≤ 2.6](http://adsabs.harvard.edu/abs/2021ApJ...908..120C)  
+161. [THE MOSDEF SURVEY: ENVIRONMENTAL DEPENDENCE OF THE GAS-PHASE METALLICITY OF GALAXIES AT 1.4 ≤ Z ≤ 2.6](http://adsabs.harvard.edu/abs/2021ApJ...908..120C)  
 Chartab, Nima, Mobasher, Bahram, Shapley, Alice E., et al.    
 2021, refereed ([2021ApJ...908..120C](http://adsabs.harvard.edu/abs/2021ApJ...908..120C))  
 
-140. [SIGNIFICANT H I AND METAL DIFFERENCES AROUND THE Z = 0.83 LENS GALAXY TOWARD THE DOUBLY LENSED QUASAR SBS 0909+532](http://adsabs.harvard.edu/abs/2021AJ....161...90C)  
+162. [SIGNIFICANT H I AND METAL DIFFERENCES AROUND THE Z = 0.83 LENS GALAXY TOWARD THE DOUBLY LENSED QUASAR SBS 0909+532](http://adsabs.harvard.edu/abs/2021AJ....161...90C)  
 Cashman, Frances H., Kulkarni, Varsha P., Lopez, Sebastian    
 2021, refereed ([2021AJ....161...90C](http://adsabs.harvard.edu/abs/2021AJ....161...90C))  
 
-141. [CANDIDATE Z ∼ 2.5 LYMAN CONTINUUM SOURCES IN THE GOODS FIELDS](http://adsabs.harvard.edu/abs/2021ApJ...908..222J)  
+163. [CANDIDATE Z ∼ 2.5 LYMAN CONTINUUM SOURCES IN THE GOODS FIELDS](http://adsabs.harvard.edu/abs/2021ApJ...908..222J)  
 Jones, L. H., Barger, A. J., Cowie, L. L.    
 2021, refereed ([2021ApJ...908..222J](http://adsabs.harvard.edu/abs/2021ApJ...908..222J))  
 
-142. [SEVENTEEN TIDAL DISRUPTION EVENTS FROM THE FIRST HALF OF ZTF SURVEY OBSERVATIONS: ENTERING A NEW ERA OF POPULATION STUDIES](http://adsabs.harvard.edu/abs/2021ApJ...908....4V)  
+164. [SEVENTEEN TIDAL DISRUPTION EVENTS FROM THE FIRST HALF OF ZTF SURVEY OBSERVATIONS: ENTERING A NEW ERA OF POPULATION STUDIES](http://adsabs.harvard.edu/abs/2021ApJ...908....4V)  
 van Velzen, Sjoert, Gezari, Suvi, Hammerstein, Erica, et al.    
 2021, refereed ([2021ApJ...908....4V](http://adsabs.harvard.edu/abs/2021ApJ...908....4V))  
 
-143. [PSR J1810+1744: COMPANION DARKENING AND A PRECISE HIGH NEUTRON STAR MASS](http://adsabs.harvard.edu/abs/2021ApJ...908L..46R)  
+165. [PSR J1810+1744: COMPANION DARKENING AND A PRECISE HIGH NEUTRON STAR MASS](http://adsabs.harvard.edu/abs/2021ApJ...908L..46R)  
 Romani, Roger W., Kandel, D., Filippenko, Alexei V., et al.    
 2021, refereed ([2021ApJ...908L..46R](http://adsabs.harvard.edu/abs/2021ApJ...908L..46R))  
 
-144. [THE YOUNG SUPERNOVA EXPERIMENT: SURVEY GOALS, OVERVIEW, AND OPERATIONS](http://adsabs.harvard.edu/abs/2021ApJ...908..143J)  
+166. [THE YOUNG SUPERNOVA EXPERIMENT: SURVEY GOALS, OVERVIEW, AND OPERATIONS](http://adsabs.harvard.edu/abs/2021ApJ...908..143J)  
 Jones, D. O., Foley, R. J., Narayan, G., et al.    
 2021, refereed ([2021ApJ...908..143J](http://adsabs.harvard.edu/abs/2021ApJ...908..143J))  
 
-145. [EVIDENCE FOR GALAXY QUENCHING IN THE GREEN VALLEY CAUSED BY A LACK OF A CIRCUMGALACTIC MEDIUM](http://adsabs.harvard.edu/abs/2021MNRAS.500.2289K)  
+167. [CLOUD-BY-CLOUD, MULTIPHASE, BAYESIAN MODELLING: APPLICATION TO FOUR WEAK, LOW-IONIZATION ABSORBERS](http://adsabs.harvard.edu/abs/2021MNRAS.501.2112S)  
+Sameer, Charlton, Jane C., Norris, Jackson M., et al.    
+2021, refereed ([2021MNRAS.501.2112S](http://adsabs.harvard.edu/abs/2021MNRAS.501.2112S))  
+
+168. [EVIDENCE FOR GALAXY QUENCHING IN THE GREEN VALLEY CAUSED BY A LACK OF A CIRCUMGALACTIC MEDIUM](http://adsabs.harvard.edu/abs/2021MNRAS.500.2289K)  
 Kacprzak, Glenn G., Nielsen, Nikole M., Nateghi, Hasti, et al.    
 2021, refereed ([2021MNRAS.500.2289K](http://adsabs.harvard.edu/abs/2021MNRAS.500.2289K))  
 
-146. [THE THIRD DATA RELEASE OF THE KODIAQ SURVEY](http://adsabs.harvard.edu/abs/2021AJ....161...45O)  
+169. [THE THIRD DATA RELEASE OF THE KODIAQ SURVEY](http://adsabs.harvard.edu/abs/2021AJ....161...45O)  
 O'Meara, John M., Lehner, Nicolas, Howk, J. Christopher, et al.    
 2021, refereed ([2021AJ....161...45O](http://adsabs.harvard.edu/abs/2021AJ....161...45O))  
 
-147. [SPIRAL ARM PATTERN MOTION IN THE SAO 206462 PROTOPLANETARY DISK](http://adsabs.harvard.edu/abs/2021ApJ...906L...9X)  
+170. [SPIRAL ARM PATTERN MOTION IN THE SAO 206462 PROTOPLANETARY DISK](http://adsabs.harvard.edu/abs/2021ApJ...906L...9X)  
 Xie, Chengyan, Ren, Bin, Dong, Ruobing, et al.    
 2021, refereed ([2021ApJ...906L...9X](http://adsabs.harvard.edu/abs/2021ApJ...906L...9X))  
 
-148. [THE MOSDEF SURVEY: DIFFERENCES IN SFR AND METALLICITY FOR MORPHOLOGICALLY SELECTED MERGERS AT Z ∼ 2](http://adsabs.harvard.edu/abs/2021MNRAS.501..137H)  
+171. [THE MOSDEF SURVEY: DIFFERENCES IN SFR AND METALLICITY FOR MORPHOLOGICALLY SELECTED MERGERS AT Z ∼ 2](http://adsabs.harvard.edu/abs/2021MNRAS.501..137H)  
 Horstman, Katelyn, Shapley, Alice E., Sanders, Ryan L., et al.    
 2021, refereed ([2021MNRAS.501..137H](http://adsabs.harvard.edu/abs/2021MNRAS.501..137H))  
 
-149. [INDIVIDUAL DYNAMICAL MASSES OF DENIS J063001.4-184014AB REVEAL A LIKELY YOUNG BROWN DWARF TRIPLE](http://adsabs.harvard.edu/abs/2021MNRAS.500.5453S)  
+172. [INDIVIDUAL DYNAMICAL MASSES OF DENIS J063001.4-184014AB REVEAL A LIKELY YOUNG BROWN DWARF TRIPLE](http://adsabs.harvard.edu/abs/2021MNRAS.500.5453S)  
 Sahlmann, J., Dupuy, T. J., Burgasser, A. J., et al.    
 2021, refereed ([2021MNRAS.500.5453S](http://adsabs.harvard.edu/abs/2021MNRAS.500.5453S))  
 
-150. [DISCOVERY AND FOLLOW-UP OF ASASSN-19DJ: AN X-RAY AND UV LUMINOUS TDE IN AN EXTREME POST-STARBURST GALAXY](http://adsabs.harvard.edu/abs/2021MNRAS.500.1673H)  
+173. [DISCOVERY AND FOLLOW-UP OF ASASSN-19DJ: AN X-RAY AND UV LUMINOUS TDE IN AN EXTREME POST-STARBURST GALAXY](http://adsabs.harvard.edu/abs/2021MNRAS.500.1673H)  
 Hinkle, Jason T., Holoien, T. W. -S., Auchettl, K., et al.    
 2021, refereed ([2021MNRAS.500.1673H](http://adsabs.harvard.edu/abs/2021MNRAS.500.1673H))  
 
-151. [TRANSMISSION SPECTROSCOPY FOR THE WARM SUB-NEPTUNE HD 3167C: EVIDENCE FOR MOLECULAR ABSORPTION AND A POSSIBLE HIGH-METALLICITY ATMOSPHERE](http://adsabs.harvard.edu/abs/2021AJ....161...18M)  
+174. [TRANSMISSION SPECTROSCOPY FOR THE WARM SUB-NEPTUNE HD 3167C: EVIDENCE FOR MOLECULAR ABSORPTION AND A POSSIBLE HIGH-METALLICITY ATMOSPHERE](http://adsabs.harvard.edu/abs/2021AJ....161...18M)  
 Mikal-Evans, Thomas, Crossfield, Ian J. M., Benneke, Björn, et al.    
 2021, refereed ([2021AJ....161...18M](http://adsabs.harvard.edu/abs/2021AJ....161...18M))  
 
-152. [LOW-MASS LOW-METALLICITY AGB STARS AS AN EFFICIENT I-PROCESS SITE EXPLAINING CEMP-RS STARS](http://adsabs.harvard.edu/abs/2021A&A...645A..61K)  
+175. [LOW-MASS LOW-METALLICITY AGB STARS AS AN EFFICIENT I-PROCESS SITE EXPLAINING CEMP-RS STARS](http://adsabs.harvard.edu/abs/2021A&A...645A..61K)  
 Karinkuzhi, D., Van Eck, S., Goriely, S., et al.    
 2021, refereed ([2021A&A...645A..61K](http://adsabs.harvard.edu/abs/2021A&A...645A..61K))  
 
-153. [PHYSICAL PARAMETERS OF THE MULTIPLANET SYSTEMS HD 106315 AND GJ 9827](http://adsabs.harvard.edu/abs/2021AJ....161...47K)  
+176. [PHYSICAL PARAMETERS OF THE MULTIPLANET SYSTEMS HD 106315 AND GJ 9827](http://adsabs.harvard.edu/abs/2021AJ....161...47K)  
 Kosiarek, Molly R., Berardo, David A., Crossfield, Ian J. M., et al.    
 2021, refereed ([2021AJ....161...47K](http://adsabs.harvard.edu/abs/2021AJ....161...47K))  
 
-154. [STELLAR VELOCITY DISPERSION AND DYNAMICAL MASS OF THE ULTRA DIFFUSE GALAXY NGC 5846_UDG1 FROM THE KECK COSMIC WEB IMAGER](http://adsabs.harvard.edu/abs/2021MNRAS.500.1279F)  
+177. [STELLAR VELOCITY DISPERSION AND DYNAMICAL MASS OF THE ULTRA DIFFUSE GALAXY NGC 5846_UDG1 FROM THE KECK COSMIC WEB IMAGER](http://adsabs.harvard.edu/abs/2021MNRAS.500.1279F)  
 Forbes, Duncan A., Gannon, Jonah S., Romanowsky, Aaron J., et al.    
 2021, refereed ([2021MNRAS.500.1279F](http://adsabs.harvard.edu/abs/2021MNRAS.500.1279F))  
 
-155. [THE PECULIAR CA-RICH SN2019EHK: EVIDENCE FOR A TYPE IIB CORE-COLLAPSE SUPERNOVA FROM A LOW-MASS STRIPPED PROGENITOR](http://adsabs.harvard.edu/abs/2021ApJ...907L..18D)  
+178. [THE PECULIAR CA-RICH SN2019EHK: EVIDENCE FOR A TYPE IIB CORE-COLLAPSE SUPERNOVA FROM A LOW-MASS STRIPPED PROGENITOR](http://adsabs.harvard.edu/abs/2021ApJ...907L..18D)  
 De, Kishalay, Fremling, U. Christoffer, Gal-Yam, Avishay, et al.    
 2021, refereed ([2021ApJ...907L..18D](http://adsabs.harvard.edu/abs/2021ApJ...907L..18D))  
 
-156. [DISENTANGLING THE MULTIPHASE CIRCUMGALACTIC MEDIUM SHARED BETWEEN A DWARF AND A MASSIVE STAR-FORMING GALAXY AT Z∼0.4](http://adsabs.harvard.edu/abs/2021MNRAS.500.3987N)  
+179. [DISENTANGLING THE MULTIPHASE CIRCUMGALACTIC MEDIUM SHARED BETWEEN A DWARF AND A MASSIVE STAR-FORMING GALAXY AT Z∼0.4](http://adsabs.harvard.edu/abs/2021MNRAS.500.3987N)  
 Nateghi, Hasti, Kacprzak, Glenn G., Nielsen, Nikole M., et al.    
 2021, refereed ([2021MNRAS.500.3987N](http://adsabs.harvard.edu/abs/2021MNRAS.500.3987N))  
 
-157. [THE BROADBAND COUNTERPART OF THE SHORT GRB 200522A AT Z = 0.5536: A LUMINOUS KILONOVA OR A COLLIMATED OUTFLOW WITH A REVERSE SHOCK?](http://adsabs.harvard.edu/abs/2021ApJ...906..127F)  
+180. [THE BROADBAND COUNTERPART OF THE SHORT GRB 200522A AT Z = 0.5536: A LUMINOUS KILONOVA OR A COLLIMATED OUTFLOW WITH A REVERSE SHOCK?](http://adsabs.harvard.edu/abs/2021ApJ...906..127F)  
 Fong, W., Laskar, T., Rastinejad, J., et al.    
 2021, refereed ([2021ApJ...906..127F](http://adsabs.harvard.edu/abs/2021ApJ...906..127F))  
 
-158. [A COLLAGE OF SMALL PLANETS FROM THE LICK–CARNEGIE EXOPLANET SURVEY: EXPLORING THE SUPER-EARTH AND SUB-NEPTUNE MASS REGIME](http://adsabs.harvard.edu/abs/2021AJ....161...10B)  
+181. [A COLLAGE OF SMALL PLANETS FROM THE LICK–CARNEGIE EXOPLANET SURVEY: EXPLORING THE SUPER-EARTH AND SUB-NEPTUNE MASS REGIME](http://adsabs.harvard.edu/abs/2021AJ....161...10B)  
 Burt, Jennifer, Feng, Fabo, Holden, Bradford, et al.    
 2021, refereed ([2021AJ....161...10B](http://adsabs.harvard.edu/abs/2021AJ....161...10B))  
 
-159. [A LUMINOUS QUASAR AT REDSHIFT 7.642](http://adsabs.harvard.edu/abs/2021ApJ...907L...1W)  
+182. [A LUMINOUS QUASAR AT REDSHIFT 7.642](http://adsabs.harvard.edu/abs/2021ApJ...907L...1W)  
 Wang, Feige, Yang, Jinyi, Fan, Xiaohui, et al.    
 2021, refereed ([2021ApJ...907L...1W](http://adsabs.harvard.edu/abs/2021ApJ...907L...1W))  
 
-160. [BAYESIAN AGN DECOMPOSITION ANALYSIS FOR SDSS SPECTRA: A CORRELATION ANALYSIS OF [O III] Λ5007 OUTFLOW KINEMATICS WITH AGN AND HOST GALAXY PROPERTIES](http://adsabs.harvard.edu/abs/2021MNRAS.500.2871S)  
+183. [BAYESIAN AGN DECOMPOSITION ANALYSIS FOR SDSS SPECTRA: A CORRELATION ANALYSIS OF [O III] Λ5007 OUTFLOW KINEMATICS WITH AGN AND HOST GALAXY PROPERTIES](http://adsabs.harvard.edu/abs/2021MNRAS.500.2871S)  
 Sexton, Remington O., Matzko, William, Darden, Nicholas, et al.    
 2021, refereed ([2021MNRAS.500.2871S](http://adsabs.harvard.edu/abs/2021MNRAS.500.2871S))  
 
-161. [A POSSIBLE BRIGHT ULTRAVIOLET FLASH FROM A GALAXY AT REDSHIFT Z ≈ 11](http://adsabs.harvard.edu/abs/2021NatAs...5..262J)  
+184. [IDENTIFICATION OF AKARI INFRARED SOURCES BY THE DEEP HSC OPTICAL SURVEY: CONSTRUCTION OF A NEW BAND-MERGED CATALOGUE IN THE NORTH ECLIPTIC POLE WIDE FIELD](http://adsabs.harvard.edu/abs/2021MNRAS.500.4078K)  
+Kim, Seong Jin, Oi, Nagisa, Goto, Tomotsugu, et al.    
+2021, refereed ([2021MNRAS.500.4078K](http://adsabs.harvard.edu/abs/2021MNRAS.500.4078K))  
+
+185. [BIRTH OF THE COSMOS FIELD: PRIMORDIAL AND EVOLVED DENSITY RECONSTRUCTIONS DURING COSMIC HIGH NOON](http://adsabs.harvard.edu/abs/2021MNRAS.500.3194A)  
+Ata, Metin, Kitaura, Francisco-Shu, Lee, Khee-Gan, et al.    
+2021, refereed ([2021MNRAS.500.3194A](http://adsabs.harvard.edu/abs/2021MNRAS.500.3194A))  
+
+186. [SUBARU/HSC DEEP OPTICAL IMAGING OF INFRARED SOURCES IN THE AKARI NORTH ECLIPTIC POLE-WIDE FIELD](http://adsabs.harvard.edu/abs/2021MNRAS.500.5024O)  
+Oi, Nagisa, Goto, Tomotsugu, Matsuhara, Hideo, et al.    
+2021, refereed ([2021MNRAS.500.5024O](http://adsabs.harvard.edu/abs/2021MNRAS.500.5024O))  
+
+187. [THE ROSAT RASTER SURVEY IN THE NORTH ECLIPTIC POLE FIELD. X-RAY CATALOGUE AND OPTICAL IDENTIFICATIONS](http://adsabs.harvard.edu/abs/2021A&A...645A..95H)  
+Hasinger, G., Freyberg, M., Hu, E. M., et al.    
+2021, refereed ([2021A&A...645A..95H](http://adsabs.harvard.edu/abs/2021A&A...645A..95H))  
+
+188. [A POSSIBLE BRIGHT ULTRAVIOLET FLASH FROM A GALAXY AT REDSHIFT Z ≈ 11](http://adsabs.harvard.edu/abs/2021NatAs...5..262J)  
 Jiang, Linhua, Wang, Shu, Zhang, Bing, et al.    
 2021, refereed ([2021NatAs...5..262J](http://adsabs.harvard.edu/abs/2021NatAs...5..262J))  
 
-162. [EVIDENCE FOR GN-Z11 AS A LUMINOUS GALAXY AT REDSHIFT 10.957](http://adsabs.harvard.edu/abs/2021NatAs...5..256J)  
+189. [EVIDENCE FOR GN-Z11 AS A LUMINOUS GALAXY AT REDSHIFT 10.957](http://adsabs.harvard.edu/abs/2021NatAs...5..256J)  
 Jiang, Linhua, Kashikawa, Nobunari, Wang, Shu, et al.    
 2021, refereed ([2021NatAs...5..256J](http://adsabs.harvard.edu/abs/2021NatAs...5..256J))  
 
-163. [INFRARED SPECTROPOLARIMETRIC DETECTION OF INTRINSIC POLARIZATION FROM A CORE-COLLAPSE SUPERNOVA](http://adsabs.harvard.edu/abs/2021NatAs...5..544T)  
+190. [INFRARED SPECTROPOLARIMETRIC DETECTION OF INTRINSIC POLARIZATION FROM A CORE-COLLAPSE SUPERNOVA](http://adsabs.harvard.edu/abs/2021NatAs...5..544T)  
 Tinyanont, Samaporn, Millar-Blanchaer, Maxwell, Kasliwal, Mansi M., et al.    
 2021, refereed ([2021NatAs...5..544T](http://adsabs.harvard.edu/abs/2021NatAs...5..544T))  
 
-164. [A HIGHLY MAGNETIZED AND RAPIDLY ROTATING WHITE DWARF AS SMALL AS THE MOON](http://adsabs.harvard.edu/abs/2021Natur.595...39C)  
+191. [A HIGHLY MAGNETIZED AND RAPIDLY ROTATING WHITE DWARF AS SMALL AS THE MOON](http://adsabs.harvard.edu/abs/2021Natur.595...39C)  
 Caiazzo, Ilaria, Burdge, Kevin B., Fuller, James, et al.    
 2021, refereed ([2021Natur.595...39C](http://adsabs.harvard.edu/abs/2021Natur.595...39C))  
 
-165. [ENABLING HIGH-RES EXOPLANET SPECTROSCOPY AT KECK](http://adsabs.harvard.edu/abs/2021NatAs...5..723M)  
+192. [ENABLING HIGH-RES EXOPLANET SPECTROSCOPY AT KECK](http://adsabs.harvard.edu/abs/2021NatAs...5..723M)  
 Mawet, Dimitri    
 2021, refereed ([2021NatAs...5..723M](http://adsabs.harvard.edu/abs/2021NatAs...5..723M))  
 
-166. [LABORATORY PREDICTIONS FOR THE NIGHT-SIDE SURFACE ICE GLOW OF EUROPA](http://adsabs.harvard.edu/abs/2021NatAs...5..276G)  
+193. [LABORATORY PREDICTIONS FOR THE NIGHT-SIDE SURFACE ICE GLOW OF EUROPA](http://adsabs.harvard.edu/abs/2021NatAs...5..276G)  
 Gudipati, Murthy S., Henderson, Bryana L., Bateman, Fred B.    
 2021, refereed ([2021NatAs...5..276G](http://adsabs.harvard.edu/abs/2021NatAs...5..276G))  
+
+194. [THE <SUP>13</SUP>CO-RICH ATMOSPHERE OF A YOUNG ACCRETING SUPER-JUPITER](http://adsabs.harvard.edu/abs/2021Natur.595..370Z)  
+Zhang, Yapeng, Snellen, Ignas A. G., Bohn, Alexander J., et al.    
+2021, refereed ([2021Natur.595..370Z](http://adsabs.harvard.edu/abs/2021Natur.595..370Z))  
 
 
 2020
