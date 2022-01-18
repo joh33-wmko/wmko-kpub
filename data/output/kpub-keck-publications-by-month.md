@@ -1,5 +1,5 @@
 Title: Keck publications by month
-Save_as: /Users/jomeara/work/Python/kpub2/kpub/src/../data/output/kpub-keck-publications-by-month.html
+Save_as: /Users/jomeara/work/Python/kpub/kpub/src/../data/output/kpub-keck-publications-by-month.html
 
 [TOC]
 
@@ -134,6 +134,34 @@ Christenson, Holly M., Becker, George D., Furlanetto, Steven R., et al.
 32. [MULTIPHASE OUTFLOWS IN HIGH-REDSHIFT QUASAR HOST GALAXIES](http://adsabs.harvard.edu/abs/2021ApJ...923...59V)  
 Vayner, Andrey, Zakamska, Nadia, Wright, Shelley A., et al.    
 2021, refereed ([2021ApJ...923...59V](http://adsabs.harvard.edu/abs/2021ApJ...923...59V))  
+
+33. [CHEMICAL ABUNDANCES OF THREE NEW BA STARS FROM THE KECK/HIRES SPECTRA](http://adsabs.harvard.edu/abs/2021RAA....21..278L)  
+Liu, Shuai, Wang, Liang, Shi, Jian-Rong, et al.    
+2021, refereed ([2021RAA....21..278L](http://adsabs.harvard.edu/abs/2021RAA....21..278L))  
+
+34. [SN 2018AGK: A PROTOTYPICAL TYPE IA SUPERNOVA WITH A SMOOTH POWER-LAW RISE IN KEPLER (K2)](http://adsabs.harvard.edu/abs/2021ApJ...923..167W)  
+Wang, Qinan, Rest, Armin, Zenati, Yossef, et al.    
+2021, refereed ([2021ApJ...923..167W](http://adsabs.harvard.edu/abs/2021ApJ...923..167W))  
+
+35. [CHASING THE TAIL OF COSMIC REIONIZATION WITH DARK GAP STATISTICS IN THE LYΑ FOREST OVER 5 &LT; Z &LT; 6](http://adsabs.harvard.edu/abs/2021ApJ...923..223Z)  
+Zhu, Yongda, Becker, George D., Bosman, Sarah E. I., et al.    
+2021, refereed ([2021ApJ...923..223Z](http://adsabs.harvard.edu/abs/2021ApJ...923..223Z))  
+
+36. [PHYSICAL PROPERTIES OF MASSIVE COMPACT STARBURST GALAXIES WITH EXTREME OUTFLOWS](http://adsabs.harvard.edu/abs/2021ApJ...923..275P)  
+Perrotta, Serena, George, Erin R., Coil, Alison L., et al.    
+2021, refereed ([2021ApJ...923..275P](http://adsabs.harvard.edu/abs/2021ApJ...923..275P))  
+
+37. [PROBING EARLY SUPERMASSIVE BLACK HOLE GROWTH AND QUASAR EVOLUTION WITH NEAR-INFRARED SPECTROSCOPY OF 37 REIONIZATION-ERA QUASARS AT 6.3 &LT; Z ≤ 7.64](http://adsabs.harvard.edu/abs/2021ApJ...923..262Y)  
+Yang, Jinyi, Wang, Feige, Fan, Xiaohui, et al.    
+2021, refereed ([2021ApJ...923..262Y](http://adsabs.harvard.edu/abs/2021ApJ...923..262Y))  
+
+38. [THE FOUNDATION SUPERNOVA SURVEY: PHOTOSPHERIC VELOCITY CORRELATIONS IN TYPE IA SUPERNOVAE](http://adsabs.harvard.edu/abs/2021ApJ...923..267D)  
+Dettman, Kyle G., Jha, Saurabh W., Dai, Mi, et al.    
+2021, refereed ([2021ApJ...923..267D](http://adsabs.harvard.edu/abs/2021ApJ...923..267D))  
+
+39. [THE GRAVITY COLLECTIVE: A SEARCH FOR THE ELECTROMAGNETIC COUNTERPART TO THE NEUTRON STAR-BLACK HOLE MERGER GW190814](http://adsabs.harvard.edu/abs/2021ApJ...923..258K)  
+Kilpatrick, Charles D., Coulter, David A., Arcavi, Iair, et al.    
+2021, refereed ([2021ApJ...923..258K](http://adsabs.harvard.edu/abs/2021ApJ...923..258K))  
 
 
 2021-11
