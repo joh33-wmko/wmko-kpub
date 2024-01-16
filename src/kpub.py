@@ -6,6 +6,7 @@ from __future__ import print_function, division, unicode_literals
 
 # Standard library
 import os
+import pdb
 import re
 import sys
 import json
@@ -1295,6 +1296,7 @@ def kpub_spreadsheet(args=None):
                     ('first_author_norm', str(metrics['first_author_norm'])),
                     ('title', metrics['title'][0]),
                     ('keyword_norm', str(metrics.get('keyword_norm'))),
+                    ('keyword', str(metrics.get('keyword'))),
                     ('abstract', metrics['abstract']),
                     ('co_author_norm', str(metrics['author_norm'])),
                     ('instruments', str(metrics['instruments'])),
