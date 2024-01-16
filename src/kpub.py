@@ -6,7 +6,6 @@ from __future__ import print_function, division, unicode_literals
 
 # Standard library
 import os
-import pdb
 import re
 import sys
 import json
