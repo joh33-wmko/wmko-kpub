@@ -1,10 +1,31 @@
+# config
 *.live*
+
+# macOS
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Conda environment file lock
+environment.lock
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# Python virtual environments
+.env/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # C extensions
 *.so
@@ -54,9 +75,14 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Translations
-*.mo
-*.pot
+# Logs and caches
+*.log
+*.sqlite3
+*.db
+*.egg-info/
+.cache/
+dist/
+build/
 
 # Django stuff:
 *.log
@@ -67,6 +93,10 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
+
+# Translations
+*.mo
+*.pot
 
 # Scrapy stuff:
 .scrapy
@@ -130,3 +160,29 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Optional: Ignore data files
+*.csv
+*.tsv
+*.parquet
+*.h5
+*.hdf5
+*.zip
+*.tar.gz
+
+# Optional: Ignore PDFs, docs, or outputs
+*.pdf
+*.docx
+*.pptx
+*.out
+*.aux
+*.toc
+
+# System junk
+Thumbs.db
+
+.gitignore
+*.bak
+*.installed
+*.orig
+*.share

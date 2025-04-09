@@ -1,12 +1,15 @@
-name: KPUB
+name: wmko-kpub
 channels:
   - conda-forge
+channel_priority: strict
 dependencies:
-  - python=3.7
-  - pyyaml
-  - requests
+  - python=3.10
+  - requests=2.31.0
+  - matplotlib=3.8.2
   - jinja2
-  - textract
-  - matplotlib
+  - pyyaml
   - bokeh
   - openpyxl
+  - pip
+  - pip:
+      - textract

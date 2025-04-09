@@ -37,6 +37,9 @@ Option 1: Create a conda environment using the provided environment.yaml file:
 ```
 cd $HOME/kpub
 conda env create -f environment.yaml
+
+exact reproduction with lock:
+conda create --name test --file environment.lock
 ````
 
 Option 2: Or, install them manually:
